@@ -14,7 +14,7 @@ Project Inception Worksheet
 ### List of Stakeholders and their Positions (if applicable)
 
 ## Initial Requirements Elaboration and Elicitation
-    See Requirements_template for more
+[Mind Map](mind_map.jpg)
 
 ### Elicitation Questions
     1. 
