@@ -7,7 +7,7 @@ namespace PopNGo.DAL.Concrete
 {
     public class EventHistoryRepository : Repository<EventHistory>, IEventHistoryRepository
     {
-        private DbSet<EventHistory> _eventHistories;
+        private readonly DbSet<EventHistory> _eventHistories;
         public EventHistoryRepository(PopNGoDB context) : base(context)
         {
             _eventHistories = context.EventHistories;

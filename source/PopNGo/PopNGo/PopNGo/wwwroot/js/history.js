@@ -51,12 +51,12 @@ function displayEvents(events) {
 }
 
 // Fetch event data and display it
-function fetchAndDisplayEvents() {
-/*    fetch('/api/events')
-        .then(response => response.json())
-        .then(data => {
-            displayEvents(data);
-        });*/
+async function fetchAndDisplayEvents() {
+    let data = []
+
+    const response = (await fetch(`/api/eventHistory`));
+
+    console.log(response)
 
     // Temporary data until backend is implemented
     data = [

@@ -62,6 +62,7 @@ public class Program
         builder.Services.AddScoped<DbContext,PopNGoDB>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         builder.Services.AddScoped<IEventHistoryRepository, EventHistoryRepository>();
+        builder.Services.AddScoped<IPgUserRepository, PgUserRepository>();
 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
