@@ -27,8 +27,8 @@ function constructEventCard(event) {
     const eventCard = template.content.cloneNode(true);
     eventCard.querySelector('#event-name').textContent = event.eventName || 'Event Name Not Available';
     eventCard.querySelector('#event-description').textContent = event.eventDescription || 'No description available.';
-    eventCard.querySelector('#event-datetime').textContent = `Start: ${event.eventStartTime || 'Unknown Start Time'}, End: ${event.eventEndTime || 'Unknown End Time'}`;
-    eventCard.querySelector('#event-location').textContent = event.full_Address || 'Location information not available';
+    eventCard.querySelector('#event-datetime').textContent = event.eventDate || 'Event date not found';
+    eventCard.querySelector('#event-location').textContent = event.eventLocation || 'Location information not available';
     return eventCard;
 }
 
@@ -52,31 +52,7 @@ function displayEvents(events) {
 
 // Fetch event data and display it
 async function fetchAndDisplayEvents() {
-    let data = []
-
     fetch("/api/eventHistory").then(response => response.json())
         .then(data => displayEvents(data))
         .catch(error => console.error('Error fetching event data:', error));
-
-    console.log(response)
-
-    // Temporary data until backend is implemented
-    data = [
-        {
-            "eventName": "Event 1",
-            "eventDescription": "This is the first event.",
-            "eventStartTime": "2021-01-01T00:00:00",
-            "eventEndTime": "2021-01-01T23:59:59",
-            "full_Address": "123 Main St, Springfield, IL 62701",
-        },
-        {
-            "eventName": "Event 2",
-            "eventDescription": "This is the second event.",
-            "eventStartTime": "2021-01-02T00:00:00",
-            "eventEndTime": "2021-01-02T23:59:59",
-            "full_Address": "456 Elm St, Springfield, IL 62702",
-        }
-    ];
-
-    displayEvents(data);
 }

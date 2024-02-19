@@ -16,6 +16,9 @@ public partial class EventHistory
     [Column("UserID")]
     public int UserId { get; set; }
 
+    [Column("EventName")]
+    public string EventName { get; set; }
+
     [Column(TypeName = "datetime")]
     public DateTime ViewedDate { get; set; }
 

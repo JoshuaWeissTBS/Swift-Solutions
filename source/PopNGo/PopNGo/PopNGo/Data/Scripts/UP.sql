@@ -13,6 +13,7 @@ CREATE TABLE [EventHistory] (
   [ViewedDate] DATETIME NOT NULL,
   [EventID] NVARCHAR(255) NOT NULL,
   [EventDate] DATETIME NOT NULL,
+  [EventName] NVARCHAR(255) NOT NULL,
   [EventDescription] NVARCHAR(255) NOT NULL,
   [EventLocation] NVARCHAR(255) NOT NULL
 );

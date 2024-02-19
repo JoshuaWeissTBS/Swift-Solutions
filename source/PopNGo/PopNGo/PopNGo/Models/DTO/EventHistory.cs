@@ -11,6 +11,7 @@ namespace PopNGo.Models.DTO
         public DateTime ViewedDate { get; set; }
         public string EventId { get; set; }
         public DateTime EventDate { get; set; }
+        public string EventName { get; set; }
         public string EventDescription { get; set; }
         public string EventLocation { get; set; }
     }
@@ -30,8 +31,9 @@ namespace PopNGo.ExtensionMethods
                 EventId = eventHistory.EventId,
                 EventDate = eventHistory.EventDate,
                 EventDescription = eventHistory.EventDescription,
-                EventLocation = eventHistory.EventLocation
-            };
+                EventLocation = eventHistory.EventLocation,
+                EventName = eventHistory.EventName
+    };
         }
     }
 }
