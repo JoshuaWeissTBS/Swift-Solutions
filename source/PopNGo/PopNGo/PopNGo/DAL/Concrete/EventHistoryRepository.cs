@@ -33,17 +33,37 @@ namespace PopNGo.DAL.Concrete
             {
                 throw new ArgumentException($"No event found with the id {apiEventId}", nameof(apiEventId));
             }
-            var eventHistory = new EventHistory { UserId = userId, EventId = eventEntity.Id };
 
-            try
+            // If event history already exists, update the viewed date
+            var eventHistory = _eventHistories.FirstOrDefault(eh => eh.UserId == userId && eh.EventId == eventEntity.Id);
+            if (eventHistory != null)
             {
-                AddOrUpdate(eventHistory);
-            }
-            catch (Exception ex)
+                eventHistory.ViewedDate = DateTime.UtcNow;
+                try
+                {
+                    AddOrUpdate(eventHistory);
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception, rethrow it, or handle it in some other way
+                    throw new Exception("Error updating event history", ex);
+                }
+                return;
+            } else
             {
-                // Log the exception, rethrow it, or handle it in some other way
-                throw new Exception("Error adding or updating event history", ex);
+                var newEventHistory = new EventHistory { UserId = userId, EventId = eventEntity.Id, ViewedDate = DateTime.UtcNow };
+
+                try
+                {
+                    AddOrUpdate(newEventHistory);
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception, rethrow it, or handle it in some other way
+                    throw new Exception("Error adding or updating event history", ex);
+                }
             }
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿import { searchForEvents, createTags, processArray, formatTags } from './eventsAPI.js';
 import { formatStartTime } from './util/formatStartTime.js';
 import { showLoginSignupModal } from './util/showUnauthorizedLoginModal.js';
+import { addEventToHistory } from './api/history/addEventToHistory.js';
 
 
 function setModalContent(eventName, eventDescription, eventStartTime, eventAddress) {
@@ -39,17 +40,16 @@ async function displayEvents(events) {
         let isFavorite;
         console.log(event)
 
-        const updateFavoriteStatus = () => {
-            let eventInfo = {
-                ApiEventID: event.eventID || "No ID available",
-                EventDate: event.eventStartTime || "No date available",
-                EventName: event.eventName || "No name available",
-                EventDescription: event.eventDescription || "No description available",
-                EventLocation: event.full_Address || "No location available",
-            };
+        let eventInfo = {
+            ApiEventID: event.eventID || "No ID available",
+            EventDate: event.eventStartTime || "No date available",
+            EventName: event.eventName || "No name available",
+            EventDescription: event.eventDescription || "No description available",
+            EventLocation: event.full_Address || "No location available",
+        };
 
-            let url = isFavorite ? "/api/FavoritesApi/RemoveFavorite" : "/api/FavoritesApi/AddFavorite";
-            fetch(url, {
+        const updateFavoriteStatus = () => {
+            fetch(isFavorite ? "/api/FavoritesApi/RemoveFavorite" : "/api/FavoritesApi/AddFavorite", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -146,6 +146,7 @@ async function displayEvents(events) {
             setModalContent(event.eventName, event.eventDescription, formatStartTime(event.eventStartTime), event.full_Address);
             const modal = new bootstrap.Modal(document.getElementById('event-details-modal'));
             modal.show();
+            addEventToHistory(eventInfo);
         }
 
         container.appendChild(eventEl);

@@ -81,6 +81,7 @@ public class EventHistoryApiController : Controller
             _eventRepo.AddEvent(eventInfo.ApiEventID, eventInfo.EventDate, eventInfo.EventName, eventInfo.EventDescription, eventInfo.EventLocation);
         }
 
+
         _eventHistoryRepository.AddEventHistory(pgUser.Id, eventInfo.ApiEventID);
         return Ok();
     }
