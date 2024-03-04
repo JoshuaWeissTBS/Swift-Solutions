@@ -1,5 +1,15 @@
 ﻿import { searchForEvents, createTags, processArray, formatTags } from './eventsAPI.js';
+import { formatStartTime } from './util/formatStartTime.js';
 import { showLoginSignupModal } from './util/showUnauthorizedLoginModal.js';
+
+
+function setModalContent(eventName, eventDescription, eventStartTime, eventAddress) {
+    const modal = document.getElementById('event-details-modal');
+    document.getElementById('modal-title').innerHTML = eventName;
+    document.getElementById('modal-description').innerHTML = eventDescription;
+    document.getElementById('modal-address').innerHTML = eventAddress;
+    document.getElementById('modal-date').innerHTML = eventStartTime;
+}
 
 // Function to display events
 async function displayEvents(events) {
@@ -27,6 +37,7 @@ async function displayEvents(events) {
         heart.style.cursor = 'pointer'; //might want to add this to css if possible, but i dont think its necessary
 
         let isFavorite;
+        console.log(event)
 
         const updateFavoriteStatus = () => {
             let eventInfo = {
@@ -130,6 +141,12 @@ async function displayEvents(events) {
         eventEl.appendChild(thumbnail);
         eventEl.appendChild(tags);
         eventEl.appendChild(heart);
+
+        eventEl.onclick = () => {
+            setModalContent(event.eventName, event.eventDescription, formatStartTime(event.eventStartTime), event.full_Address);
+            const modal = new bootstrap.Modal(document.getElementById('event-details-modal'));
+            modal.show();
+        }
 
         container.appendChild(eventEl);
     });
