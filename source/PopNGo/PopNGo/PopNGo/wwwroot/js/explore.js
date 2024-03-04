@@ -4,12 +4,25 @@ import { showLoginSignupModal } from './util/showUnauthorizedLoginModal.js';
 import { addEventToHistory } from './api/history/addEventToHistory.js';
 
 
-function setModalContent(eventName, eventDescription, eventStartTime, eventAddress) {
+async function setModalContent(eventName, eventDescription, eventStartTime, eventAddress, eventTags) {
     const modal = document.getElementById('event-details-modal');
     document.getElementById('modal-title').innerHTML = eventName;
     document.getElementById('modal-description').innerHTML = eventDescription;
     document.getElementById('modal-address').innerHTML = eventAddress;
     document.getElementById('modal-date').innerHTML = eventStartTime;
+    const tagsContainer = document.getElementById('modal-tags-container');
+    tagsContainer.innerHTML = '';
+
+    console.log(eventTags)
+
+    if (eventTags && eventTags.length > 0) {
+        await formatTags(eventTags, tagsContainer);
+    } else {
+        const tagEl = document.createElement('span');
+        tagEl.classList.add('tag');
+        tagEl.textContent = "No tags available";
+        tagsContainer.appendChild(tagEl);
+    }
 }
 
 // Function to display events
@@ -38,7 +51,6 @@ async function displayEvents(events) {
         heart.style.cursor = 'pointer'; //might want to add this to css if possible, but i dont think its necessary
 
         let isFavorite;
-        console.log(event)
 
         let eventInfo = {
             ApiEventID: event.eventID || "No ID available",
@@ -126,7 +138,7 @@ async function displayEvents(events) {
         tags.classList.add('tags');
 
         if (event.eventTags && event.eventTags.length > 0) {
-            await formatTags(event, tags);
+            await formatTags(event.eventTags, tags);
         } else {
             const tagEl = document.createElement('span');
             tagEl.classList.add('tag');
@@ -143,7 +155,7 @@ async function displayEvents(events) {
         eventEl.appendChild(heart);
 
         eventEl.onclick = () => {
-            setModalContent(event.eventName, event.eventDescription, formatStartTime(event.eventStartTime), event.full_Address);
+            setModalContent(event.eventName, event.eventDescription, formatStartTime(event.eventStartTime), event.full_Address, event.eventTags);
             const modal = new bootstrap.Modal(document.getElementById('event-details-modal'));
             modal.show();
             addEventToHistory(eventInfo);
