@@ -56,4 +56,32 @@ public class EventHistoryApiController : Controller
 
         return events;
     }
+
+    // POST: /api/EventHistoryApi/EventHistory
+    [HttpPost("EventHistory")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> AddEventToHistoryAsync([FromBody] PopNGo.Models.DTO.Event eventInfo)
+    {
+        PopNGoUser user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return Unauthorized();
+        }
+
+        PgUser pgUser = _pgUserRepository.GetPgUserFromIdentityId(user.Id);
+        if (pgUser == null)
+        {
+            return Unauthorized();
+        }
+
+        if (!_eventRepo.IsEvent(eventInfo.ApiEventID)) //If the event does not exist, add it to the events
+        {
+            _eventRepo.AddEvent(eventInfo.ApiEventID, eventInfo.EventDate, eventInfo.EventName, eventInfo.EventDescription, eventInfo.EventLocation);
+        }
+
+        _eventHistoryRepository.AddEventHistory(pgUser.Id, eventInfo.ApiEventID);
+        return Ok();
+    }
 }
