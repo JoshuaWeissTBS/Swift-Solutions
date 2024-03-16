@@ -2,7 +2,7 @@
 import { showLoginSignupModal } from './util/showUnauthorizedLoginModal.js';
 import { addEventToHistory } from './api/history/addEventToHistory.js';
 import { showToast } from './util/toast.js';
-import { buildEventCard } from './ui/buildEventCard.js';
+import { buildEventCard, validateBuildEventCardProps } from './ui/buildEventCard.js';
 import { buildEventDetailsModal } from './ui/buildEventDetailsModal.js';
 import { getEvents } from './api/events/getEvents.js';
 import { getEventIsFavorited } from './api/favorites/getEventIsFavorited.js';
@@ -156,9 +156,10 @@ export async function displayEvents(events) {
             onPressFavorite: () => onPressFavorite(eventApiBody, eventCardProps.favorited),
             onPressEvent: () => onClickDetailsAsync(eventInfo),
         }
-
-        buildEventCard(newEventCard, eventCardProps);
-        eventsContainer.appendChild(newEventCard);
+        if (validateBuildEventCardProps(eventCardProps)) {
+            buildEventCard(newEventCard, eventCardProps);
+            eventsContainer.appendChild(newEventCard);
+        }
     }
 }
 
