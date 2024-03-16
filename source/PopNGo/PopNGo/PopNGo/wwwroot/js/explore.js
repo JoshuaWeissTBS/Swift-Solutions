@@ -86,9 +86,8 @@ async function onClickDetailsAsync(eventInfo) {
 async function nextPage() {
     window.scrollTo(0, 0);
     page++;
-    const events = await getEvents(await getSearchQuery(), page * pageSize);
-    displayEvents(events);
-    initMap(events);
+    searchForEvents();
+
     document.getElementById('page-number').innerHTML = page + 1
 
     document.getElementById('previous-page-button').innerHTML = page;
@@ -106,9 +105,7 @@ async function previousPage() {
     if (page > 0) {
         window.scrollTo(0, 0);
         page--;
-        const events = await getEvents(await getSearchQuery(), page * pageSize);
-        displayEvents(events);
-        initMap(events);
+        searchForEvents();
         // set page number
         document.getElementById('page-number').innerHTML = page + 1;
         document.getElementById('previous-page-button').innerHTML = page;
@@ -119,8 +116,8 @@ async function previousPage() {
     }
 }
 
-export async function getPaginationIndex() {
-    return +(page * pageSize);
+export function getPaginationIndex() {
+    return (page * pageSize);
 }
 
 /**
@@ -132,13 +129,6 @@ export async function displayEvents(events) {
     let eventsContainer = document.getElementById('events-container')
     eventsContainer.innerHTML = ''; // Clear the container
     let eventCardTemplate = document.getElementById('event-card-template')
-
-    if (!events || events.length === 0) {
-        toggleNoEventsSection(true); // Show the no events section
-        return;
-    } else {
-        toggleNoEventsSection(false); // Hide the no events section
-    }
 
     const eventTags = events.map(event => event.eventTags).flat().filter(tag => tag)
     await createTags(eventTags);
@@ -215,9 +205,10 @@ async function onPressFavorite(eventInfo, favorited) {
  * @returns {Promise<void>}
  */
 async function searchForEvents() {
+    console.log("search")
     toggleNoEventsSection(false);
     toggleSearchingEventsSection(true);
-    const events = await getEvents(await getSearchQuery(), await getPaginationIndex());
+    const events = await getEvents(await getSearchQuery(), getPaginationIndex());
     toggleSearchingEventsSection(false); // Hide the searching events section
     if (!events || events.length === 0) {
         toggleNoEventsSection(true);
@@ -250,7 +241,7 @@ window.initMap = async function (events) {
             maxZoom: 15
         });
 
-        google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map));
+        google.maps.event.addListener(map, 'idle', () => debounceUpdateLocationAndFetch(map, getPaginationIndex()));
     }
 
     events.forEach(async eventInfo => {

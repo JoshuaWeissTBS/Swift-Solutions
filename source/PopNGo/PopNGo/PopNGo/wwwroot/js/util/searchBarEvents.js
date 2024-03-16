@@ -1,9 +1,6 @@
 import { getCountries, getStates, getCities } from './getSearchLocationOptions.js';
 
 export async function loadSearchBar() {
-    toggleNoEventsSection(true); // Hide the no events section
-    toggleSearchingEventsSection(true); // Hide the searching events section
-
     // Load up the countries, states, and cities for the search input
     const countries = await getCountries();
     const countrySelect = document.getElementById('search-event-country');
