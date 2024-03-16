@@ -8,7 +8,7 @@ export async function loadSearchBar() {
     const citySelect = document.getElementById('search-event-city');
 
     // Populate the country select
-    countries.innerHTML = '';
+    countrySelect.innerHTML = '';
     countries.forEach(country => {
         const option = document.createElement('option');
         option.value = country;

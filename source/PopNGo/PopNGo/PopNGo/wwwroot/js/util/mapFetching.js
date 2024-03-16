@@ -36,7 +36,7 @@ export function updateLocationAndFetch(map, start) {
 
 export let debounceTimeout = null;
 
-export function debounceUpdateLocationAndFetch(map) {
+export function debounceUpdateLocationAndFetch(map, start) {
     clearTimeout(debounceTimeout);
-    debounceTimeout = setTimeout(() => updateLocationAndFetch(map), 500);
+    debounceTimeout = setTimeout(() => updateLocationAndFetch(map, start), 500);
 }
