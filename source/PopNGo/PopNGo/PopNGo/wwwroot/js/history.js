@@ -65,10 +65,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 EventName: event.eventName || "No name available",
                 EventDescription: event.eventDescription || "No description available",
                 EventLocation: event.eventLocation || "No location available",
+                EventImage: event.eventThumbnail,
             };
 
             let eventProps = {
-                img: event.eventThumbnail, // This property doesn't exist in the provided JSON object
+                img: event.eventImage,
                 title: event.eventName,
                 date: new Date(event.eventDate),
                 city: event.eventLocation, // This is the full address in my data model
