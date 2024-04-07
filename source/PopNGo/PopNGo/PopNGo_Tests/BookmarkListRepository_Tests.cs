@@ -144,4 +144,18 @@ public class BookMarkRepositoryTests
         // Assert
         Assert.That(result, Is.True);
     }
+
+    [Test]
+    public void IsBookmarkListNameUnique_ShouldReturnFalse()
+    {
+        // Arrange
+        var userId = 1;
+        var listName = "Wishlist events :)"; // assuming this list name already exists in SEED
+
+        // Act
+        var result = _bookmarkListRepository.IsBookmarkListNameUnique(userId, listName);
+
+        // Assert
+        Assert.That(result, Is.False);
+    }
 }
