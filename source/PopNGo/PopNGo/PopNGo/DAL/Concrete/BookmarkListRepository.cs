@@ -22,7 +22,7 @@ namespace PopNGo.DAL.Concrete
         {
             if (string.IsNullOrEmpty(listName))
             {
-                throw new ArgumentException("List name cannot be null or empty", nameof(listName));
+                throw new ArgumentNullException("List name cannot be null or empty", nameof(listName));
             }
 
             if (!IsBookmarkListNameUnique(userId, listName))

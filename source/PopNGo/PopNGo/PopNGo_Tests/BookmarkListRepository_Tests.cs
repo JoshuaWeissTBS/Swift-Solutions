@@ -54,18 +54,18 @@ public class BookMarkRepositoryTests
         Assert.That(_bookmarkListRepository.GetBookmarkLists(userId).Count, Is.EqualTo(2));
         Assert.That(_bookmarkListRepository.GetBookmarkLists(userId).Last().Title, Is.EqualTo(listName));
     }
-    /*
-    // Stub test for AddBookmarkList should throw exception when list name is null
+
+    [Test]
     public void AddBookmarkList_ShouldThrowExceptionWhenListNameIsNull()
     {
         // Arrange
         var userId = 1;
         var listName = "";
 
-        // Act
         // Assert
-        Assert.Throws<ArgumentNullException>(() => _bookmarkRepository.AddBookmarkList(userId, listName));
+        Assert.Throws<ArgumentNullException>(() => _bookmarkListRepository.AddBookmarkList(userId, listName));
     }
+    /*
 
     // Stub test for AddBookmarkList should throw exception when list name is duplicate of existing list
     public void AddBookmarkList_ShouldThrowExceptionWhenListNameIsDuplicate()
