@@ -1,3 +1,5 @@
+-- Uses SQLLite syntax
+
 -- Insert into PG_User
 INSERT INTO [PG_User] ([ASPNETUserID])
     VALUES
@@ -14,7 +16,7 @@ VALUES ('event2', '2022-01-02T00:00:00', 'Event 2', 'Description 2', 'Location 2
 
 -- Insert into BookmarkList
 INSERT INTO [BookmarkList] ([UserID], [Title]) VALUES (1, 'Wishlist events :)');
-INSERT INTO [BookmarkList] ([UserID], [Title]) VALUES (2, 'Wishlist events :)');
+INSERT INTO [BookmarkList] ([UserID], [Title]) VALUES (2, 'Concerts!');
 
 -- Insert into FavoriteEvents
 INSERT INTO [FavoriteEvents] ([BookmarkListID], [EventID]) VALUES (1, 1);

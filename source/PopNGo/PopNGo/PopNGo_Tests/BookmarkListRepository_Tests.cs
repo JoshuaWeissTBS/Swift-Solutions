@@ -11,19 +11,31 @@ namespace PopNGo_Tests;
 
 public class BookMarkRepositoryTests
 {
+    private static readonly string _seedFile = @"..\..\..\..\PopNGo\Data\Scripts\Testing\SEED.sql";  // relative path from where the executable is: bin/Debug/net7.0
+
+    // Create this helper like this, for whatever context you desire
+    private static readonly InMemoryDbHelper<PopNGoDB> _dbHelper = new(_seedFile, DbPersistence.OneDbPerTest);
+    private static BookmarkListRepository _bookmarkListRepository = null!;
+    private static PopNGoDB _context = null!;
+
+    [SetUp]
+    public void Setup()
+    {
+        _context = _dbHelper.GetContext();
+        _bookmarkListRepository = new BookmarkListRepository(_context);
+    }
     [Test]
     public void GetBookmarkLists_ShouldReturnBookmarkLists()
     {
-        Assert.Pass();
-/*        // Arrange
+        // Arrange
         var userId = 1;
 
         // Act
-        var result = _bookmarkRepository.GetBookmarkLists(userId);
+        var result = _bookmarkListRepository.GetBookmarkLists(userId);
 
         // Assert that the result is not null and is of type List<BookmarkList>
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.TypeOf<List<BookmarkList>>());*/
+        Assert.That(result, Is.TypeOf<List<BookmarkList>>());
     }
 
 /*    public void GetBookmarkListEvents_ShouldReturnBookmarkListEvents()
