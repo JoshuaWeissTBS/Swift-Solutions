@@ -93,18 +93,18 @@ public class BookMarkRepositoryTests
         // Assert
         Assert.That(result, Is.EqualTo(1));
     }
-    /*
 
+    [Test]
     public void GetBookmarkListIdFromName_ShouldThrowExceptionWhenListNameIsNull()
     {
         // Arrange
         var userId = 1;
         var listName = "";
 
-        // Act
         // Assert
-        Assert.Throws<ArgumentNullException>(() => _bookmarkRepository.GetBookmarkListIdFromName(userId, listName));
+        Assert.Throws<ArgumentNullException>(() => _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName));
     }
+    /*
 
     public void GetBookmarkListIdFromName_ShouldThrowExceptionWhenListNameIsNotFound()
     {
