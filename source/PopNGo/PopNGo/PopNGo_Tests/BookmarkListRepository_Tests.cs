@@ -130,4 +130,18 @@ public class BookMarkRepositoryTests
         // Assert
         Assert.Throws<ArgumentException>(() => _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName));
     }
+
+    [Test]
+    public void IsBookmarkListNameUnique_ShouldReturnTrue()
+    {
+        // Arrange
+        var userId = 1;
+        var listName = "Test List";
+
+        // Act
+        var result = _bookmarkListRepository.IsBookmarkListNameUnique(userId, listName);
+
+        // Assert
+        Assert.That(result, Is.True);
+    }
 }
