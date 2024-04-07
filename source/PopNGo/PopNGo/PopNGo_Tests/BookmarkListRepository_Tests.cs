@@ -24,6 +24,7 @@ public class BookMarkRepositoryTests
         _context = _dbHelper.GetContext();
         _bookmarkListRepository = new BookmarkListRepository(_context);
     }
+
     [Test]
     public void GetBookmarkLists_ShouldReturnBookmarkLists()
     {
@@ -36,6 +37,19 @@ public class BookMarkRepositoryTests
         // Assert that the result is not null and is of type List<BookmarkList>
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.TypeOf<List<BookmarkList>>());
+    }
+
+    [Test]
+    public void GetBookmarkLists_WithNonExistentUserId_ShouldReturnEmptyList()
+    {
+        // Arrange
+        var userId = 0;
+
+        // Act
+        var result = _bookmarkListRepository.GetBookmarkLists(userId);
+
+        // Assert
+        Assert.That(result, Is.Empty);
     }
 
 
@@ -116,24 +130,4 @@ public class BookMarkRepositoryTests
         // Assert
         Assert.Throws<ArgumentException>(() => _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName));
     }
-    /*
-
-    // Stub test for AddEventToBookmarkList
-    public void AddEventToBookmarkList_ShouldAddEventToBookmarkList()
-    {
-        // Arrange
-        var userId = 1;
-        var listId = 1;
-        var eventId = "testEventId";
-
-        // Act
-        _bookmarkRepository.AddEventToBookmarkList(userId, listId, eventId);
-
-        // Assert
-        Assert.That(_bookmarkRepository.GetBookmarkLists(userId).First().Events.Count, Is.EqualTo(1));
-        // Assert that new event is added to the list
-        Assert.That(_bookmarkRepository.GetBookmarkLists(userId).First().Events.First().ApiEventId, Is.EqualTo(eventId));
-        // Assert that bookmark list has its quantity of events increased by 1
-        Assert.That(_bookmarkRepository.GetBookmarkLists(userId).First().Quantity, Is.EqualTo(1));
-    }*/
 }
