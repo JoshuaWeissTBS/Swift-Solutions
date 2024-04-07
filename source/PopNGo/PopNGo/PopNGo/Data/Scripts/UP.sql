@@ -43,10 +43,17 @@ CREATE TABLE [Tag] (
   [TextColor] NVARCHAR(255) NOT NULL
 );
 
+CREATE TABLE [ScheduledNotification] (
+  [ID] INTEGER PRIMARY KEY IDENTITY(1, 1),
+  [UserID] INTEGER NOT NULL,
+  [Time] DATETIME NOT NULL,
+  [Type] NVARCHAR(255) NOT NULL
+);
+
 ALTER TABLE [EventHistory] ADD CONSTRAINT FK_EventHistory_UserID FOREIGN KEY ([UserID]) REFERENCES [PG_User] ([ID]);
 ALTER TABLE [EventHistory] ADD CONSTRAINT FK_EventHistory_EventID FOREIGN KEY ([EventID]) REFERENCES [Event] ([ID]);
 
 ALTER TABLE [FavoriteEvents] ADD CONSTRAINT FK_FavoriteEvents_EventID FOREIGN KEY ([EventID]) REFERENCES [Event] ([ID]);
 ALTER TABLE [FavoriteEvents] ADD CONSTRAINT FK_FavoriteEvents_BookmarkListID FOREIGN KEY ([BookmarkListID]) REFERENCES [BookmarkList] ([ID]);
 
-ALTER TABLE [BookmarkList] ADD CONSTRAINT FK_BookmarkList_UserID FOREIGN KEY ([UserID]) REFERENCES [PG_User] ([ID]);
+ALTER TABLE [ScheduledNotification] ADD CONSTRAINT FK_ScheduledNotification_UserID FOREIGN KEY ([UserID]) REFERENCES [PG_User] ([ID]);

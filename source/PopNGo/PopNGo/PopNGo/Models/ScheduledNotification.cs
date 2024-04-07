@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PopNGo.Models;
 
-[Table("BookmarkList")]
-public partial class BookmarkList
+[Table("ScheduledNotification")]
+public partial class ScheduledNotification
 {
     [Key]
     [Column("ID")]
@@ -16,10 +16,14 @@ public partial class BookmarkList
     [Column("UserID")]
     public int UserId { get; set; }
 
-    [Required]
-    [StringLength(128)]
-    public string Title { get; set; }
+    [Column(TypeName = "datetime")]
+    public DateTime Time { get; set; }
 
-    [InverseProperty("BookmarkList")]
-    public virtual ICollection<FavoriteEvent> FavoriteEvents { get; set; } = new List<FavoriteEvent>();
+    [Required]
+    [StringLength(255)]
+    public string Type { get; set; }
+
+    [ForeignKey("UserId")]
+    [InverseProperty("ScheduledNotifications")]
+    public virtual PgUser User { get; set; }
 }

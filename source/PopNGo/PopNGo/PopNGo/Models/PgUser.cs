@@ -19,8 +19,8 @@ public partial class PgUser
     public string AspnetuserId { get; set; }
 
     [InverseProperty("User")]
-    public virtual ICollection<BookmarkList> BookmarkLists { get; set; } = new List<BookmarkList>();
+    public virtual ICollection<EventHistory> EventHistories { get; set; } = new List<EventHistory>();
 
     [InverseProperty("User")]
-    public virtual ICollection<EventHistory> EventHistories { get; set; } = new List<EventHistory>();
+    public virtual ICollection<ScheduledNotification> ScheduledNotifications { get; set; } = new List<ScheduledNotification>();
 }
