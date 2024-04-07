@@ -15,15 +15,15 @@ public class BookMarkRepositoryTests
     public void GetBookmarkLists_ShouldReturnBookmarkLists()
     {
         Assert.Pass();
-        /*        // Arrange
-                var userId = 1;
+/*        // Arrange
+        var userId = 1;
 
-                // Act
-                var result = _bookmarkRepository.GetBookmarkLists(userId);
+        // Act
+        var result = _bookmarkRepository.GetBookmarkLists(userId);
 
-                // Assert that the result is not null and is of type List<BookmarkList>
-                Assert.That(result, Is.Not.Null);
-                Assert.That(result, Is.TypeOf<List<BookmarkList>>());*/
+        // Assert that the result is not null and is of type List<BookmarkList>
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.TypeOf<List<BookmarkList>>());*/
     }
 
 /*    public void GetBookmarkListEvents_ShouldReturnBookmarkListEvents()

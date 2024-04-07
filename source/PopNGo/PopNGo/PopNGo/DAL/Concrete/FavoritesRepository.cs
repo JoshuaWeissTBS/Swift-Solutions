@@ -92,6 +92,10 @@ namespace PopNGo.DAL.Concrete
 
         public bool IsFavorite(int userId, string apiEventId)
         {
+            if (string.IsNullOrEmpty(apiEventId))
+            {
+                throw new ArgumentException("ApiEventId cannot be null or empty", nameof(apiEventId));
+            }
             // Check if the event exists in any of the user's bookmark lists
             return _favoriteEvents.Any(fe => fe.BookmarkList.UserId == userId && fe.Event.ApiEventId == apiEventId);
         }
