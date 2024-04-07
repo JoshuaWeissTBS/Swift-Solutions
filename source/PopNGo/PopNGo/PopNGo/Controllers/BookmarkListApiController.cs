@@ -31,7 +31,7 @@ public class BookmarkListApiController : Controller
         _bookmarkListRepository = bookmarkListRepository;
     }
 
-    [HttpGet("GetBookmarkLists")]
+    [HttpGet("BookmarkLists")]
     public async Task<IActionResult> GetBookmarkLists()
     {
         try
@@ -54,6 +54,38 @@ public class BookmarkListApiController : Controller
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error getting bookmark lists");
+            return StatusCode(500);
+        }
+    }
+
+    [HttpPost("BookmarkList")]
+    public async Task<IActionResult> AddBookmarkList([FromBody] BookmarkList bookmarkList)
+    {
+        try
+        {
+            PopNGoUser user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            PgUser pgUser = _pgUserRepository.GetPgUserFromIdentityId(user.Id);
+            if (pgUser == null)
+            {
+                return Unauthorized();
+            }
+
+            if (string.IsNullOrEmpty(bookmarkList.Title))
+            {
+                return BadRequest("Bookmark list title cannot be null or empty.");
+            }
+
+            _bookmarkListRepository.AddBookmarkList(pgUser.Id, bookmarkList.Title);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error adding bookmark list");
             return StatusCode(500);
         }
     }
