@@ -214,7 +214,7 @@ async function onPressFavorite(eventInfo, favorited) {
         })
         showToast('Event unfavorited!');
     } else {
-        addEventToFavorites(eventInfo).catch((error) => {
+        addEventToFavorites("TODO: bookmarkListName!", eventInfo).catch((error) => {
             // TODO: check that it is an unauthorized error
             // Unauthorized, show the login/signup modal
             showLoginSignupModal();

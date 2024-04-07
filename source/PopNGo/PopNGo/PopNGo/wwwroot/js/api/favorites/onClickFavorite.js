@@ -12,7 +12,7 @@ export async function onClickFavorite(favoriteIcon, eventInfo) {
             favoriteIcon.src = '/media/images/heart-outline.svg';
         })
     } else {
-        addEventToFavorites(eventInfo).then(() => {
+        addEventToFavorites("TODO: bookmarkListName!", eventInfo).then(() => {
             favoriteIcon.src = '/media/images/heart-filled.svg';
         }).catch((error) => {
             // TODO: Should only happen if the error is 401
