@@ -79,20 +79,21 @@ public class BookMarkRepositoryTests
         // Assert
         Assert.Throws<ArgumentException>(() => _bookmarkListRepository.AddBookmarkList(userId, listName));
     }
-    /*
 
+    [Test]
     public void GetBookmarkListIdFromName_ShouldReturnListId()
     {
         // Arrange
         var userId = 1;
-        var listName = "Test List";
+        var listName = "Wishlist events :)";
 
-        // Act
-        var result = _bookmarkRepository.GetBookmarkListIdFromName(userId, listName);
+        // Act, assuming there is a bookmarkList seeded with the name 'Wishlist events :)'
+        var result = _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName);
 
         // Assert
         Assert.That(result, Is.EqualTo(1));
     }
+    /*
 
     public void GetBookmarkListIdFromName_ShouldThrowExceptionWhenListNameIsNull()
     {
