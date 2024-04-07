@@ -65,9 +65,8 @@ public class BookMarkRepositoryTests
         // Assert
         Assert.Throws<ArgumentNullException>(() => _bookmarkListRepository.AddBookmarkList(userId, listName));
     }
-    /*
 
-    // Stub test for AddBookmarkList should throw exception when list name is duplicate of existing list
+    [Test]
     public void AddBookmarkList_ShouldThrowExceptionWhenListNameIsDuplicate()
     {
         // Arrange
@@ -75,11 +74,12 @@ public class BookMarkRepositoryTests
         var listName = "Test List";
 
         // Act
-        _bookmarkRepository.AddBookmarkList(userId, listName);
+        _bookmarkListRepository.AddBookmarkList(userId, listName);
 
         // Assert
-        Assert.Throws<ArgumentException>(() => _bookmarkRepository.AddBookmarkList(userId, listName));
+        Assert.Throws<ArgumentException>(() => _bookmarkListRepository.AddBookmarkList(userId, listName));
     }
+    /*
 
     public void GetBookmarkListIdFromName_ShouldReturnListId()
     {
