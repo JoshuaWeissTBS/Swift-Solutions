@@ -38,21 +38,8 @@ public class BookMarkRepositoryTests
         Assert.That(result, Is.TypeOf<List<BookmarkList>>());
     }
 
-/*    public void GetBookmarkListEvents_ShouldReturnBookmarkListEvents()
-    {
-        // Arrange
-        var userId = 1;
-        var listId = 1;
 
-        // Act
-        var result = _bookmarkRepository.GetBookmarkListEvents(userId, listId);
-
-        // Assert that the result is not null and is of type List<BookmarkListEvent>
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.TypeOf<List<BookmarkListEvent>>());
-    }
-
-    // Stub test for AddBookmarkList
+    [Test]
     public void AddBookmarkList_ShouldAddNewBookmarkList()
     {
         // Arrange
@@ -60,14 +47,14 @@ public class BookMarkRepositoryTests
         var listName = "Test List";
 
         // Act
-        _bookmarkRepository.AddBookmarkList(userId, listName);
+        _bookmarkListRepository.AddBookmarkList(userId, listName);
 
         // Assert
-        Assert.AreEqual(1, _bookmarkRepository.GetBookmarkLists(userId).Count);
-        // Assert that new list is added to the database
-        Assert.That(_bookmarkRepository.GetBookmarkLists(userId).First().ListName, Is.EqualTo(listName));
+        // Assumes there is already a bookmark list in the database
+        Assert.That(_bookmarkListRepository.GetBookmarkLists(userId).Count, Is.EqualTo(2));
+        Assert.That(_bookmarkListRepository.GetBookmarkLists(userId).Last().Title, Is.EqualTo(listName));
     }
-
+    /*
     // Stub test for AddBookmarkList should throw exception when list name is null
     public void AddBookmarkList_ShouldThrowExceptionWhenListNameIsNull()
     {
