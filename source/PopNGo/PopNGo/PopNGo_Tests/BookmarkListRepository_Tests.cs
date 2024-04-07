@@ -104,8 +104,8 @@ public class BookMarkRepositoryTests
         // Assert
         Assert.Throws<ArgumentNullException>(() => _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName));
     }
-    /*
 
+    [Test]
     public void GetBookmarkListIdFromName_ShouldThrowExceptionWhenListNameIsNotFound()
     {
         // Arrange
@@ -114,8 +114,9 @@ public class BookMarkRepositoryTests
 
         // Act
         // Assert
-        Assert.Throws<ArgumentException>(() => _bookmarkRepository.GetBookmarkListIdFromName(userId, listName));
+        Assert.Throws<ArgumentException>(() => _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName));
     }
+    /*
 
     // Stub test for AddEventToBookmarkList
     public void AddEventToBookmarkList_ShouldAddEventToBookmarkList()
