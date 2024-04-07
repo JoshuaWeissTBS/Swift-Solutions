@@ -18,8 +18,9 @@ public class FavoritesApiController : Controller
     private readonly IEventRepository _eventRepo;
     private readonly UserManager<PopNGoUser> _userManager;
     private readonly IPgUserRepository _pgUserRepository;
+    private readonly IBookmarkListRepository _bookmarkListRepository;
 
-    public FavoritesApiController(ILogger<FavoritesApiController> logger, IConfiguration configuration, IFavoritesRepository favoritesRepo, IEventRepository eventRepo, UserManager<PopNGoUser> userManager, IPgUserRepository pgUserRepository)
+    public FavoritesApiController(ILogger<FavoritesApiController> logger, IConfiguration configuration, IFavoritesRepository favoritesRepo, IEventRepository eventRepo, UserManager<PopNGoUser> userManager, IPgUserRepository pgUserRepository, IBookmarkListRepository bookmarkListRepository)
     {
         _logger = logger;
         _configuration = configuration;
@@ -27,10 +28,11 @@ public class FavoritesApiController : Controller
         _eventRepo = eventRepo;
         _userManager = userManager;
         _pgUserRepository = pgUserRepository;
+        _bookmarkListRepository = bookmarkListRepository;
     }
 
     [HttpPost("AddFavorite")]
-    public async Task<IActionResult> AddFavorite([FromBody] PopNGo.Models.DTO.Event eventInfo) //AddFavoriteRequest is a class that contains a Favorite and an Event
+    public async Task<IActionResult> AddFavorite([FromBody] PopNGo.Models.DTO.Event eventInfo, string bookmarkListTitle) //AddFavoriteRequest is a class that contains a Favorite and an Event
     {
         try
         {
@@ -51,8 +53,17 @@ public class FavoritesApiController : Controller
                 _eventRepo.AddEvent(eventInfo.ApiEventID, eventInfo.EventDate, eventInfo.EventName, eventInfo.EventDescription, eventInfo.EventLocation, eventInfo.EventImage);
             }
 
+            if (string.IsNullOrEmpty(bookmarkListTitle))
+            {
+                // If the bookmark list title is null or empty, fail
+                return BadRequest("Bookmark list title cannot be null or empty.");
+            }
+
+            // Get the bookmark list ID from the title
+            int bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(pgUser.Id, bookmarkListTitle);
+
             // Whether the event existed or not, add it to the favorites
-            _favoritesRepo.AddFavorite(pgUser.Id, eventInfo.ApiEventID); // AddFavorite already has error handling
+            _favoritesRepo.AddFavorite(bookmarkListId, eventInfo.ApiEventID);
             return Ok();
         }
         catch (Exception ex)
@@ -66,7 +77,7 @@ public class FavoritesApiController : Controller
     }
 
     [HttpPost("RemoveFavorite")]
-    public async Task<IActionResult> RemoveFavorite([FromBody] PopNGo.Models.DTO.Event eventInfo)
+    public async Task<IActionResult> RemoveFavorite([FromBody] PopNGo.Models.DTO.Event eventInfo, string bookmarkListTitle)
     {
         PopNGoUser user = await _userManager.GetUserAsync(User);
         if (user == null)
@@ -87,7 +98,16 @@ public class FavoritesApiController : Controller
                 _eventRepo.AddEvent(eventInfo.ApiEventID, eventInfo.EventDate, eventInfo.EventName, eventInfo.EventDescription, eventInfo.EventLocation, eventInfo.EventImage);
             }
 
-            _favoritesRepo.RemoveFavorite(pgUser.Id, eventInfo.ApiEventID);
+            if (string.IsNullOrEmpty(bookmarkListTitle))
+            {
+                // If the bookmark list title is null or empty, fail
+                return BadRequest("Bookmark list title cannot be null or empty.");
+            }
+
+            // Get the bookmark list ID from the title
+            int bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(pgUser.Id, bookmarkListTitle);
+
+            _favoritesRepo.RemoveFavorite(bookmarkListId, eventInfo.ApiEventID);
             return Ok();
         }
         catch (Exception ex)
@@ -101,7 +121,7 @@ public class FavoritesApiController : Controller
     }
 
     [HttpGet("GetUserFavorites")]
-    public async Task<ActionResult<IEnumerable<PopNGo.Models.DTO.Event>>> GetUserFavorites()
+    public async Task<ActionResult<IEnumerable<PopNGo.Models.DTO.Event>>> GetUserFavorites(string bookmarkListTitle)
     {
         try
         {
@@ -117,7 +137,16 @@ public class FavoritesApiController : Controller
                 return Unauthorized();
             }
 
-            List<PopNGo.Models.DTO.Event> events = _favoritesRepo.GetUserFavorites(pgUser.Id);
+            if (string.IsNullOrEmpty(bookmarkListTitle))
+            {
+                // If the bookmark list title is null or empty, fail
+                return BadRequest("Bookmark list title cannot be null or empty.");
+            }
+
+            // Get the bookmark list ID from the title
+            int bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(pgUser.Id, bookmarkListTitle);
+
+            List<PopNGo.Models.DTO.Event> events = _favoritesRepo.GetUserFavorites(bookmarkListId);
             if (events == null || events.Count == 0)
             {
                 return NotFound();

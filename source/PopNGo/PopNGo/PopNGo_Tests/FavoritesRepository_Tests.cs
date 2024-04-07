@@ -85,9 +85,10 @@ public class FavoritesRepositoryTests
     {
         // Arrange
         var userId = 1;
+        var bookmarkListId = 1;
         var apiEventId = "testEventId";
         var eventEntity = new Event { Id = 2, ApiEventId = apiEventId };
-        var favoriteEvent = new FavoriteEvent { UserId = userId, EventId = eventEntity.Id, Event = eventEntity };
+        var favoriteEvent = new FavoriteEvent { BookmarkListId = bookmarkListId, EventId = eventEntity.Id, Event = eventEntity };
 
         var data = new List<FavoriteEvent> { favoriteEvent }.AsQueryable();
 
@@ -102,7 +103,7 @@ public class FavoritesRepositoryTests
         _favoritesRepository = new FavoritesRepository(_mockContext.Object);
 
         // Act
-        _favoritesRepository.RemoveFavorite(userId, apiEventId);
+        _favoritesRepository.RemoveFavorite(bookmarkListId, apiEventId);
 
         // Assert
         _mockSet.Verify(m => m.Remove(It.IsAny<FavoriteEvent>()), Times.Once);
@@ -135,10 +136,10 @@ public class FavoritesRepositoryTests
     public void GetUserFavorites_ShouldReturnUserFavorites()
     {
         // Arrange
-        var userId = 1;
+        var bookmarkListId = 1;
         var apiEventId = "testEventId";
         var eventEntity = new Event { Id = 2, ApiEventId = apiEventId };
-        var favoriteEvent = new FavoriteEvent { UserId = userId, EventId = eventEntity.Id, Event = eventEntity };
+        var favoriteEvent = new FavoriteEvent { BookmarkListId = bookmarkListId, EventId = eventEntity.Id, Event = eventEntity };
 
         var data = new List<FavoriteEvent> { favoriteEvent }.AsQueryable();
 
@@ -153,7 +154,7 @@ public class FavoritesRepositoryTests
         _favoritesRepository = new FavoritesRepository(_mockContext.Object);
 
         // Act
-        var result = _favoritesRepository.GetUserFavorites(userId);
+        var result = _favoritesRepository.GetUserFavorites(bookmarkListId);
 
         // Assert
         Assert.That(result.Count, Is.EqualTo(1));
@@ -219,9 +220,10 @@ public class FavoritesRepositoryTests
     {
         // Arrange
         var userId = 1;
+        var bookmarkListId = 1;
         var apiEventId = "testEventId";
         var eventEntity = new Event { Id = 2, ApiEventId = apiEventId };
-        var favoriteEvent = new FavoriteEvent { UserId = userId, EventId = eventEntity.Id, Event = eventEntity };
+        var favoriteEvent = new FavoriteEvent { BookmarkListId = bookmarkListId, EventId = eventEntity.Id, Event = eventEntity };
 
         var data = new List<FavoriteEvent> { favoriteEvent }.AsQueryable();
 
@@ -247,9 +249,10 @@ public class FavoritesRepositoryTests
     {
         // Arrange
         var userId = 1;
+        var bookmarkListId = 1;
         var apiEventId = "testEventId";
         var eventEntity = new Event { Id = 2, ApiEventId = apiEventId };
-        var favoriteEvent = new FavoriteEvent { UserId = userId + 1, EventId = eventEntity.Id, Event = eventEntity }; // Different user
+        var favoriteEvent = new FavoriteEvent { BookmarkListId = bookmarkListId + 1, EventId = eventEntity.Id, Event = eventEntity }; // Different user
 
         var data = new List<FavoriteEvent> { favoriteEvent }.AsQueryable();
 
