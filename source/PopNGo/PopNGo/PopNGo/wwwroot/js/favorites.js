@@ -2,8 +2,8 @@ import { formatDateWithWeekday, formatHourMinute } from './util/formatStartTime.
 
 
 let favoriteCount = 0; // Initialize the favorite events count to 0
-function fetchUserFavorites() {
-    fetch('/api/FavoritesApi/GetUserFavorites')
+function fetchUserFavorites(bookmarkListTitle) {
+    fetch(`/api/FavoritesApi/Favorites?bookmarkListTitle=${bookmarkListTitle}`)
         .then(response => {
             if (response.status === 401) {
                 // Unauthorized, tell the user to log in or sign up
@@ -93,5 +93,5 @@ function constructEventCard(event) {
 
 document.addEventListener('DOMContentLoaded', function () {
     console.log("Favorites page loaded.")
-    fetchUserFavorites();
+    fetchUserFavorites("TODO: bookmarkListTitle");
 });

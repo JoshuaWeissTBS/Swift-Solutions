@@ -122,7 +122,7 @@ public class FavoritesApiController : Controller
         }
     }
 
-    [HttpGet("GetUserFavorites")]
+    [HttpGet("Favorites")]
     public async Task<ActionResult<IEnumerable<PopNGo.Models.DTO.Event>>> GetUserFavorites(string bookmarkListTitle)
     {
         try
@@ -146,7 +146,14 @@ public class FavoritesApiController : Controller
             }
 
             // Get the bookmark list ID from the title
-            int bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(pgUser.Id, bookmarkListTitle);
+            int bookmarkListId;
+            try
+            {
+                bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(pgUser.Id, bookmarkListTitle);
+            } catch (ArgumentException)
+            {
+                return NotFound($"No bookmark list with the name {bookmarkListTitle} found");
+            }
 
             List<PopNGo.Models.DTO.Event> events = _favoritesRepo.GetUserFavorites(bookmarkListId);
             if (events == null || events.Count == 0)
