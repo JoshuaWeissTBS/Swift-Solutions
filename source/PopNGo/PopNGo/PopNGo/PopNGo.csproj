@@ -29,4 +29,8 @@
     <None Include="Views\Shared\_EventCard.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\media\images\icons\" />
+  </ItemGroup>
+
 </Project>
