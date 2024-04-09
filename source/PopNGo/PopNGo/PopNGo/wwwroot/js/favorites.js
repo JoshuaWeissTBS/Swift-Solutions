@@ -1,97 +1,84 @@
-import { formatDateWithWeekday, formatHourMinute } from './util/formatStartTime.js';
-
-
-let favoriteCount = 0; // Initialize the favorite events count to 0
-function fetchUserFavorites(bookmarkListTitle) {
-    fetch(`/api/FavoritesApi/Favorites?bookmarkListTitle=${bookmarkListTitle}`)
-        .then(response => {
-            if (response.status === 401) {
-                // Unauthorized, tell the user to log in or sign up
-                document.getElementById('favorite-events-title').style.display = 'none'; // Hide the title if the user is not logged in
-                document.getElementById('login-prompt').style.display = 'block';
-                throw new Error('Unauthorized');
-            } else if (response.status === 404) {
-                // Resource not found, tell the user they have no favorites
-                document.getElementById('favorite-events-title').style.display = 'none';
-                document.getElementById('no-favorites-message').style.display = 'block';
-                throw new Error('No favorites found');
-            }
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            data.forEach(event => {
-                const eventCard = constructEventCard(event);
-                document.getElementById('favorite-events-container').appendChild(eventCard);
-                favoriteCount++;
-            });
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
-}
-
-function constructEventCard(event) {
-
-    const template = document.getElementById('event-card-template');
-    const card = template.content.cloneNode(true);
-
-    const titleElement = card.querySelector('.card-title');
-    const dateElement = card.querySelector('.card-text:first-of-type small');
-    const timeElement = card.querySelector('.card-text:nth-of-type(2) small');
-    const descriptionElement = card.querySelector('.card-text:nth-of-type(3)');
-    const imgElement = card.querySelector('img');
-    const oldHeartButton = card.querySelector('.heart-button');
-    const heartButton = oldHeartButton.cloneNode(true); // Clone the heart button to remove all existing event listeners
-    oldHeartButton.parentNode.replaceChild(heartButton, oldHeartButton); // Replace the old heart button with the new one
-
-
-
-    titleElement.textContent = event.eventName;
-    dateElement.textContent = formatDateWithWeekday(event.eventDate);
-    timeElement.textContent = formatHourMinute(event.eventDate);
-    descriptionElement.textContent = event.eventDescription;
-    // imgElement.src = event.eventImage || 'https://via.placeholder.com/1000'; 
-
-    heartButton.addEventListener('click', () => {
-        fetch(`/api/FavoritesApi/RemoveFavorite`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                ApiEventID: event.apiEventID || "No ID available",
-                EventDate: event.eventDate || "No date available",
-                EventName: event.eventName || "No name available",
-                EventDescription: event.eventDescription || "No description available",
-                EventLocation: event.full_Address || "No location available",
-            })
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                // Remove the event card from the DOM
-                const cardElement = heartButton.closest('.card'); // Find the ancestor card element
-                cardElement.remove();
-                favoriteCount--;
-                if (favoriteCount === 0) { // If there are no more favorite events, show the no-favorites-message
-                    document.getElementById('favorite-events-title').style.display = 'none';
-                    document.getElementById('no-favorites-message').style.display = 'block';
-                }
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-    });
-
-    return card;
-}
+import { getBookmarkLists } from './api/bookmarkLists/getBookmarkLists.js';
+import { buildBookmarkListCard } from './ui/buildBookmarkListCard.js';
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log("Favorites page loaded.")
-    fetchUserFavorites("TODO: bookmarkListTitle");
+    initPage();
 });
+
+function initPage() {
+    getBookmarkLists().then(bookmarkLists => {
+        if (bookmarkLists.length === 0) {
+            displayNoBookmarkListsMessage();
+        } else {
+            displayBookmarkLists(bookmarkLists);
+        }
+    }).catch((error) => {
+        // If the user is not logged in, display a login prompt
+        displayLoginPrompt();
+    });
+}
+
+function displayLoginPrompt() {
+    document.getElementById('favorite-events-title').style.display = 'none'; // Hide the title if the user is not logged in
+    document.getElementById('login-prompt').style.display = 'block';
+}
+
+function displayNoBookmarkListsMessage() {
+    document.getElementById('favorite-events-title').style.display = 'none';
+    document.getElementById('no-favorites-message').style.display = 'block';
+}
+
+/// Displaying bookmark lists
+
+/**
+ * Returns populated bookmark list card element
+ * @param {String} name
+ * @param {Number} eventQuantity
+ * @returns {HTMLElement}
+ */
+function createBookmarkListCard(name, eventQuantity) {
+    const props = {
+        bookmarkListName: name,
+        eventQuantity: eventQuantity,
+        onClick: () => {
+            // If the user clicks on the bookmark list, display the events from that list
+            displayEventsFromBookmarkList(name);
+        }
+    };
+
+    // Select and clone the bookmark list card template
+    const bookmarkListCardTemplate = document.getElementById('bookmark-list-card-template');
+    const bookmarkListCard = bookmarkListCardTemplate.content.cloneNode(true);
+
+    // Build the card
+    buildBookmarkListCard(bookmarkListCard, props);
+
+    return bookmarkListCard;
+}
+
+/**
+ * Takes BookmarkList[] as from getBookmarkLists and displays them on screen
+ * @param {BookmarkList[]} bookmarkLists
+ */
+function displayBookmarkLists(bookmarkLists) {
+    // Select the bookmark list container
+    const bookmarkListContainer = document.getElementById('bookmark-list-cards-container');
+
+    // Clear the container
+    bookmarkListContainer.innerHTML = '';
+
+    // Create a card for each bookmark list
+    bookmarkLists.forEach(bookmarkList => {
+        try {
+            const card = createBookmarkListCard(bookmarkList.title, bookmarkList.favoriteEvents.length);
+            bookmarkListContainer.appendChild(card);
+        } catch (error) {
+            console.error("Props for bookmark list card was invalid, skipping...")
+        }
+    });
+}
+
+/// Displaying events from a bookmark list
+function displayEventsFromBookmarkList(bookmarkList) {
+    // TODO:
+}

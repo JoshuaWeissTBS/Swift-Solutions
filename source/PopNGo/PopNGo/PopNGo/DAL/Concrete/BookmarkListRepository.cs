@@ -1,6 +1,7 @@
 using PopNGo.DAL.Abstract;
 using PopNGo.Models;
 using Microsoft.EntityFrameworkCore;
+using PopNGo.ExtensionMethods;
 
 namespace PopNGo.DAL.Concrete
 {
@@ -13,9 +14,9 @@ namespace PopNGo.DAL.Concrete
             _bookmarkLists = context.BookmarkLists;
         }
 
-        public List<BookmarkList> GetBookmarkLists(int userId)
+        public List<PopNGo.Models.DTO.BookmarkList> GetBookmarkLists(int userId)
         {
-            return _bookmarkLists.Where(bl => bl.UserId == userId).ToList();
+            return _bookmarkLists.Where(bl => bl.UserId == userId).Select(bl => bl.ToDTO()).ToList();
         }
 
         public void AddBookmarkList(int userId, string listName)

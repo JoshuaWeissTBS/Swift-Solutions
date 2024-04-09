@@ -48,7 +48,7 @@ public class BookmarkListApiController : Controller
                 return Unauthorized();
             }
 
-            List<BookmarkList> bookmarkLists = _bookmarkListRepository.GetBookmarkLists(pgUser.Id);
+            List<PopNGo.Models.DTO.BookmarkList> bookmarkLists = _bookmarkListRepository.GetBookmarkLists(pgUser.Id);
             return Ok(bookmarkLists);
         }
         catch (Exception ex)
@@ -59,7 +59,7 @@ public class BookmarkListApiController : Controller
     }
 
     [HttpPost("BookmarkList")]
-    public async Task<IActionResult> AddBookmarkList([FromBody] BookmarkList bookmarkList)
+    public async Task<IActionResult> AddBookmarkList([FromBody] PopNGo.Models.DTO.BookmarkList bookmarkList)
     {
         try
         {
@@ -80,7 +80,7 @@ public class BookmarkListApiController : Controller
                 return BadRequest("Bookmark list title cannot be null or empty.");
             }
 
-            _bookmarkListRepository.AddBookmarkList(pgUser.Id, bookmarkList.Title);
+            _bookmarkListRepository.AddBookmarkList(5, bookmarkList.Title);
             return Ok();
         }
         catch (Exception ex)

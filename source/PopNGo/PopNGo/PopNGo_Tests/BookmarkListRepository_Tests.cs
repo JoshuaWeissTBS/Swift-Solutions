@@ -36,7 +36,7 @@ public class BookMarkRepositoryTests
 
         // Assert that the result is not null and is of type List<BookmarkList>
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.TypeOf<List<BookmarkList>>());
+        Assert.That(result, Is.TypeOf<List<PopNGo.Models.DTO.BookmarkList>>());
     }
 
     [Test]
