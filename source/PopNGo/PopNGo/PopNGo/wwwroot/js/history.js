@@ -22,7 +22,7 @@ async function onPressSaveToBookmarkList(eventInfo, favorited, bookmarkListName)
             // Unauthorized, show the login/signup modal
             showLoginSignupModal();
         })
-        showToast('Event favorited!');
+        showToast('Event saved to ' + bookmarkListName + '!');
         eventInfo.favorited = true; // Update the favorited status
     }
 }
