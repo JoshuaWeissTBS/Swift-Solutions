@@ -17,7 +17,7 @@ export async function addEventToFavorites(bookmarkListName, event) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            bookmarkListName: bookmarkListName,
+            bookmarkListTitle: bookmarkListName,
             eventInfo: event
         })
     })

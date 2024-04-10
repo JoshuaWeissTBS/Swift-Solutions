@@ -89,7 +89,7 @@ async function onClickDetailsAsync(eventInfo) {
         fullAddress: eventInfo.full_Address,
         tags: await formatTags(eventInfo.eventTags),
         favorited: await getEventIsFavorited(eventInfo.eventID),
-        onPressFavorite: () => onPressFavorite(eventApiBody, eventDetailsModalProps.favorited)
+        onPressFavorite: () => onPressSaveToBookmarkList(eventApiBody, eventDetailsModalProps.favorited)
     }
 
     if (validateBuildEventDetailsModalProps(eventDetailsModalProps)) {
@@ -176,10 +176,9 @@ export async function displayEvents(events) {
             city: eventInfo.full_Address.split(',')[1],
             state: eventInfo.full_Address.split(',')[2],
             tags: await formatTags(eventInfo.eventTags),
-            favorited: await getEventIsFavorited(eventInfo.eventID),
-            onPressFavorite: () => onPressFavorite(eventApiBody, eventCardProps.favorited),
+            bookmarkListNames: ['My bookmark list 1', 'bup2'], // TODO: get bookmark list names
+            onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventApiBody, eventCardProps.favorited, bookmarkListName),
             onPressEvent: () => onClickDetailsAsync(eventInfo),
-
         }
         if (validateBuildEventCardProps(eventCardProps)) {
             buildEventCard(newEventCard, eventCardProps);
@@ -189,7 +188,7 @@ export async function displayEvents(events) {
 }
 
 /**
- * Takes in an apiEventId, and a favorite status, and updates the favorite status of the event via http
+ * Takes in an apiEventId, a favorite status, and a bookmark list name, then updates the favorite status of the event via http
  * 
  * eventApiBody: {
         ApiEventID: eventInfo.eventID || "No ID available",
@@ -200,12 +199,13 @@ export async function displayEvents(events) {
     };
  * 
  * @async
- * @function onPressFavorite
+ * @function onPressSaveToBookmarkList
  * @param {object} eventApiBody
- * @param {any} favorited
+ * @param {boolean} favorited
+ * @param {string} bookmarkListName
  * @returns {Promise<void>}
  */
-async function onPressFavorite(eventInfo, favorited) {
+async function onPressSaveToBookmarkList(eventInfo, favorited, bookmarkListName) {
     if (favorited) {
         removeEventFromFavorites(eventInfo).catch((error) => {
             // TODO: check that it is an unauthorized error
@@ -214,7 +214,7 @@ async function onPressFavorite(eventInfo, favorited) {
         })
         showToast('Event unfavorited!');
     } else {
-        addEventToFavorites("TODO: bookmarkListName!", eventInfo).catch((error) => {
+        addEventToFavorites(bookmarkListName, eventInfo).catch((error) => {
             // TODO: check that it is an unauthorized error
             // Unauthorized, show the login/signup modal
             showLoginSignupModal();

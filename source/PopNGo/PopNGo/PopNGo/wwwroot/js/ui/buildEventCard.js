@@ -6,7 +6,6 @@ import { validateObject } from "../validation.js";
 //     date: DateTime,
 //     city: String,
 //     state: String,
-//     favorited: Boolean
 //     tags: Array[String],
 // }
 
@@ -21,8 +20,8 @@ import { validateObject } from "../validation.js";
      city: String,
      state: String,
      tags: Array[Tag],
-     favorited: Boolean
-     onPressFavorite: Function
+     bookmarkListNames: Array[String]
+     onPressBookmarkList: (bookmarkListName: String) => void (optional),
      onPressEvent: Function
  }
 
@@ -62,18 +61,24 @@ export const buildEventCard = (eventCardElement, props) => {
     ? `${props.city}, ${props.state}` // If state is provided, display the city and state
     : props.city; // If state is not provided, only display the city
 
-    // Set the favorite status
-    const bookmarkContainer = eventCardElement.querySelector('#event-card-bookmark-container');
-    const bookmarkImage = eventCardElement.querySelector('#event-card-bookmark-icon');
-    bookmarkImage.src = props.favorited ? '/media/images/heart-filled.svg' : '/media/images/heart-outline.svg';
+    // Fill the bookmark button dropdown with bookmark items
+    const bookmarkDropdownMenu = eventCardElement.querySelector('.dropdown-menu');
+    bookmarkDropdownMenu.innerHTML = ''
+    props.bookmarkListNames.forEach(bookmarkListName => {
+        const bookmarkItem = document.createElement('a');
+        bookmarkItem.classList.add('dropdown-item');
+        bookmarkItem.textContent = bookmarkListName;
+        bookmarkItem.addEventListener('click', (event) => {
+            // Prevent the event from bubbling up (stop the event from triggering the card click event)
+            if (event && event.stopPropagation) event.stopPropagation();
+            props.onPressBookmarkList(bookmarkListName);
+        });
+        bookmarkDropdownMenu.appendChild(bookmarkItem);
+    });
 
-    bookmarkContainer.addEventListener('click', (event) => {
-        // Prevent the event from bubbling up (stop the event from triggering the card click event)
+    // Prevent bubbling up of the click event on the bookmark button
+    eventCardElement.querySelector('#event-card-bookmark-button').addEventListener('click', (event) => {
         if (event && event.stopPropagation) event.stopPropagation();
-        // Update the favorite status and the image source
-        props.onPressFavorite();
-        props.favorited = !props.favorited;
-        bookmarkImage.src = props.favorited ? '/media/images/heart-filled.svg' : '/media/images/heart-outline.svg';
     });
 
     // Set the tags:
@@ -108,8 +113,8 @@ export function validateBuildEventCardProps(data) {
         city: x => typeof x === 'string',
         state: x => typeof x === 'string',
         tags: x => Array.isArray(x),
-        favorited: x => typeof x === 'boolean',
-        onPressFavorite: x => (typeof x === 'function' || x === undefined || x === null),
+        bookmarkListNames: x => Array.isArray(x),
+        onPressBookmarkList: x => (typeof x === 'function' || x === undefined || x === null),
         onPressEvent: x => (typeof x === 'function' || x === undefined || x === null),
     }
 

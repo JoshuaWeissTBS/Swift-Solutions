@@ -77,8 +77,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 state: event.eventLocation.split(',')[2],
                 tags: await formatTags(event.eventTags), // This property doesn't exist in the provided JSON object
                 favorited: await getEventIsFavorited(event.apiEventID), // Assuming id is the eventID
-                onPressEvent: () => onClickDetailsAsync(event),
-                onPressFavorite: () => onPressFavorite(eventApiBody, eventProps.favorited)
+                //onPressEvent: () => onClickDetailsAsync(event),
+                //onPressFavorite: () => onPressFavorite(eventApiBody, eventProps.favorited)
             };
             
             // Clone the template
