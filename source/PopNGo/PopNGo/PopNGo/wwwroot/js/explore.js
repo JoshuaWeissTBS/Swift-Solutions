@@ -17,6 +17,7 @@ import {
 import { debounceUpdateLocationAndFetch } from './util/mapFetching.js';
 import { getNearestCityAndState } from './util/getNearestCityAndState.js';
 import { getNearestCityAndStateAndCountry } from './util/getNearestCityAndStateAndCountry.js';
+import { getBookmarkLists } from './api/bookmarkLists/getBookmarkLists.js';
 
 let map = null;
 let page = 0;
@@ -168,7 +169,8 @@ export async function displayEvents(events) {
             EventLocation: eventInfo.full_Address || "No location available",
         };
 
-        // TODO: add validation
+        const bookmarkLists = await getBookmarkLists();
+
         let eventCardProps = {
             img: eventInfo.eventThumbnail,
             title: eventInfo.eventName,
@@ -176,7 +178,7 @@ export async function displayEvents(events) {
             city: eventInfo.full_Address.split(',')[1],
             state: eventInfo.full_Address.split(',')[2],
             tags: await formatTags(eventInfo.eventTags),
-            bookmarkListNames: ['My bookmark list 1', 'bup2'], // TODO: get bookmark list names
+            bookmarkListNames: bookmarkLists.map(bookmarkList => bookmarkList.title),
             onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventApiBody, eventCardProps.favorited, bookmarkListName),
             onPressEvent: () => onClickDetailsAsync(eventInfo),
         }
