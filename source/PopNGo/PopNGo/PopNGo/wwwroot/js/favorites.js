@@ -1,5 +1,6 @@
 import { getBookmarkLists } from './api/bookmarkLists/getBookmarkLists.js';
 import { buildBookmarkListCard } from './ui/buildBookmarkListCard.js';
+import { buildNewBookmarkListCard } from './ui/buildNewBookmarkListCard.js';
 
 document.addEventListener('DOMContentLoaded', function () {
     initPage();
@@ -31,7 +32,7 @@ function displayNoBookmarkListsMessage() {
 /// Displaying bookmark lists
 
 /**
- * Returns populated bookmark list card element
+ * Returns populated bookmark list card element. Element partial must be defined in the HTML file.
  * @param {String} name
  * @param {Number} eventQuantity
  * @returns {HTMLElement}
@@ -76,6 +77,17 @@ function displayBookmarkLists(bookmarkLists) {
             console.error("Props for bookmark list card was invalid, skipping...")
         }
     });
+
+    // Create and append the "Create new bookmark list" card
+    const createNewBookmarkListCardTemplate = document.getElementById('create-new-bookmark-list-card-template');
+    const createNewBookmarkListCard = createNewBookmarkListCardTemplate.content.cloneNode(true);
+    buildNewBookmarkListCard(createNewBookmarkListCard, { onClickCreateBookmarkList: createNewBookmarkList });
+    bookmarkListContainer.appendChild(createNewBookmarkListCard);
+}
+
+/// Happens on click of "Create new bookmark list" button
+function createNewBookmarkList(bookmarkListName) {
+    console.log(bookmarkListName);
 }
 
 /// Displaying events from a bookmark list

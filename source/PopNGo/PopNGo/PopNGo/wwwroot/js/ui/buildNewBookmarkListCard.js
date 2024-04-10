@@ -3,9 +3,9 @@ import { validateObject } from "../validation.js";
 /**
  * Takes in the the new bookmark list card element and props and builds the card
  * Props:
-{
-    onClickCreateBookmarkList: (listName: String) => function,
-}
+ * {
+ *   onClickCreateBookmarkList: (listName: String) => function,
+ * }
  * @function buildEventCard
  * @param {HTMLElement} bookmarkListCardElement 
  * @param {Object?} props 
@@ -17,10 +17,11 @@ export const buildNewBookmarkListCard = (bookmarkListCardElement, props) => {
 
     // Wire up the create bookmark list button
     const createBookmarkListButton = bookmarkListCardElement.querySelector('.saveNewBookmarkListButton');
-
+    const bookmarkNameInput = bookmarkListCardElement.querySelector('#new-bookmark-list-card-title-input');
+    
     createBookmarkListButton.addEventListener('click', () => {
-        const bookmarkListName = bookmarkListCardElement.querySelector('.newBookmarkListCardTitleInput').value;
-        props.onClick(bookmarkListName);
+        const bookmarkListName = bookmarkNameInput.value;
+        props.onClickCreateBookmarkList(bookmarkListName);
     });
 }
 

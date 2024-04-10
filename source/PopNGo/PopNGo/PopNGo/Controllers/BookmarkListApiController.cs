@@ -80,7 +80,7 @@ public class BookmarkListApiController : Controller
                 return BadRequest("Bookmark list title cannot be null or empty.");
             }
 
-            _bookmarkListRepository.AddBookmarkList(5, bookmarkList.Title);
+            _bookmarkListRepository.AddBookmarkList(pgUser.Id, bookmarkList.Title);
             return Ok();
         }
         catch (Exception ex)
