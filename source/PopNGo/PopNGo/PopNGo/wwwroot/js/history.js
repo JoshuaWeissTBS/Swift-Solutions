@@ -5,8 +5,9 @@ import { getEventIsFavorited } from "./api/favorites/getEventIsFavorited.js";
 import { removeEventFromFavorites } from './api/favorites/removeEventFromFavorites.js';
 import { addEventToFavorites } from './api/favorites/addEventToFavorites.js';
 import { showToast } from './util/toast.js';
+import { getBookmarkLists } from "./api/bookmarkLists/getBookmarkLists.js";
 
-async function onPressFavorite(eventInfo, favorited) {
+async function onPressSaveToBookmarkList(eventInfo, favorited, bookmarkListName) {
     if (favorited) {
         await removeEventFromFavorites(eventInfo).catch((error) => {
             // TODO: check that it is an unauthorized error
@@ -16,7 +17,7 @@ async function onPressFavorite(eventInfo, favorited) {
         showToast('Event unfavorited!');
         eventInfo.favorited = false; // Update the favorited status
     } else {
-        await addEventToFavorites("TODO: bookmarkListName!", eventInfo).catch((error) => {
+        await addEventToFavorites(bookmarkListName, eventInfo).catch((error) => {
             // TODO: check that it is an unauthorized error
             // Unauthorized, show the login/signup modal
             showLoginSignupModal();
@@ -44,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
     // Append event cards to the container element
-    // Append event cards to the container
     async function displayEvents(events) {
         const container = document.getElementById('event-history-card-container');
         if (!container) {
@@ -69,6 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 EventImage: event.eventThumbnail,
             };
 
+            const bookmarkLists = await getBookmarkLists();
+
             let eventProps = {
                 img: event.eventImage,
                 title: event.eventName,
@@ -76,9 +78,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 city: event.eventLocation.split(',')[1],
                 state: event.eventLocation.split(',')[2],
                 tags: await formatTags(event.eventTags), // This property doesn't exist in the provided JSON object
-                favorited: await getEventIsFavorited(event.apiEventID), // Assuming id is the eventID
-                //onPressEvent: () => onClickDetailsAsync(event),
-                //onPressFavorite: () => onPressFavorite(eventApiBody, eventProps.favorited)
+                bookmarkListNames: bookmarkLists.map(bookmarkList => bookmarkList.title),
+                onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventApiBody, false, bookmarkListName),
+                onPressEvent: () => onClickDetailsAsync(eventInfo),
             };
             
             // Clone the template
