@@ -5,7 +5,7 @@
  * 
         id = Int
         title = String
-        favoriteEvents = FavoriteEvent[]
+        favoriteEventQuantity = int
         userId = int
  * }
  * 

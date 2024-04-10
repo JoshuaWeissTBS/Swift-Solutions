@@ -70,7 +70,7 @@ function displayBookmarkLists(bookmarkLists) {
     // Create a card for each bookmark list
     bookmarkLists.forEach(bookmarkList => {
         try {
-            const card = createBookmarkListCard(bookmarkList.title, bookmarkList.favoriteEvents.length);
+            const card = createBookmarkListCard(bookmarkList.title, bookmarkList.favoriteEventQuantity);
             bookmarkListContainer.appendChild(card);
         } catch (error) {
             console.error("Props for bookmark list card was invalid, skipping...")
