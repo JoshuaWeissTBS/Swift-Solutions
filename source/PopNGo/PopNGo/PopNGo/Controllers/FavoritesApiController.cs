@@ -32,6 +32,11 @@ public class FavoritesApiController : Controller
     }
 
     [HttpPost("AddFavorite")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> AddFavorite([FromBody] BookmarkFavorite bookmarkFavorite) //AddFavoriteRequest is a class that contains a Favorite and an Event
     {
         try
@@ -61,6 +66,12 @@ public class FavoritesApiController : Controller
                 return BadRequest("Bookmark list title cannot be null or empty.");
             }
 
+            // If the favorite is already in the list, return 204 No Content
+            if (_favoritesRepo.IsInBookmarkList(bookmarkFavorite.BookmarkListTitle, eventInfo.ApiEventID))
+            {
+                return NoContent();
+            }
+
             // Get the bookmark list ID from the title
             int bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(pgUser.Id, bookmarkFavorite.BookmarkListTitle);
 
@@ -79,6 +90,10 @@ public class FavoritesApiController : Controller
     }
 
     [HttpPost("RemoveFavorite")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> RemoveFavorite([FromBody] PopNGo.Models.DTO.Event eventInfo, string bookmarkListTitle)
     {
         PopNGoUser user = await _userManager.GetUserAsync(User);
@@ -123,6 +138,10 @@ public class FavoritesApiController : Controller
     }
 
     [HttpGet("Favorites")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<IEnumerable<PopNGo.Models.DTO.Event>>> GetUserFavorites(string bookmarkListTitle)
     {
         try
@@ -174,6 +193,9 @@ public class FavoritesApiController : Controller
     }
 
     [HttpGet("IsFavorite")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<bool>> IsFavorite(string eventId)
     {
         try

@@ -99,5 +99,19 @@ namespace PopNGo.DAL.Concrete
             // Check if the event exists in any of the user's bookmark lists
             return _favoriteEvents.Any(fe => fe.BookmarkList.UserId == userId && fe.Event.ApiEventId == apiEventId);
         }
+
+        public bool IsInBookmarkList(string bookmarkListName, string apiEventId)
+        {
+            if (string.IsNullOrEmpty(bookmarkListName))
+            {
+                throw new ArgumentException("BookmarkListName cannot be null or empty", nameof(bookmarkListName));
+            }
+            if (string.IsNullOrEmpty(apiEventId))
+            {
+                throw new ArgumentException("ApiEventId cannot be null or empty", nameof(apiEventId));
+            }
+            // Check if the event exists in the specified bookmark list
+            return _favoriteEvents.Any(fe => fe.BookmarkList.Title == bookmarkListName && fe.Event.ApiEventId == apiEventId);
+        }
     }
 }
