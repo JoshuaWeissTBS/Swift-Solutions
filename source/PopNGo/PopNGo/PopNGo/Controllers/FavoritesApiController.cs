@@ -85,7 +85,7 @@ public class FavoritesApiController : Controller
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> RemoveFavorite([FromBody] PopNGo.Models.DTO.Event eventInfo, string bookmarkListTitle)
+    public async Task<IActionResult> RemoveFavorite([FromBody] BookmarkFavorite bookmarkFavorite)
     {
         PopNGoUser user = await _userManager.GetUserAsync(User);
         if (user == null)
@@ -101,16 +101,16 @@ public class FavoritesApiController : Controller
 
         try
         {
-            if (string.IsNullOrEmpty(bookmarkListTitle))
+            if (string.IsNullOrEmpty(bookmarkFavorite.BookmarkListTitle))
             {
                 // If the bookmark list title is null or empty, fail
                 return BadRequest("Bookmark list title cannot be null or empty.");
             }
 
             // Get the bookmark list ID from the title
-            int bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(pgUser.Id, bookmarkListTitle);
+            int bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(pgUser.Id, bookmarkFavorite.BookmarkListTitle);
 
-            _favoritesRepo.RemoveFavorite(bookmarkListId, eventInfo.ApiEventID);
+            _favoritesRepo.RemoveFavorite(bookmarkListId, bookmarkFavorite.ApiEventId);
             return Ok();
         }
         catch (Exception ex)
