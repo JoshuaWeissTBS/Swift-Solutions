@@ -1,31 +1,8 @@
 import { buildEventCard, validateBuildEventCardProps } from "./ui/buildEventCard.js";
 import { buildEventDetailsModal, validateBuildEventDetailsModalProps } from './ui/buildEventDetailsModal.js';
 import { formatTags } from "./util/tags.js";
-import { getEventIsFavorited } from "./api/favorites/getEventIsFavorited.js";
-import { removeEventFromFavorites } from './api/favorites/removeEventFromFavorites.js';
-import { addEventToFavorites } from './api/favorites/addEventToFavorites.js';
-import { showToast } from './util/toast.js';
 import { getBookmarkLists } from "./api/bookmarkLists/getBookmarkLists.js";
-
-async function onPressSaveToBookmarkList(eventInfo, favorited, bookmarkListName) {
-    if (favorited) {
-        await removeEventFromFavorites(eventInfo).catch((error) => {
-            // TODO: check that it is an unauthorized error
-            // Unauthorized, show the login/signup modal
-            showLoginSignupModal();
-        })
-        showToast('Event unfavorited!');
-        eventInfo.favorited = false; // Update the favorited status
-    } else {
-        await addEventToFavorites(bookmarkListName, eventInfo).catch((error) => {
-            // TODO: check that it is an unauthorized error
-            // Unauthorized, show the login/signup modal
-            showLoginSignupModal();
-        })
-        showToast('Event saved to ' + bookmarkListName + '!');
-        eventInfo.favorited = true; // Update the favorited status
-    }
-}
+import { onPressSaveToBookmarkList } from "./util/onPressSaveToBookmarkList.js";
 
 // Fetch event data and display it on page load
 document.addEventListener('DOMContentLoaded', function () {
@@ -79,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 state: eventInfo.eventLocation.split(',')[2],
                 tags: await formatTags(eventInfo.eventTags), // This property doesn't exist in the provided JSON object
                 bookmarkListNames: bookmarkLists.map(bookmarkList => bookmarkList.title),
-                onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventApiBody, false, bookmarkListName),
+                onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventApiBody, bookmarkListName),
                 onPressEvent: () => onClickDetailsAsync(eventInfo),
             };
             

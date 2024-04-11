@@ -137,7 +137,7 @@ async function displayEventsFromBookmarkList(bookmarkList) {
     });
 }
 
-/** TODO:
+/**
  * Opens the event details modal
  * @param {Object} eventInfo
  */
