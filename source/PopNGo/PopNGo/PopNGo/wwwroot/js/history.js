@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 EventName: eventInfo.eventName || "No name available",
                 EventDescription: eventInfo.eventDescription || "No description available",
                 EventLocation: eventInfo.eventLocation || "No location available",
-                EventImage: eventInfo.eventThumbnail,
+                EventImage: eventInfo.eventImage,
             };
 
             const bookmarkLists = await getBookmarkLists();
@@ -109,7 +109,6 @@ async function fetchEvents() {
         throw new Error('Network response was not ok');
     }
     const data = await response.json();
-    console.log(data);
     return data;
 }
 

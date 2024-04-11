@@ -165,6 +165,7 @@ export async function displayEvents(events) {
             EventName: eventInfo.eventName || "No name available",
             EventDescription: eventInfo.eventDescription || "No description available",
             EventLocation: eventInfo.full_Address || "No location available",
+            EventImage: eventInfo.eventThumbnail,
         };
 
         const bookmarkLists = await getBookmarkLists();
@@ -196,6 +197,7 @@ export async function displayEvents(events) {
         EventName: eventInfo.eventName || "No name available",
         EventDescription: eventInfo.eventDescription || "No description available",
         EventLocation: eventInfo.full_Address || "No location available",
+        EventImage: eventInfo.eventImage,
     };
  * 
  * @async

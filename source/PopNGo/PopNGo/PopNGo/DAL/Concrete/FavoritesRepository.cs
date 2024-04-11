@@ -1,6 +1,7 @@
 using PopNGo.DAL.Abstract;
 using PopNGo.Models;
 using Microsoft.EntityFrameworkCore;
+using PopNGo.ExtensionMethods;
 
 namespace PopNGo.DAL.Concrete
 {
@@ -70,15 +71,7 @@ namespace PopNGo.DAL.Concrete
                 userFavorites = _favoriteEvents
                     .Where(fe => fe.BookmarkListId == bookmarkListId)
                     .Select(fe => fe.Event)
-                    .Select(e => new PopNGo.Models.DTO.Event
-                    {
-                        // Assuming PopNGo.Models.DTO.Event and PopNGo.Models.Event have similar properties
-                        ApiEventID = e.ApiEventId,
-                        EventDate = e.EventDate,
-                        EventName = e.EventName,
-                        EventDescription = e.EventDescription,
-                        EventLocation = e.EventLocation
-                    })
+                    .Select(e => e.ToDTO())
                     .ToList();
             }
             catch (Exception ex)
