@@ -19,7 +19,7 @@ public partial class Event
     public string ApiEventId { get; set; }
 
     [Column(TypeName = "datetime")]
-    public DateTime EventDate { get; set; }
+    public DateTime? EventDate { get; set; }
 
     [Required]
     [StringLength(255)]

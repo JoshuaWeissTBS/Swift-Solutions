@@ -29,7 +29,7 @@ CREATE TABLE [EventHistory] (
 CREATE TABLE [Event] (
   [ID] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [ApiEventID] NVARCHAR(255) NOT NULL,
-  [EventDate] DATETIME NOT NULL,
+  [EventDate] DATETIME,
   [EventName] NVARCHAR(255) NOT NULL,
   [EventDescription] NVARCHAR(1000) NOT NULL,
   [EventLocation] NVARCHAR(255) NOT NULL,

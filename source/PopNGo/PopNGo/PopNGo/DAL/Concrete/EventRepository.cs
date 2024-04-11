@@ -13,16 +13,16 @@ namespace PopNGo.DAL.Concrete
             _event = context.Events;
         }
 
-        public void AddEvent(string EventId, DateTime EventDate, string EventName, string EventDescription, string EventLocation, string EventImage)
+        public void AddEvent(EventDetail eventDetail)
         {
-            ValidateEventParameters(EventId, EventDate, EventName, EventDescription, EventLocation);
-            var newEvent = new Event { 
-                ApiEventId = EventId, 
-                EventDate = EventDate, 
-                EventName = EventName, 
-                EventDescription = EventDescription, 
-                EventLocation = EventLocation,
-                EventImage = EventImage
+            ValidateEventParameters(eventDetail);
+            var newEvent = new Event {
+                ApiEventId = eventDetail.EventID,
+                EventDate = eventDetail.EventStartTime,
+                EventName = eventDetail.EventName,
+                EventDescription = eventDetail.EventDescription,
+                EventLocation = eventDetail.Full_Address,
+                EventImage = eventDetail.EventThumbnail,
             };
             AddOrUpdate(newEvent);
         }
@@ -36,31 +36,31 @@ namespace PopNGo.DAL.Concrete
             return _event.Any(e => e.ApiEventId == apiEventId);
         }
 
-        private void ValidateEventParameters(string eventId, DateTime eventDate, string eventName, string eventDescription, string eventLocation)
+        private void ValidateEventParameters(EventDetail eventDetail)
         {
-            if (string.IsNullOrEmpty(eventId))
+            if (string.IsNullOrEmpty(eventDetail.EventID))
             {
-                throw new ArgumentException("EventId cannot be null or empty", nameof(eventId));
+                throw new ArgumentException("EventId cannot be null or empty", nameof(eventDetail.EventID));
             }
 
-            if (eventDate == default(DateTime))
+            if (eventDetail.EventStartTime == default(DateTime))
             {
-                throw new ArgumentException("EventDate cannot be default", nameof(eventDate));
+                throw new ArgumentException("EventDate cannot be default", nameof(eventDetail.EventStartTime));
             }
 
-            if (string.IsNullOrEmpty(eventName))
+            if (string.IsNullOrEmpty(eventDetail.EventName))
             {
-                throw new ArgumentException("EventName cannot be null or empty", nameof(eventName));
+                throw new ArgumentException("EventName cannot be null or empty", nameof(eventDetail.EventName));
             }
 
-            if (string.IsNullOrEmpty(eventDescription))
+            if (string.IsNullOrEmpty(eventDetail.EventDescription))
             {
-                throw new ArgumentException("EventDescription cannot be null or empty", nameof(eventDescription));
+                throw new ArgumentException("EventDescription cannot be null or empty", nameof(eventDetail.EventDescription));
             }
 
-            if (string.IsNullOrEmpty(eventLocation))
+            if (string.IsNullOrEmpty(eventDetail.Full_Address))
             {
-                throw new ArgumentException("EventLocation cannot be null or empty", nameof(eventLocation));
+                throw new ArgumentException("EventLocation cannot be null or empty", nameof(eventDetail.Full_Address));
             }
         }
     }

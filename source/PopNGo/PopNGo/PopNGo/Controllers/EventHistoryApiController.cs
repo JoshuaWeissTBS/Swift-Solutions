@@ -15,16 +15,14 @@ public class EventHistoryApiController : Controller
     private readonly ILogger<EventHistoryApiController> _logger;
     private readonly IConfiguration _configuration;
     private readonly IEventHistoryRepository _eventHistoryRepository;
-    private readonly IEventRepository _eventRepo;
     private readonly UserManager<PopNGoUser> _userManager;
     private readonly IPgUserRepository _pgUserRepository;
 
-    public EventHistoryApiController(ILogger<EventHistoryApiController> logger, IConfiguration configuration, IEventHistoryRepository eventHistoryRepository, IEventRepository eventRepo, UserManager<PopNGoUser> userManager, IPgUserRepository pgUserRepository)
+    public EventHistoryApiController(ILogger<EventHistoryApiController> logger, IConfiguration configuration, IEventHistoryRepository eventHistoryRepository, UserManager<PopNGoUser> userManager, IPgUserRepository pgUserRepository)
     {
         _logger = logger;
         _configuration = configuration;
         _eventHistoryRepository = eventHistoryRepository;
-        _eventRepo = eventRepo;
         _userManager = userManager;
         _pgUserRepository = pgUserRepository;
     }
@@ -75,12 +73,6 @@ public class EventHistoryApiController : Controller
         {
             return Unauthorized();
         }
-
-        if (!_eventRepo.IsEvent(eventInfo.ApiEventID)) //If the event does not exist, add it to the events
-        {
-            _eventRepo.AddEvent(eventInfo.ApiEventID, eventInfo.EventDate, eventInfo.EventName, eventInfo.EventDescription, eventInfo.EventLocation, eventInfo.EventImage);
-        }
-
 
         _eventHistoryRepository.AddEventHistory(pgUser.Id, eventInfo.ApiEventID);
         return Ok();

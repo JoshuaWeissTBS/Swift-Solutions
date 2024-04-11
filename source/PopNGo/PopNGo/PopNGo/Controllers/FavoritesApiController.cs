@@ -15,17 +15,15 @@ public class FavoritesApiController : Controller
     private readonly ILogger<FavoritesApiController> _logger;
     private readonly IConfiguration _configuration;
     private readonly IFavoritesRepository _favoritesRepo;
-    private readonly IEventRepository _eventRepo;
     private readonly UserManager<PopNGoUser> _userManager;
     private readonly IPgUserRepository _pgUserRepository;
     private readonly IBookmarkListRepository _bookmarkListRepository;
 
-    public FavoritesApiController(ILogger<FavoritesApiController> logger, IConfiguration configuration, IFavoritesRepository favoritesRepo, IEventRepository eventRepo, UserManager<PopNGoUser> userManager, IPgUserRepository pgUserRepository, IBookmarkListRepository bookmarkListRepository)
+    public FavoritesApiController(ILogger<FavoritesApiController> logger, IConfiguration configuration, IFavoritesRepository favoritesRepo, UserManager<PopNGoUser> userManager, IPgUserRepository pgUserRepository, IBookmarkListRepository bookmarkListRepository)
     {
         _logger = logger;
         _configuration = configuration;
         _favoritesRepo = favoritesRepo;
-        _eventRepo = eventRepo;
         _userManager = userManager;
         _pgUserRepository = pgUserRepository;
         _bookmarkListRepository = bookmarkListRepository;
@@ -54,11 +52,6 @@ public class FavoritesApiController : Controller
             }
 
             var eventInfo = bookmarkFavorite.EventInfo;
-
-            if (!_eventRepo.IsEvent(eventInfo.ApiEventID)) //If the event does not exist, add it to the events
-            {
-                _eventRepo.AddEvent(eventInfo.ApiEventID, eventInfo.EventDate, eventInfo.EventName, eventInfo.EventDescription, eventInfo.EventLocation, eventInfo.EventImage);
-            }
 
             if (string.IsNullOrEmpty(bookmarkFavorite.BookmarkListTitle))
             {
@@ -110,11 +103,6 @@ public class FavoritesApiController : Controller
 
         try
         {
-            if (!_eventRepo.IsEvent(eventInfo.ApiEventID)) //If the event does not exist, add it to the events
-            {
-                _eventRepo.AddEvent(eventInfo.ApiEventID, eventInfo.EventDate, eventInfo.EventName, eventInfo.EventDescription, eventInfo.EventLocation, eventInfo.EventImage);
-            }
-
             if (string.IsNullOrEmpty(bookmarkListTitle))
             {
                 // If the bookmark list title is null or empty, fail
