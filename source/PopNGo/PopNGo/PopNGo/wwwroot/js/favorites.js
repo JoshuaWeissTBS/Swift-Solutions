@@ -105,6 +105,9 @@ function createNewBookmarkList(bookmarkListName) {
 async function displayEventsFromBookmarkList(bookmarkList) {
     const favoriteEvents = await getFavoriteEvents(bookmarkList);
 
+    // Set title of page to the bookmark list name and number of events
+    document.getElementById('favorite-events-title').innerText = `${bookmarkList} (${favoriteEvents.length} events)`;
+
     // Clear the favorites and the bookmark list cards containers
     document.getElementById('favorite-events-container').innerHTML = '';
     document.getElementById('bookmark-list-cards-container').innerHTML = '';
