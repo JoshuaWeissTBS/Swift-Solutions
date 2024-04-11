@@ -89,8 +89,6 @@ async function onClickDetailsAsync(eventInfo) {
         date: new Date(eventInfo.eventStartTime),
         fullAddress: eventInfo.full_Address,
         tags: await formatTags(eventInfo.eventTags),
-        favorited: await getEventIsFavorited(eventInfo.eventID),
-        onPressFavorite: () => onPressSaveToBookmarkList(eventApiBody, eventDetailsModalProps.favorited)
     }
 
     if (validateBuildEventDetailsModalProps(eventDetailsModalProps)) {

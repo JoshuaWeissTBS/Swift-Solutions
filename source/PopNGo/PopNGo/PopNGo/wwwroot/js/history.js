@@ -56,28 +56,28 @@ document.addEventListener('DOMContentLoaded', function () {
         container.innerHTML = '';
 
         // Append event cards to the container
-        for (const event of events) {
+        for (const eventInfo of events) {
             // Get the template
             const template = document.getElementById('event-card-template');
 
             let eventApiBody = {
-                ApiEventID: event.apiEventID || "No ID available",
-                EventDate: event.eventDate || "No date available",
-                EventName: event.eventName || "No name available",
-                EventDescription: event.eventDescription || "No description available",
-                EventLocation: event.eventLocation || "No location available",
-                EventImage: event.eventThumbnail,
+                ApiEventID: eventInfo.apiEventID || "No ID available",
+                EventDate: eventInfo.eventDate || "No date available",
+                EventName: eventInfo.eventName || "No name available",
+                EventDescription: eventInfo.eventDescription || "No description available",
+                EventLocation: eventInfo.eventLocation || "No location available",
+                EventImage: eventInfo.eventThumbnail,
             };
 
             const bookmarkLists = await getBookmarkLists();
 
             let eventProps = {
-                img: event.eventImage,
-                title: event.eventName,
-                date: new Date(event.eventDate),
-                city: event.eventLocation.split(',')[1],
-                state: event.eventLocation.split(',')[2],
-                tags: await formatTags(event.eventTags), // This property doesn't exist in the provided JSON object
+                img: eventInfo.eventImage,
+                title: eventInfo.eventName,
+                date: new Date(eventInfo.eventDate),
+                city: eventInfo.eventLocation.split(',')[1],
+                state: eventInfo.eventLocation.split(',')[2],
+                tags: await formatTags(eventInfo.eventTags), // This property doesn't exist in the provided JSON object
                 bookmarkListNames: bookmarkLists.map(bookmarkList => bookmarkList.title),
                 onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventApiBody, false, bookmarkListName),
                 onPressEvent: () => onClickDetailsAsync(eventInfo),
@@ -118,16 +118,6 @@ async function fetchEvents() {
  * @param {any} eventInfo
  */
 async function onClickDetailsAsync(eventInfo) {
-    console.log("event")
-    let eventApiBody = {
-        ApiEventID: eventInfo.apiEventID || "No ID available",
-        EventDate: eventInfo.eventDate || "No date available",
-        EventName: eventInfo.eventName || "No name available",
-        EventDescription: eventInfo.eventDescription || "No description available",
-        EventLocation: eventInfo.eventLocation|| "No location available",
-        EventImage: eventInfo.eventImage
-    };
-
     const eventDetailsModalProps = {
         img: eventInfo.eventImage,
         title: eventInfo.eventName,
@@ -135,8 +125,6 @@ async function onClickDetailsAsync(eventInfo) {
         date: new Date(eventInfo.eventDate),
         fullAddress: eventInfo.eventLocation,
         tags: [], // TODO: tags should be stored on event
-        favorited: await getEventIsFavorited(eventInfo.apiEventID),
-        onPressFavorite: () => onPressFavorite(eventApiBody, eventDetailsModalProps.favorited)
     }
 
     if (validateBuildEventDetailsModalProps(eventDetailsModalProps)) {

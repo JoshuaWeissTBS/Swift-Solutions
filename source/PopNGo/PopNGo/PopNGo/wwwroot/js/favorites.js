@@ -144,7 +144,6 @@ async function onClickDetailsAsync(eventInfo) {
         date: new Date(eventInfo.eventDate),
         fullAddress: eventInfo.eventLocation,
         tags: [], // TODO: tags should be stored on event
-        favorited: true,
     }
 
     if (validateBuildEventDetailsModalProps(eventDetailsModalProps)) {
