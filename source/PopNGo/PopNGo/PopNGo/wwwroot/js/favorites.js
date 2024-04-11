@@ -6,6 +6,7 @@ import { getFavoriteEvents } from './api/favorites/getFavoriteEvents.js';
 import { buildEventCard, validateBuildEventCardProps } from './ui/buildEventCard.js';
 import { buildEventDetailsModal, validateBuildEventDetailsModalProps } from './ui/buildEventDetailsModal.js';
 import { formatTags } from './util/tags.js';
+import { showToast } from './util/toast.js';
 
 document.addEventListener('DOMContentLoaded', function () {
     initPage();
@@ -96,6 +97,7 @@ function createNewBookmarkList(bookmarkListName) {
         initPage();
     }).catch((error) => {
         console.error('Failed to create bookmark list, ', error);
+        showToast('Bookmark list cannot be named the same as an existing list.')
     });
 }
 
