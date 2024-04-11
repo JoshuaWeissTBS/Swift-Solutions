@@ -64,22 +64,29 @@ export const buildEventCard = (eventCardElement, props) => {
     // Fill the bookmark button dropdown with bookmark items
     const bookmarkDropdownMenu = eventCardElement.querySelector('.dropdown-menu');
     bookmarkDropdownMenu.innerHTML = ''
-    props.bookmarkListNames.forEach(bookmarkListName => {
-        const bookmarkItem = document.createElement('a');
-        bookmarkItem.classList.add('dropdown-item');
-        bookmarkItem.textContent = bookmarkListName;
-        bookmarkItem.addEventListener('click', (event) => {
-            // Prevent the event from bubbling up (stop the event from triggering the card click event)
-            if (event && event.stopPropagation) event.stopPropagation();
-            props.onPressBookmarkList(bookmarkListName);
-        });
-        bookmarkDropdownMenu.appendChild(bookmarkItem);
-    });
 
-    // Prevent bubbling up of the click event on the bookmark button
-    eventCardElement.querySelector('#event-card-bookmark-button').addEventListener('click', (event) => {
-        if (event && event.stopPropagation) event.stopPropagation();
-    });
+    if (!props.bookmarkListName || props.bookmarkListNames.length === 0 || !props.onPressBookmarkList) {
+        console.log("No bookmark list names provided, removing dropdown menu")
+        // If no bookmark list names are provided, remove the dropdown menu
+        eventCardElement.querySelector('#event-card-bookmark-button').remove();
+    } else {
+        props.bookmarkListNames.forEach(bookmarkListName => {
+            const bookmarkItem = document.createElement('a');
+            bookmarkItem.classList.add('dropdown-item');
+            bookmarkItem.textContent = bookmarkListName;
+            bookmarkItem.addEventListener('click', (event) => {
+                // Prevent the event from bubbling up (stop the event from triggering the card click event)
+                if (event && event.stopPropagation) event.stopPropagation();
+                props.onPressBookmarkList(bookmarkListName);
+            });
+            bookmarkDropdownMenu.appendChild(bookmarkItem);
+        });
+
+        // Prevent bubbling up of the click event on the bookmark button
+        eventCardElement.querySelector('#event-card-bookmark-button').addEventListener('click', (event) => {
+            if (event && event.stopPropagation) event.stopPropagation();
+        });
+    }
 
     // Set the tags:
     const tagsElement = eventCardElement.querySelector('#event-card-tags-container');
@@ -113,7 +120,7 @@ export function validateBuildEventCardProps(data) {
         city: x => typeof x === 'string',
         state: x => typeof x === 'string',
         tags: x => Array.isArray(x),
-        bookmarkListNames: x => Array.isArray(x),
+        bookmarkListNames: x => Array.isArray(x) || x === undefined || x === null,
         onPressBookmarkList: x => (typeof x === 'function' || x === undefined || x === null),
         onPressEvent: x => (typeof x === 'function' || x === undefined || x === null),
     }

@@ -27,7 +27,7 @@ export const buildBookmarkListCard = (bookmarkListCardElement, props) => {
     bookmarkListCardElement.querySelector('.bookmarkListCardQuantityText').textContent = eventQuantity;
 
     // Add the event listener
-    bookmarkListCardElement.addEventListener('click', onClick);
+    bookmarkListCardElement.querySelector('.bookmarkListCard').addEventListener('click', onClick);
 }
 
 

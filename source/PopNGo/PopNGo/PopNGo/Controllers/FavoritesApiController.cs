@@ -175,12 +175,8 @@ public class FavoritesApiController : Controller
             }
 
             List<PopNGo.Models.DTO.Event> events = _favoritesRepo.GetUserFavorites(bookmarkListId);
-            if (events == null || events.Count == 0)
-            {
-                return NotFound();
-            }
-
-            return events;
+            
+            return Ok(events);
         }
         catch (Exception ex)
         {

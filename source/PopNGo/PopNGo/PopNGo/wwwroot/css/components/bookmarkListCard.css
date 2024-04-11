@@ -11,6 +11,7 @@
     box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%), inset 0em 5em 1em rgb(0 0 0 / 40%), inset 0em -2em 3em rgb(0 0 0 / 40%), inset 0em 50em 0em rgb(0 0 0 / 40%);
     border-radius: 50px;
     background-image: url("/media/images/placeholder_event_card_image.png");
+    cursor: pointer;
 }
 
 .bookmarkListCardTitleText {

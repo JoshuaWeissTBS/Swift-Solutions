@@ -2,6 +2,9 @@ import { createBookmarkList } from './api/bookmarkLists/createBookmarkList.js';
 import { getBookmarkLists } from './api/bookmarkLists/getBookmarkLists.js';
 import { buildBookmarkListCard } from './ui/buildBookmarkListCard.js';
 import { buildNewBookmarkListCard } from './ui/buildNewBookmarkListCard.js';
+import { getFavoriteEvents } from './api/favorites/getFavoriteEvents.js';
+import { buildEventCard, validateBuildEventCardProps } from './ui/buildEventCard.js';
+import { formatTags } from './util/tags.js';
 
 document.addEventListener('DOMContentLoaded', function () {
     initPage();
@@ -96,6 +99,57 @@ function createNewBookmarkList(bookmarkListName) {
 }
 
 /// Displaying events from a bookmark list
-function displayEventsFromBookmarkList(bookmarkList) {
-    // TODO:
+async function displayEventsFromBookmarkList(bookmarkList) {
+    const favoriteEvents = await getFavoriteEvents(bookmarkList);
+
+    // Clear the favorites and the bookmark list cards containers
+    document.getElementById('favorite-events-container').innerHTML = '';
+    document.getElementById('bookmark-list-cards-container').innerHTML = '';
+
+    // Display the favorite events
+    const eventCardTemplate = document.getElementById('event-card-template');
+    const favoriteEventsContainer = document.getElementById('favorite-events-container');
+
+    favoriteEvents.forEach(async event => {
+        let eventProps = {
+            img: event.eventImage,
+            title: event.eventName,
+            date: new Date(event.eventDate),
+            city: event.eventLocation.split(',')[1],
+            state: event.eventLocation.split(',')[2],
+            tags: await formatTags(event.eventTags), // This property doesn't exist in the provided JSON object
+            onPressEvent: () => onClickDetailsAsync(eventInfo),
+        };
+        
+        // Clone the template
+        const eventCard = eventCardTemplate.content.cloneNode(true);
+    
+        if (validateBuildEventCardProps(eventProps)) {
+            buildEventCard(eventCard, eventProps);
+            favoriteEventsContainer.appendChild(eventCard);
+        }
+    });
 }
+
+/** TODO:
+ * Opens the event details modal
+ * @param {Object} eventInfo
+ */
+async function onClickDetailsAsync(eventInfo) {
+    const eventDetailsModalProps = {
+        img: eventInfo.eventImage,
+        title: eventInfo.eventName,
+        description: (eventInfo.eventDescription ?? 'No description') + '...',
+        date: new Date(eventInfo.eventDate),
+        fullAddress: eventInfo.eventLocation,
+        tags: [], // TODO: tags should be stored on event
+        favorited: true,
+    }
+
+    if (validateBuildEventDetailsModalProps(eventDetailsModalProps)) {
+        buildEventDetailsModal(document.getElementById('event-details-modal'), eventDetailsModalProps);
+        const modal = new bootstrap.Modal(document.getElementById('event-details-modal'));
+        modal.show();
+    };
+}
+
