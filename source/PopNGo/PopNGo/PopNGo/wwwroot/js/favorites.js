@@ -4,6 +4,7 @@ import { buildBookmarkListCard } from './ui/buildBookmarkListCard.js';
 import { buildNewBookmarkListCard } from './ui/buildNewBookmarkListCard.js';
 import { getFavoriteEvents } from './api/favorites/getFavoriteEvents.js';
 import { buildEventCard, validateBuildEventCardProps } from './ui/buildEventCard.js';
+import { buildEventDetailsModal, validateBuildEventDetailsModalProps } from './ui/buildEventDetailsModal.js';
 import { formatTags } from './util/tags.js';
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -110,14 +111,14 @@ async function displayEventsFromBookmarkList(bookmarkList) {
     const eventCardTemplate = document.getElementById('event-card-template');
     const favoriteEventsContainer = document.getElementById('favorite-events-container');
 
-    favoriteEvents.forEach(async event => {
+    favoriteEvents.forEach(async eventInfo => {
         let eventProps = {
-            img: event.eventImage,
-            title: event.eventName,
-            date: new Date(event.eventDate),
-            city: event.eventLocation.split(',')[1],
-            state: event.eventLocation.split(',')[2],
-            tags: await formatTags(event.eventTags), // This property doesn't exist in the provided JSON object
+            img: eventInfo.eventImage,
+            title: eventInfo.eventName,
+            date: new Date(eventInfo.eventDate),
+            city: eventInfo.eventLocation.split(',')[1],
+            state: eventInfo.eventLocation.split(',')[2],
+            tags: await formatTags(eventInfo.eventTags), // This property doesn't exist in the provided JSON object
             onPressEvent: () => onClickDetailsAsync(eventInfo),
         };
         
