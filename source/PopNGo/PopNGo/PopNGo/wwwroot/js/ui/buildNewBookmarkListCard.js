@@ -14,7 +14,8 @@ export const buildNewBookmarkListCard = (bookmarkListCardElement, props) => {
     if (!validateNewBuildBookmarkListCardProps(props)) {
         throw new Error('Invalid props');
     }
-
+    
+    
     // Wire up the create bookmark list button
     const createBookmarkListButton = bookmarkListCardElement.querySelector('.saveNewBookmarkListButton');
     const bookmarkNameInput = bookmarkListCardElement.querySelector('#new-bookmark-list-card-title-input');
@@ -22,6 +23,12 @@ export const buildNewBookmarkListCard = (bookmarkListCardElement, props) => {
     createBookmarkListButton.addEventListener('click', () => {
         const bookmarkListName = bookmarkNameInput.value;
         props.onClickCreateBookmarkList(bookmarkListName);
+    });
+
+    // Set the create bookmark list button to disabled if the input is empty
+    createBookmarkListButton.disabled = bookmarkNameInput.value === '';
+    bookmarkNameInput.addEventListener('input', () => {
+        createBookmarkListButton.disabled = bookmarkNameInput.value === '';
     });
 }
 
