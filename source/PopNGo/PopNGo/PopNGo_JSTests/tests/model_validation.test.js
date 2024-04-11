@@ -1,5 +1,7 @@
+import { validateBuildBookmarkListCardProps } from '../../PopNGo/wwwroot/js/ui/buildBookmarkListCard.js';
 import { validateBuildEventCardProps } from '../../PopNGo/wwwroot/js/ui/buildEventCard.js';
 import { validateBuildEventDetailsModalProps } from '../../PopNGo/wwwroot/js/ui/buildEventDetailsModal.js';
+import { validateNewBuildBookmarkListCardProps } from '../../PopNGo/wwwroot/js/ui/buildNewBookmarkListCard.js';
 
 
 describe('validateBuildEventCardProps', () => {
@@ -400,5 +402,121 @@ describe('validateBuildEventDetailsModalProps', () => {
         }
 
         expect(validateBuildEventDetailsModalProps(props)).toBe(false);
+    });
+});
+
+describe('validateBuildBookmarkListCardProps', () => {
+    test('null props should return false', () => {
+        expect(validateBuildBookmarkListCardProps(null)).toBe(false);
+    });
+
+    test('undefined props should return false', () => {
+        expect(validateBuildBookmarkListCardProps(undefined)).toBe(false);
+    });
+
+    test('non-object props should return false', () => {
+        expect(validateBuildBookmarkListCardProps(1)).toBe(false);
+    });
+
+    test('correct props should return true', () => {
+        const props = {
+            bookmarkListName: "bookmarkListName",
+            eventQuantity: 1,
+            onClick: () => { }
+        }
+
+        expect(validateBuildBookmarkListCardProps(props)).toBe(true);
+    });
+
+    test('bookmarkListName not a string should return false', () => {
+        const props = {
+            bookmarkListName: 1,
+            eventQuantity: 1,
+            onClick: () => { }
+        }
+
+        expect(validateBuildBookmarkListCardProps(props)).toBe(false);
+    });
+
+    test('eventQuantity not a number should return false', () => {
+        const props = {
+            bookmarkListName: "bookmarkListName",
+            eventQuantity: "1",
+            onClick: () => { }
+        }
+
+        expect(validateBuildBookmarkListCardProps(props)).toBe(false);
+    });
+
+    test('onClick not a function should return false', () => {
+        const props = {
+            bookmarkListName: "bookmarkListName",
+            eventQuantity: 1,
+            onClick: 1
+        }
+
+        expect(validateBuildBookmarkListCardProps(props)).toBe(false);
+    });
+
+    test('onClick is null should return true', () => {
+        const props = {
+            bookmarkListName: "bookmarkListName",
+            eventQuantity: 1,
+            onClick: null
+        }
+
+        expect(validateBuildBookmarkListCardProps(props)).toBe(true);
+    });
+
+    test('onClick is undefined should return true', () => {
+        const props = {
+            bookmarkListName: "bookmarkListName",
+            eventQuantity: 1,
+            onClick: undefined
+        }
+
+        expect(validateBuildBookmarkListCardProps(props)).toBe(true);
+    });
+});
+
+describe("validateNewBuildBookmarkListCardProps", () => {
+    test('null props should return true', () => {
+        expect(validateNewBuildBookmarkListCardProps(null)).toBe(true);
+    });
+
+    test('undefined props should return true', () => {
+        expect(validateNewBuildBookmarkListCardProps(undefined)).toBe(true);
+    });
+
+    test('correct props should return true', () => {
+        const props = {
+            onClickCreateBookmarkList: () => { }
+        }
+
+        expect(validateNewBuildBookmarkListCardProps(props)).toBe(true);
+    });
+
+    test('onClickCreateBookmarkList not a function should return false', () => {
+        const props = {
+            onClickCreateBookmarkList: 1
+        }
+
+        expect(validateNewBuildBookmarkListCardProps(props)).toBe(false);
+    });
+
+    test('onClickCreateBookmarkList is null should return true', () => {
+        const props = {
+            onClickCreateBookmarkList: null
+        }
+
+        expect(validateNewBuildBookmarkListCardProps(props)).toBe(true);
+    });
+
+    test('onClickCreateBookmarkList is undefined should return true', () => {
+        const props = {
+            onClickCreateBookmarkList: undefined
+        }
+
+        expect(validateNewBuildBookmarkListCardProps(props)).toBe(true);
     });
 });
