@@ -1,3 +1,4 @@
+import { createBookmarkList } from './api/bookmarkLists/createBookmarkList.js';
 import { getBookmarkLists } from './api/bookmarkLists/getBookmarkLists.js';
 import { buildBookmarkListCard } from './ui/buildBookmarkListCard.js';
 import { buildNewBookmarkListCard } from './ui/buildNewBookmarkListCard.js';
@@ -87,7 +88,11 @@ function displayBookmarkLists(bookmarkLists) {
 
 /// Happens on click of "Create new bookmark list" button
 function createNewBookmarkList(bookmarkListName) {
-    console.log(bookmarkListName);
+    createBookmarkList(bookmarkListName).then(() => {
+        initPage();
+    }).catch((error) => {
+        console.error('Failed to create bookmark list, ', error);
+    });
 }
 
 /// Displaying events from a bookmark list
