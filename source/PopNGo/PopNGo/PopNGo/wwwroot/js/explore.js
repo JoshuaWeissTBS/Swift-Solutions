@@ -154,15 +154,6 @@ export async function displayEvents(events) {
     for (let eventInfo of events) {
         let newEventCard = eventCardTemplate.content.cloneNode(true);
 
-        let eventApiBody = {
-            ApiEventID: eventInfo.eventID || "No ID available",
-            EventDate: eventInfo.eventStartTime || "No date available",
-            EventName: eventInfo.eventName || "No name available",
-            EventDescription: eventInfo.eventDescription || "No description available",
-            EventLocation: eventInfo.full_Address || "No location available",
-            EventImage: eventInfo.eventThumbnail,
-        };
-
         const bookmarkLists = await getBookmarkLists();
 
         let eventCardProps = {
@@ -173,7 +164,7 @@ export async function displayEvents(events) {
             state: eventInfo.full_Address.split(',')[2],
             tags: await formatTags(eventInfo.eventTags),
             bookmarkListNames: bookmarkLists.map(bookmarkList => bookmarkList.title),
-            onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventApiBody, bookmarkListName),
+            onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventInfo.ApiEventID, bookmarkListName),
             onPressEvent: () => onClickDetailsAsync(eventInfo),
         }
         if (validateBuildEventCardProps(eventCardProps)) {

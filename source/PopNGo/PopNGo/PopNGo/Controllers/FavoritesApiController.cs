@@ -51,8 +51,6 @@ public class FavoritesApiController : Controller
                 return Unauthorized();
             }
 
-            var eventInfo = bookmarkFavorite.EventInfo;
-
             if (string.IsNullOrEmpty(bookmarkFavorite.BookmarkListTitle))
             {
                 // If the bookmark list title is null or empty, fail
@@ -60,7 +58,7 @@ public class FavoritesApiController : Controller
             }
 
             // If the favorite is already in the list, return 204 No Content
-            if (_favoritesRepo.IsInBookmarkList(bookmarkFavorite.BookmarkListTitle, eventInfo.ApiEventID))
+            if (_favoritesRepo.IsInBookmarkList(bookmarkFavorite.BookmarkListTitle, bookmarkFavorite.ApiEventId))
             {
                 return NoContent();
             }
@@ -69,7 +67,7 @@ public class FavoritesApiController : Controller
             int bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(pgUser.Id, bookmarkFavorite.BookmarkListTitle);
 
             // Whether the event existed or not, add it to the favorites
-            _favoritesRepo.AddFavorite(bookmarkListId, eventInfo.ApiEventID);
+            _favoritesRepo.AddFavorite(bookmarkListId, bookmarkFavorite.ApiEventId);
             return Ok();
         }
         catch (Exception ex)
