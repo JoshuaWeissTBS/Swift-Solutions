@@ -163,8 +163,6 @@ export async function displayEvents(events) {
             EventImage: eventInfo.eventThumbnail,
         };
 
-        console.log("Event Info: ", eventInfo)
-
         const bookmarkLists = await getBookmarkLists();
 
         let eventCardProps = {

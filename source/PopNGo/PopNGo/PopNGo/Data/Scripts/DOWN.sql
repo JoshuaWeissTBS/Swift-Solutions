@@ -4,10 +4,9 @@ USE [PopNGoDB];
 ALTER TABLE [EventHistory] DROP CONSTRAINT FK_EventHistory_UserID;
 ALTER TABLE [EventHistory] DROP CONSTRAINT FK_EventHistory_EventID;
 
-ALTER TABLE [FavoriteEvents] DROP CONSTRAINT FK_FavoriteEvents_BookmarkListID;
 ALTER TABLE [FavoriteEvents] DROP CONSTRAINT FK_FavoriteEvents_EventID;
+ALTER TABLE [FavoriteEvents] DROP CONSTRAINT FK_FavoriteEvents_BookmarkListID;
 
-ALTER TABLE [BookmarkList] DROP CONSTRAINT FK_BookmarkList_UserID;
 ALTER TABLE [ScheduledNotification] DROP CONSTRAINT FK_ScheduledNotification_UserID;
 
 -- Drop the tables
