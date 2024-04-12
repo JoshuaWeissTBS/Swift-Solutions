@@ -22,19 +22,36 @@ namespace PopNGo.Controllers
         // GET: api/search/events/?q=Q&start=0
         [HttpGet("search/events")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EventDetail>))]
-        public async Task<ActionResult<IEnumerable<EventDetail>>> SearchMoviesAsync(string q, int start)
+        public async Task<ActionResult<IEnumerable<PopNGo.Models.DTO.Event>>> GetRealTimeAPIEvents(string q, int start)
         {
             try
             {
-                IEnumerable<EventDetail> events = await _realTimeEventSearchService.SearchEventAsync(q, start);
+                IEnumerable<EventDetail> eventsDetails = await _realTimeEventSearchService.SearchEventAsync(q, start);
                 // Save events to database
-                for (int i = 0; i < events.Count(); i++)
+                for (int i = 0; i < eventsDetails.Count(); i++)
                 {
-                    EventDetail eventDetail = events.ElementAt(i);
+                    EventDetail eventDetail = eventsDetails.ElementAt(i);
                     if (!_eventRepository.IsEvent(eventDetail.EventID))
                     {
                         _eventRepository.AddEvent(eventDetail);
                     }
+                }
+
+                // Convert EventDetail to EventDTO
+                List<PopNGo.Models.DTO.Event> events = new List<PopNGo.Models.DTO.Event>();
+
+                foreach (EventDetail eventDetail in eventsDetails)
+                {
+                    PopNGo.Models.DTO.Event eventDTO = new PopNGo.Models.DTO.Event
+                    {
+                        ApiEventID = eventDetail.EventID,
+                        EventDate = eventDetail.EventStartTime ?? eventDetail.EventStartTime.Value,
+                        EventName = eventDetail.EventName,
+                        EventDescription = eventDetail.EventDescription,
+                        EventLocation = eventDetail.Full_Address,
+                        EventImage = eventDetail.EventThumbnail
+                    };
+                    events.Add(eventDTO);
                 }
 
                 return Ok(events);
