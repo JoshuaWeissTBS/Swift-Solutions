@@ -17,6 +17,7 @@ namespace PopNGo.Models.DTO
         public string VenueName { get; set; }
         public decimal? VenueRating { get; set; }
         public string VenueWebsite { get; set; }
+        public IEnumerable<PopNGo.Models.DTO.TicketLink> TicketLinks { get; set; }
     }
 }
 
@@ -38,7 +39,8 @@ namespace PopNGo.ExtensionMethods
                 VenueName = Event.VenueName,
                 VenueRating = Event.VenueRating,
                 VenueWebsite = Event.VenueWebsite,
-                VenuePhoneNumber = Event.VenuePhoneNumber
+                VenuePhoneNumber = Event.VenuePhoneNumber,
+                TicketLinks = Event.TicketLinks.Select(t => t.ToDTO()).ToList(),
             };
         }
     }

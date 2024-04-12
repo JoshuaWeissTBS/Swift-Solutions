@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 
 using System;
+using PopNGo.Models.DTO;
 
 namespace PopNGo.Models
 {
@@ -27,6 +28,7 @@ namespace PopNGo.Models
         public string VenueName { get; set; }
         public decimal? VenueRating { get; set; }
         public string VenueWebsite { get; set; }
+        public IEnumerable<PopNGo.Models.DTO.TicketLink> TicketLinks { get; set; }
     }
 }
 

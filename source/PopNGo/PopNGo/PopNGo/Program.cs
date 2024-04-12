@@ -67,6 +67,7 @@ public class Program
         builder.Services.AddScoped<IPgUserRepository, PgUserRepository>();
         builder.Services.AddScoped<ITagRepository, TagRepository>();
         builder.Services.AddScoped<IFavoritesRepository, FavoritesRepository>();
+        builder.Services.AddScoped<ITicketLinkRepository, TicketLinkRepository>();
         builder.Services.AddScoped<IEventRepository, EventRepository>();
         builder.Services.AddScoped<IBookmarkListRepository, BookmarkListRepository>();
         builder.Services.AddScoped<IScheduledNotificationRepository, ScheduledNotificationRepository>();
