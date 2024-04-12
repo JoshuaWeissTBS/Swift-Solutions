@@ -34,6 +34,9 @@ public partial class Event
     public string EventImage { get; set; }
 
     [StringLength(255)]
+    public string VenuePhoneNumber { get; set; }
+
+    [StringLength(255)]
     public string VenueName { get; set; }
 
     [Column(TypeName = "decimal(2, 1)")]
@@ -50,5 +53,4 @@ public partial class Event
 
     [InverseProperty("Event")]
     public virtual ICollection<TicketLink> TicketLinks { get; set; } = new List<TicketLink>();
-    public string VenuePhoneNumber { get; internal set; }
 }

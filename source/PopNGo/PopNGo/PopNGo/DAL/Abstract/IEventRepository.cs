@@ -5,7 +5,9 @@ namespace PopNGo.DAL.Abstract
     public interface IEventRepository : IRepository<Event>
     {
         // Add methods specific to Event here
-        void AddEvent(EventDetail eventDetail);
+        Event AddEvent(EventDetail eventDetail);
+
+        List<PopNGo.Models.DTO.Event> GetEventsFromEventApiIds(List<string> eventApiIds);
         
         bool IsEvent(string apiEventId);
         

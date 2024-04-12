@@ -8,8 +8,8 @@ namespace PopNGo.Models.DTO
     {
         public int Id { get; set; }
         public int EventId { get; set; }
-        public string Source { get; set; }
-        public string Link { get; set; }
+        public string Source { get; set; } = "";
+        public string Link { get; set; } = "";
         public virtual Event Event { get; set; }
     }
 }
@@ -22,8 +22,6 @@ namespace PopNGo.ExtensionMethods
         {
             return new PopNGo.Models.DTO.TicketLink
             {
-                Id = TicketLink.Id,
-                EventId = TicketLink.EventId,
                 Source = TicketLink.Source,
                 Link = TicketLink.Link,
             };

@@ -34,6 +34,7 @@ CREATE TABLE [Event] (
   [EventDescription] NVARCHAR(1000),
   [EventLocation] NVARCHAR(255),
   [EventImage] NVARCHAR(255),
+  [VenuePhoneNumber] NVARCHAR(255),
   [VenueName] NVARCHAR(255),
   [VenueRating] DECIMAL(2, 1),
   [VenueWebsite] NVARCHAR(255),
