@@ -21,15 +21,12 @@ public partial class Event
     [Column(TypeName = "datetime")]
     public DateTime? EventDate { get; set; }
 
-    [Required]
     [StringLength(255)]
     public string EventName { get; set; }
 
-    [Required]
     [StringLength(1000)]
     public string EventDescription { get; set; }
 
-    [Required]
     [StringLength(255)]
     public string EventLocation { get; set; }
 

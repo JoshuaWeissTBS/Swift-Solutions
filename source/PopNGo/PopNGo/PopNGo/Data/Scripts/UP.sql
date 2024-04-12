@@ -30,9 +30,9 @@ CREATE TABLE [Event] (
   [ID] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [ApiEventID] NVARCHAR(255) NOT NULL,
   [EventDate] DATETIME,
-  [EventName] NVARCHAR(255) NOT NULL,
-  [EventDescription] NVARCHAR(1000) NOT NULL,
-  [EventLocation] NVARCHAR(255) NOT NULL,
+  [EventName] NVARCHAR(255),
+  [EventDescription] NVARCHAR(1000),
+  [EventLocation] NVARCHAR(255),
   [EventImage] NVARCHAR(255)
 );
 

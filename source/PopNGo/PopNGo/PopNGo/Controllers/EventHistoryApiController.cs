@@ -60,7 +60,7 @@ public class EventHistoryApiController : Controller
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> AddEventToHistoryAsync([FromBody] PopNGo.Models.DTO.Event eventInfo)
+    public async Task<IActionResult> AddEventToHistoryAsync(string apiEventId)
     {
         PopNGoUser user = await _userManager.GetUserAsync(User);
         if (user == null)
@@ -74,7 +74,7 @@ public class EventHistoryApiController : Controller
             return Unauthorized();
         }
 
-        _eventHistoryRepository.AddEventHistory(pgUser.Id, eventInfo.ApiEventID);
+        _eventHistoryRepository.AddEventHistory(pgUser.Id, apiEventId);
         return Ok();
     }
 }

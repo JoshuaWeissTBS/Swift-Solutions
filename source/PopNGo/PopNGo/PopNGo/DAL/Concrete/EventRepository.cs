@@ -52,16 +52,6 @@ namespace PopNGo.DAL.Concrete
             {
                 throw new ArgumentException("EventName cannot be null or empty", nameof(eventDetail.EventName));
             }
-
-            if (string.IsNullOrEmpty(eventDetail.EventDescription))
-            {
-                throw new ArgumentException("EventDescription cannot be null or empty", nameof(eventDetail.EventDescription));
-            }
-
-            if (string.IsNullOrEmpty(eventDetail.Full_Address))
-            {
-                throw new ArgumentException("EventLocation cannot be null or empty", nameof(eventDetail.Full_Address));
-            }
         }
     }
 }

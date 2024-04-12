@@ -65,18 +65,9 @@ async function loadSearchBarAndEvents(city, state, country) {
  * Takes in an event info object and adds it to the history via http and opens the event details modal
  * @async
  * @function onClickDetailsAsync
- * @param {any} eventInfo
+ * @param {string} eventInfo
  */
 async function onClickDetailsAsync(eventInfo) {
-    let eventApiBody = {
-        ApiEventID: eventInfo.eventID || "No ID available",
-        EventDate: eventInfo.eventStartTime || "No date available",
-        EventName: eventInfo.eventName || "No name available",
-        EventDescription: eventInfo.eventDescription || "No description available",
-        EventLocation: eventInfo.full_Address || "No location available",
-        EventImage: eventInfo.eventThumbnail
-    };
-
     const eventDetailsModalProps = {
         img: eventInfo.eventThumbnail,
         title: eventInfo.eventName,
@@ -91,7 +82,7 @@ async function onClickDetailsAsync(eventInfo) {
         const modal = new bootstrap.Modal(document.getElementById('event-details-modal'));
         modal.show();
 
-        addEventToHistory(eventApiBody);
+        addEventToHistory(eventInfo.eventID);
     };
 }
 
@@ -152,10 +143,12 @@ export async function displayEvents(events) {
     await createTags(eventTags);
 
     for (let eventInfo of events) {
+        console.log(eventInfo);
         let newEventCard = eventCardTemplate.content.cloneNode(true);
-
-        const bookmarkLists = await getBookmarkLists();
-
+        
+        // TODO: BUG this errors when not logged in
+        let bookmarkLists = await getBookmarkLists();
+        
         let eventCardProps = {
             img: eventInfo.eventThumbnail,
             title: eventInfo.eventName,
@@ -164,7 +157,7 @@ export async function displayEvents(events) {
             state: eventInfo.full_Address.split(',')[2],
             tags: await formatTags(eventInfo.eventTags),
             bookmarkListNames: bookmarkLists.map(bookmarkList => bookmarkList.title),
-            onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventInfo.ApiEventID, bookmarkListName),
+            onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventInfo.eventID, bookmarkListName),
             onPressEvent: () => onClickDetailsAsync(eventInfo),
         }
         if (validateBuildEventCardProps(eventCardProps)) {
