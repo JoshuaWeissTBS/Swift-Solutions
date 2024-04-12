@@ -35,7 +35,7 @@ namespace PopNGo.Services
         public string phone_number { get; set; }
         public string website { get; set; }
         public int review_count { get; set; }
-        public double rating { get; set; }
+        public decimal rating { get; set; }
         public string subtype { get; set; }
         public List<string> subtypes { get; set; }
         public string full_address { get; set; }
@@ -139,6 +139,9 @@ namespace PopNGo.Services
                     Longitude = data.venue?.longitude ?? 0,
                     Latitude = data.venue?.latitude ?? 0,
                     Phone_Number = data.venue?.phone_number,
+                    VenueName = data.venue?.name,
+                    VenueRating = data.venue?.rating,
+                    VenueWebsite = data.venue?.website,
                     EventTags = data.tags
                 }).ToList();
                 

@@ -49,7 +49,11 @@ namespace PopNGo.Controllers
                         EventName = eventDetail.EventName,
                         EventDescription = eventDetail.EventDescription,
                         EventLocation = eventDetail.Full_Address,
-                        EventImage = eventDetail.EventThumbnail
+                        EventImage = eventDetail.EventThumbnail,
+                        VenueName = eventDetail.VenueName,
+                        VenueRating = eventDetail.VenueRating,
+                        VenueWebsite = eventDetail.VenueWebsite,
+                        VenuePhoneNumber = eventDetail.Phone_Number,
                     };
                     events.Add(eventDTO);
                 }

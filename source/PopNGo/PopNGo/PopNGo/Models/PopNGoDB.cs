@@ -29,6 +29,8 @@ public partial class PopNGoDB : DbContext
 
     public virtual DbSet<Tag> Tags { get; set; }
 
+    public virtual DbSet<TicketLink> TicketLinks { get; set; }
+
     // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //     => optionsBuilder.UseSqlServer("Name=ServerConnection");
 
@@ -36,17 +38,17 @@ public partial class PopNGoDB : DbContext
     {
         modelBuilder.Entity<BookmarkList>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Bookmark__3214EC27F70FF5BB");
+            entity.HasKey(e => e.Id).HasName("PK__Bookmark__3214EC27E5CC5075");
         });
 
         modelBuilder.Entity<Event>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Event__3214EC274DE3EBE1");
+            entity.HasKey(e => e.Id).HasName("PK__Event__3214EC276A864CAF");
         });
 
         modelBuilder.Entity<EventHistory>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__EventHis__3214EC279D6F3FC9");
+            entity.HasKey(e => e.Id).HasName("PK__EventHis__3214EC279A2431F5");
 
             entity.HasOne(d => d.Event).WithMany(p => p.EventHistories)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -59,7 +61,7 @@ public partial class PopNGoDB : DbContext
 
         modelBuilder.Entity<FavoriteEvent>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Favorite__3214EC27DA28171E");
+            entity.HasKey(e => e.Id).HasName("PK__Favorite__3214EC273F210F39");
 
             entity.HasOne(d => d.BookmarkList).WithMany(p => p.FavoriteEvents)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -72,12 +74,12 @@ public partial class PopNGoDB : DbContext
 
         modelBuilder.Entity<PgUser>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PG_User__3214EC278A0667C1");
+            entity.HasKey(e => e.Id).HasName("PK__PG_User__3214EC27820178B6");
         });
 
         modelBuilder.Entity<ScheduledNotification>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Schedule__3214EC27B4CF001C");
+            entity.HasKey(e => e.Id).HasName("PK__Schedule__3214EC27510DFE44");
 
             entity.HasOne(d => d.User).WithMany(p => p.ScheduledNotifications)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -86,7 +88,16 @@ public partial class PopNGoDB : DbContext
 
         modelBuilder.Entity<Tag>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Tag__3214EC27695A7B22");
+            entity.HasKey(e => e.Id).HasName("PK__Tag__3214EC27F3432212");
+        });
+
+        modelBuilder.Entity<TicketLink>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__TicketLi__3214EC274FC19F89");
+
+            entity.HasOne(d => d.Event).WithMany(p => p.TicketLinks)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TicketLink_EventID");
         });
 
         OnModelCreatingPartial(modelBuilder);

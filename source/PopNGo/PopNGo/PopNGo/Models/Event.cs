@@ -33,9 +33,22 @@ public partial class Event
     [StringLength(255)]
     public string EventImage { get; set; }
 
+    [StringLength(255)]
+    public string VenueName { get; set; }
+
+    [Column(TypeName = "decimal(2, 1)")]
+    public decimal? VenueRating { get; set; }
+
+    [StringLength(255)]
+    public string VenueWebsite { get; set; }
+
     [InverseProperty("Event")]
     public virtual ICollection<EventHistory> EventHistories { get; set; } = new List<EventHistory>();
 
     [InverseProperty("Event")]
     public virtual ICollection<FavoriteEvent> FavoriteEvents { get; set; } = new List<FavoriteEvent>();
+
+    [InverseProperty("Event")]
+    public virtual ICollection<TicketLink> TicketLinks { get; set; } = new List<TicketLink>();
+    public string VenuePhoneNumber { get; internal set; }
 }

@@ -24,6 +24,9 @@ namespace PopNGo.Models
         public double Longitude { get; set; }
         public string Phone_Number { get; set; }
         public List<string> EventTags { get; set; } = [];
+        public string VenueName { get; set; }
+        public decimal? VenueRating { get; set; }
+        public string VenueWebsite { get; set; }
     }
 }
 
