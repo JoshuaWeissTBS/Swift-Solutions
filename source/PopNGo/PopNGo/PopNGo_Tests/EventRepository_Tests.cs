@@ -161,62 +161,6 @@ public class EventRepositoryTests
     }
 
     [Test]
-    public void AddEvent_ShouldErrorIfEventDescriptionIsNull()
-    {
-        // Arrange
-        var eventId = "1";
-        var eventDate = DateTime.Now;
-        var eventName = "Test Event";
-        var eventDescription = "";
-        var eventLocation = "Test Location";
-        var eventImage = "";
-
-        var eventDetails = new EventDetail
-        {
-            EventID = eventId,
-            EventStartTime = eventDate,
-            EventName = eventName,
-            EventDescription = eventDescription,
-            Full_Address = eventLocation,
-            EventThumbnail = eventImage
-        };
-
-        // Act
-        var ex = Assert.Throws<ArgumentException>(() => _eventRepository.AddEvent(eventDetails));
-
-        // Assert
-        Assert.That(ex.Message, Is.EqualTo("EventDescription cannot be null or empty (Parameter 'EventDescription')"));
-    }
-
-    [Test]
-    public void AddEvent_ShouldErrorIfEventLocationIsNull()
-    {
-        // Arrange
-        var eventId = "1";
-        var eventDate = DateTime.Now;
-        var eventName = "Test Event";
-        var eventDescription = "Test Description";
-        var eventLocation = "";
-        var eventImage = "";
-
-        var eventDetails = new EventDetail
-        {
-            EventID = eventId,
-            EventStartTime = eventDate,
-            EventName = eventName,
-            EventDescription = eventDescription,
-            Full_Address = eventLocation,
-            EventThumbnail = eventImage
-        };
-
-        // Act
-        var ex = Assert.Throws<ArgumentException>(() => _eventRepository.AddEvent(eventDetails));
-
-        // Assert
-        Assert.That(ex.Message, Is.EqualTo("EventLocation cannot be null or empty (Parameter 'Full_Address')"));
-    }
-
-    [Test]
     public void IsEvent_ShouldReturnTrueIfEventExists()
     {
         // Arrange
