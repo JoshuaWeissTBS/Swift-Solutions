@@ -148,8 +148,6 @@ export async function displayEvents(events) {
         // TODO: BUG this errors when not logged in
         let bookmarkLists = await getBookmarkLists();
 
-        console.log(eventInfo)
-        
         let eventCardProps = {
             img: eventInfo.eventImage,
             title: eventInfo.eventName,
