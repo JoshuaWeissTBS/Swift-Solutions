@@ -17,11 +17,14 @@ namespace PopNGo_BDD_Tests.StepDefinitions
     {
         private readonly FavoritesPageObject _favoritesPage;
         private readonly IWebDriver _webDriver;
+        private readonly ScenarioContext _scenarioContext;
 
-        public BookmarkListsStepDefinitions(Drivers.BrowserDriver browserDriver)
+
+        public BookmarkListsStepDefinitions(ScenarioContext context, Drivers.BrowserDriver browserDriver)
         {
             _webDriver = browserDriver.Current; // Or use another browser driver
             _favoritesPage = new FavoritesPageObject(_webDriver);
+            _scenarioContext = context;
         }
 
         [Then("I should see a bookmark list")]
@@ -36,6 +39,24 @@ namespace PopNGo_BDD_Tests.StepDefinitions
         {
             _favoritesPage.NewBookmarkListNameInput.Displayed.Should().BeTrue();
             _favoritesPage.CreateBookmarkListButton.Displayed.Should().BeTrue();
+        }
+
+        [Then("I should see the new bookmark list displayed")]
+        public void ThenIShouldSeeTheNewBookmarkListDisplayed()
+        {
+            // Check that the new bookmark list is displayed and has title matching newBookmarkListTitle key
+            _favoritesPage.BookmarkListTitles.Should().ContainSingle(e => e.Text == _scenarioContext["newBookmarkListTitle"].ToString());
+        }
+
+        [When("I fill out and submit the new bookmark list form with a unique title")]
+        public void WhenIFillOutAndSubmitTheNewBookmarkListFormWithAUniqueTitle()
+        {
+            // Fill out the new bookmark list form with a unique title and put the title in the scenario context
+            string newBookmarkListTitle = "New Bookmark List " + DateTime.Now.ToString("yyyyMMddHHmmss");
+            _scenarioContext["newBookmarkListTitle"] = newBookmarkListTitle;
+
+            _favoritesPage.NewBookmarkListNameInput.SendKeys(newBookmarkListTitle);
+            _favoritesPage.CreateBookmarkListButton.Click();
         }
     }
 }

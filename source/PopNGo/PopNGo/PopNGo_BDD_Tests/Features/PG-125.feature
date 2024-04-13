@@ -13,3 +13,11 @@ Scenario: There is a bookmark list and a way to add a new bookmark list on the f
 	When I am on the "Favorites" page
 	Then I should see a bookmark list
 	 And I should see a way to create a new bookmark list
+
+Scenario: I can create a new bookmark list
+	Given I am a user with first name 'Joshua'
+	 And  I login
+	 And I am on the "Favorites" page
+	When I fill out and submit the new bookmark list form with a unique title
+# with key newBookmarkListTitle
+	Then I should see the new bookmark list displayed

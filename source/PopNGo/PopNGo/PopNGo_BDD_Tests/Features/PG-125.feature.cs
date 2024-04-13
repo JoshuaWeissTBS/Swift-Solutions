@@ -134,6 +134,45 @@ await this.FeatureBackgroundAsync();
             }
             await this.ScenarioCleanupAsync();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("I can create a new bookmark list")]
+        public async System.Threading.Tasks.Task ICanCreateANewBookmarkList()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("I can create a new bookmark list", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 17
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 5
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 18
+ await testRunner.GivenAsync("I am a user with first name \'Joshua\'", ((string)(null)), ((Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 19
+  await testRunner.AndAsync("I login", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 20
+  await testRunner.AndAsync("I am on the \"Favorites\" page", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 21
+ await testRunner.WhenAsync("I fill out and submit the new bookmark list form with a unique title", ((string)(null)), ((Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 23
+ await testRunner.ThenAsync("I should see the new bookmark list displayed", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
     }
 }
 #pragma warning restore
