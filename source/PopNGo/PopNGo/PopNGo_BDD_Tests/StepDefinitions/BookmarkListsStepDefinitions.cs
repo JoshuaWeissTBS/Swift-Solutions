@@ -18,9 +18,9 @@ namespace PopNGo_BDD_Tests.StepDefinitions
         private readonly FavoritesPageObject _favoritesPage;
         private readonly IWebDriver _webDriver;
 
-        public BookmarkListsStepDefinitions()
+        public BookmarkListsStepDefinitions(Drivers.BrowserDriver browserDriver)
         {
-            _webDriver = new FirefoxDriver(); // Or use another browser driver
+            _webDriver = browserDriver.Current; // Or use another browser driver
             _favoritesPage = new FavoritesPageObject(_webDriver);
         }
 
@@ -28,7 +28,7 @@ namespace PopNGo_BDD_Tests.StepDefinitions
         public void ThenIShouldSeeABookmarkList()
         {
             // Check that there is at least one bookmark list
-            _favoritesPage.BookmarkLists().Count.Should().BeGreaterThan(0);
+            _favoritesPage.BookmarkLists.Count.Should().BeGreaterThan(0);
         }
 
         [Then("I should see a way to create a new bookmark list")]

@@ -14,11 +14,9 @@ namespace PopNGo_BDD_Tests.PageObjects
             _pageName = "Favorites";
         }
 
-        public IReadOnlyList<IWebElement> BookmarkLists() {
-            return _webDriver.FindElements(By.ClassName("bookmarkListCard"));
-        }
+        public IReadOnlyList<IWebElement> BookmarkLists => _webDriver.FindElements(By.ClassName("bookmarkListCard"));
 
-        public IWebElement CreateBookmarkListButton => _webDriver.FindElement(By.Id("saveNewBookmarkListButton"));
+        public IWebElement CreateBookmarkListButton => _webDriver.FindElement(By.ClassName("saveNewBookmarkListButton"));
 
         public IWebElement NewBookmarkListNameInput => _webDriver.FindElement(By.Id("new-bookmark-list-card-title-input"));
     }

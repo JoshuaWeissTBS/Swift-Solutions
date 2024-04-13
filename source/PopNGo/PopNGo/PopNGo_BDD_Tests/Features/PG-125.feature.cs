@@ -126,10 +126,10 @@ await this.FeatureBackgroundAsync();
  await testRunner.WhenAsync("I am on the \"Favorites\" page", ((string)(null)), ((Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 14
-  await testRunner.ThenAsync("I should see a way to create a new bookmark list", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync("I should see a bookmark list", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
 #line hidden
 #line 15
- await testRunner.AndAsync("I should see a bookmark list", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
+  await testRunner.AndAsync("I should see a way to create a new bookmark list", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
