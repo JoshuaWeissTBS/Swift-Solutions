@@ -58,5 +58,19 @@ namespace PopNGo_BDD_Tests.StepDefinitions
             _favoritesPage.NewBookmarkListNameInput.SendKeys(newBookmarkListTitle);
             _favoritesPage.CreateBookmarkListButton.Click();
         }
+
+        [When("I fill out the new bookmark list name input with an empty value")]
+        public void WhenIFillOutTheNewBookmarkListNameInputWithAnEmptyValue()
+        {
+            // Confirm that the new bookmark list name input is empty
+            _favoritesPage.NewBookmarkListNameInput.Clear();
+        }
+
+        [Then("I should see the bookmark list name input is disabled")]
+        public void ThenIShouldSeeTheBookmarkListNameInputIsDisabled()
+        {
+            // Check that the create bookmark list button has disabled attribute
+            _favoritesPage.CreateBookmarkListButton.Enabled.Should().BeFalse();
+        }
     }
 }
