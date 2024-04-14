@@ -207,7 +207,49 @@ await this.FeatureBackgroundAsync();
  await testRunner.WhenAsync("I fill out the new bookmark list name input with an empty value", ((string)(null)), ((Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 30
- await testRunner.ThenAsync("I should see the bookmark list name input is disabled", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync("I should see the create bookmark list button is disabled", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("The new bookmark list form is cleared after submission")]
+        public async System.Threading.Tasks.Task TheNewBookmarkListFormIsClearedAfterSubmission()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("The new bookmark list form is cleared after submission", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 32
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 5
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 33
+ await testRunner.GivenAsync("I am a user with first name \'Joshua\'", ((string)(null)), ((Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 34
+  await testRunner.AndAsync("I login", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 35
+  await testRunner.AndAsync("I am on the \"Favorites\" page", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 36
+ await testRunner.WhenAsync("I fill out and submit the new bookmark list form with a unique title", ((string)(null)), ((Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 37
+ await testRunner.ThenAsync("I should see the new bookmark list form is cleared", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 38
+ await testRunner.AndAsync("I should see the create bookmark list button is disabled", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

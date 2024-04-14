@@ -27,4 +27,12 @@ Scenario: I cannot create a new bookmark list with an empty title
 	 And  I login
 	 And I am on the "Favorites" page
 	When I fill out the new bookmark list name input with an empty value
-	Then I should see the bookmark list name input is disabled
+	Then I should see the create bookmark list button is disabled
+
+Scenario: The new bookmark list form is cleared after submission
+	Given I am a user with first name 'Joshua'
+	 And  I login
+	 And I am on the "Favorites" page
+	When I fill out and submit the new bookmark list form with a unique title
+	Then I should see the new bookmark list form is cleared
+	And I should see the create bookmark list button is disabled
