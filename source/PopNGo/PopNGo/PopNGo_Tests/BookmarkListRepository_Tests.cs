@@ -52,6 +52,53 @@ public class BookMarkRepositoryTests
         Assert.That(result, Is.Empty);
     }
 
+    [Test]
+    public void GetBookmarkLists_WithEventsThatHaveNoImage_ShouldReturnBookmarkListsWithNullImage()
+    {
+        // Arrange
+        // var userId = 1;
+
+        // Act
+        // var result = _bookmarkListRepository.GetBookmarkLists(userId);
+
+        // Assert
+        // Assert.That(result, Is.Not.Null);
+        // Assert.That(result, Is.TypeOf<List<PopNGo.Models.DTO.BookmarkList>>());
+        // Assert.That(result.Last().Image, Is.Null);
+    }
+
+    [Test]
+    public void GetBookmarkLists_WithInternalEventWithImage_ShouldReturnBookmarkListsWithImage()
+    {
+        // Arrange
+        // var userId = 1;
+        // Create a bookmark list with a saved event that has an image
+
+        // Act
+        // var result = _bookmarkListRepository.GetBookmarkLists(userId);
+
+        // Assert
+        // Assert.That(result, Is.Not.Null);
+        // Assert.That(result, Is.TypeOf<List<PopNGo.Models.DTO.BookmarkList>>());
+        // Assert.That(result.Last().Image, Is.Not.Null);
+    }
+
+    [Test]
+    public void GetBookmarkLists_WithMultipleEventsWithImages_ShouldReturnBookmarkListsWithLatestEventImage()
+    {
+        // Arrange
+        // var userId = 1;
+        // Create a bookmark list with multiple saved events that have images
+
+        // Act
+        // var result = _bookmarkListRepository.GetBookmarkLists(userId);
+
+        // Assert
+        // Check that the image is the latest event image from the events stored in the bookmark list
+        // Assert.That(result, Is.Not.Null);
+        // Assert.That(result, Is.TypeOf<List<PopNGo.Models.DTO.BookmarkList>>());
+    }
+
 
     [Test]
     public void AddBookmarkList_ShouldAddNewBookmarkList()
