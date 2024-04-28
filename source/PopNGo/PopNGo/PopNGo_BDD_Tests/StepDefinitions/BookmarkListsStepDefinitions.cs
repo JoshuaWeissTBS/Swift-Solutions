@@ -89,8 +89,10 @@ namespace PopNGo_BDD_Tests.StepDefinitions
             // Get the bookmark list from scenario context
             string newBookmarkListTitle = _scenarioContext["newBookmarkListTitle"].ToString();
             // Check that the new bookmark list has a default image as a background image
-            var bookmarkList = _favoritesPage.BookmarkLists.Find(e => e.FindElement(By.ClassName("bookmarkListCardTitleText")).Text == newBookmarkListTitle);
-            bookmarkList.FindElement(By.ClassName("bookmarkListCardImage")).GetAttribute("style").Should().Contain("defaultBookmarkListImage.jpg");
+            var bookmarkList = _favoritesPage.GetBookmarkListFromTitle(newBookmarkListTitle);
+
+            // check that the background-image css property is set to the default image
+            bookmarkList.GetCssValue("background-image").Should().Contain("url(\"http://localhost:5145/media/images/placeholder_event_card_image.png\")");
         }
     }
 }
