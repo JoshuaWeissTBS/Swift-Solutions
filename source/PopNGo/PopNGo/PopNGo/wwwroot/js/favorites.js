@@ -64,6 +64,10 @@ function createBookmarkListCard(name, eventQuantity, image) {
                     showToast('Failed to delete bookmark list');
                 });
             });
+        },
+        onClickEdit: (event) => {
+            event.stopPropagation();
+            console.log('Edit clicked');
         }
     };
 
