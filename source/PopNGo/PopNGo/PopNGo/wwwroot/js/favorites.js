@@ -9,6 +9,7 @@ import { formatTags } from './util/tags.js';
 import { showToast } from './util/toast.js';
 import { applyFiltersAndSortEvents } from './util/filter.js';
 import { showDeleteBookmarkListConfirmationModal } from './util/showDeleteBookmarkListConfirmationModal.js';
+import { deleteBookmarkList } from './api/bookmarkLists/deleteBookmarkList.js';
 
 let currentBookmarkList = null;
 
@@ -64,8 +65,13 @@ function createBookmarkListCard(name, eventQuantity, image) {
         onClickDelete: (event) => {
             event.stopPropagation();
             showDeleteBookmarkListConfirmationModal(name, (listName) => {
-                // Delete the bookmark list
-                console.log('Deleting bookmark list: ', listName);
+                deleteBookmarkList(listName).then(() => {
+                    initPage();
+                    showToast(`Bookmark list "${name}" deleted`);
+                }).catch((error) => {
+                    console.error('Failed to delete bookmark list, ', error);
+                    showToast('Failed to delete bookmark list');
+                });
             });
         }
     };

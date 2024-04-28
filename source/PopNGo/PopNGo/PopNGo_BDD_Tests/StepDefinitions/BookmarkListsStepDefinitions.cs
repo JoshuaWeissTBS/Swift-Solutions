@@ -180,7 +180,7 @@ namespace PopNGo_BDD_Tests.StepDefinitions
         public void WhenIClickTheConfirmButtonInTheDeleteBookmarkListConfirmationDialog()
         {
             // Click the confirm button in the delete bookmark list confirmation dialog
-            _favoritesPage.DeleteBookmarkListConfirmationModal.FindElement(By.ClassName("confirmDeleteBookmarkListButton")).Click();
+            _favoritesPage.DeleteBookmarkListConfirmationModal.FindElement(By.Id("delete-bookmark-list-confirmation-button")).Click();
         }
     }
 }
