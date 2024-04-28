@@ -19,11 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function initPage() {
     getBookmarkLists().then(bookmarkLists => {
-        if (bookmarkLists.length === 0) {
-            displayNoBookmarkListsMessage();
-        } else {
-            displayBookmarkLists(bookmarkLists);
-        }
+        displayBookmarkLists(bookmarkLists);
     }).catch((error) => {
         // If the user is not logged in, display a login prompt
         displayLoginPrompt();
@@ -36,11 +32,6 @@ function initPage() {
 function displayLoginPrompt() {
     document.getElementById('favorite-events-title').style.display = 'none'; // Hide the title if the user is not logged in
     document.getElementById('login-prompt').style.display = 'block';
-}
-
-function displayNoBookmarkListsMessage() {
-    document.getElementById('favorite-events-title').style.display = 'none';
-    document.getElementById('no-favorites-message').style.display = 'block';
 }
 
 /// Displaying bookmark lists
