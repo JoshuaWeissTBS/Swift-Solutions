@@ -238,13 +238,13 @@ public class BookMarkRepositoryTests
     [Test]
     public void UpdateBookmarkListName_ShouldThrowExceptionWhenListNameIsNull()
     {
-        // // Arrange
-        // var userId = 1;
-        // var listName = "Test List";
-        // var newTitle = "";
+        // Arrange
+        var userId = 1;
+        var listName = "Test List";
+        var newTitle = "";
 
-        // // Assert
-        // Assert.Throws<ArgumentNullException>(() => _bookmarkListRepository.UpdateBookmarkListName(userId, 1, newTitle));
+        // Assert
+        Assert.Throws<ArgumentNullException>(() => _bookmarkListRepository.UpdateBookmarkListName(userId, 1, newTitle));
     }
 
     [Test]
