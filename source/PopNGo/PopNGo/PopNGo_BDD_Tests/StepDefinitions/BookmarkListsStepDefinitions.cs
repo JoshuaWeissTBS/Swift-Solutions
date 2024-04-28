@@ -120,7 +120,7 @@ namespace PopNGo_BDD_Tests.StepDefinitions
             _favoritesPage.DeleteBookmarkListConfirmationModal.Displayed.Should().BeTrue();
         }
 
-        [Given("I have created a new bookmark list")]
+        [Given("I have created a new bookmark list"), When("I have created a new bookmark list")]
         public void GivenIHaveCreatedANewBookmarkList()
         {
             // Fill out the new bookmark list form with a unique title and put the title in the scenario context
