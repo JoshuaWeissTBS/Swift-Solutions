@@ -204,6 +204,64 @@ public class BookMarkRepositoryTests
     }
 
     [Test]
+    public void EditBookmarkListName_ShouldEditBookmarkListName()
+    {
+        // // Arrange
+        // var userId = 1;
+        // var listName = "Test List";
+        // var newTitle = "New Title";
+
+        // // Act
+        // _bookmarkListRepository.AddBookmarkList(userId, listName);
+        // var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName);
+        // _bookmarkListRepository.EditBookmarkListName(userId, bookmarkListId, newTitle);
+
+        // // Assert
+        // Assert.That(_bookmarkListRepository.GetBookmarkLists(userId).Last().Title, Is.EqualTo(newTitle));
+    }
+
+    [Test]
+    public void EditBookmarkListName_ShouldThrowExceptionWhenListIdIsNotFound()
+    {
+        // // Arrange
+        // var userId = 1;
+        // var listId = 2;
+        // var newTitle = "New Title";
+
+        // // Assert
+        // Assert.Throws<ArgumentException>(() => _bookmarkListRepository.EditBookmarkListName(userId, listId, newTitle));
+    }
+
+    [Test]
+    public void EditBookmarkListName_ShouldThrowExceptionWhenListNameIsNull()
+    {
+        // // Arrange
+        // var userId = 1;
+        // var listName = "Test List";
+        // var newTitle = "";
+
+        // // Assert
+        // Assert.Throws<ArgumentNullException>(() => _bookmarkListRepository.EditBookmarkListName(userId, 1, newTitle));
+    }
+
+    [Test]
+    public void EditBookmarkListName_ShouldThrowExceptionWhenListNameIsDuplicate()
+    {
+        // // Arrange
+        // var userId = 1;
+        // var listName = "Test List";
+        // var newTitle = "New Title";
+
+        // // Act
+        // _bookmarkListRepository.AddBookmarkList(userId, listName);
+        // _bookmarkListRepository.AddBookmarkList(userId, newTitle);
+        // var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName);
+
+        // // Assert
+        // Assert.Throws<ArgumentException>(() => _bookmarkListRepository.EditBookmarkListName(userId, bookmarkListId, newTitle));
+    }
+
+    [Test]
     public void GetBookmarkListIdFromName_ShouldReturnListId()
     {
         // Arrange
