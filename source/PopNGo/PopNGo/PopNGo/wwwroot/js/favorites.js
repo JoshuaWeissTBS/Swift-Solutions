@@ -10,6 +10,7 @@ import { showToast } from './util/toast.js';
 import { applyFiltersAndSortEvents } from './util/filter.js';
 import { showDeleteBookmarkListConfirmationModal } from './util/showDeleteBookmarkListConfirmationModal.js';
 import { deleteBookmarkList } from './api/bookmarkLists/deleteBookmarkList.js';
+import { buildAndShowEditBookmarkListModal } from './ui/buildAndShowEditBookmarkListModal.js';
 
 let currentBookmarkList = null;
 
@@ -41,9 +42,10 @@ function displayLoginPrompt() {
  * @param {String} name
  * @param {Number} eventQuantity
  * @param {String | null | undefined} image
+ * @param {String[]} bookmarkListNames
  * @returns {HTMLElement}
  */
-function createBookmarkListCard(name, eventQuantity, image) {
+function createBookmarkListCard(name, eventQuantity, image, bookmarkListNames) {
     const props = {
         bookmarkListName: name,
         eventQuantity: eventQuantity,
@@ -67,7 +69,17 @@ function createBookmarkListCard(name, eventQuantity, image) {
         },
         onClickEdit: (event) => {
             event.stopPropagation();
-            console.log('Edit clicked');
+
+            const onClickSave = (newName) => {
+                if (newName === name) {
+                    return;
+                }
+
+                // TODO: Call the API to update the bookmark list name
+            }
+
+            // Show the edit bookmark list modal
+            buildAndShowEditBookmarkListModal(name, onClickSave, bookmarkListNames);
         }
     };
 
@@ -95,7 +107,7 @@ function displayBookmarkLists(bookmarkLists) {
     // Create a card for each bookmark list
     bookmarkLists.forEach(bookmarkList => {
         try {
-            const card = createBookmarkListCard(bookmarkList.title, bookmarkList.favoriteEventQuantity, bookmarkList.image);
+            const card = createBookmarkListCard(bookmarkList.title, bookmarkList.favoriteEventQuantity, bookmarkList.image, bookmarkLists.map(list => list.title));
             bookmarkListContainer.appendChild(card);
         } catch (error) {
             console.error("Props for bookmark list card was invalid, skipping...")
