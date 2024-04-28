@@ -224,12 +224,12 @@ await this.FeatureBackgroundAsync();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I can\'t edit the bookmark list name to be blank")]
+        [NUnit.Framework.DescriptionAttribute("I cant edit the bookmark list name to be blank")]
         public async System.Threading.Tasks.Task ICantEditTheBookmarkListNameToBeBlank()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("I can\'t edit the bookmark list name to be blank", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("I cant edit the bookmark list name to be blank", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 33
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -269,12 +269,12 @@ await this.FeatureBackgroundAsync();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("I can\'t edit the bookmark list name to be a duplicate")]
+        [NUnit.Framework.DescriptionAttribute("I cant edit the bookmark list name to be a duplicate")]
         public async System.Threading.Tasks.Task ICantEditTheBookmarkListNameToBeADuplicate()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("I can\'t edit the bookmark list name to be a duplicate", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("I cant edit the bookmark list name to be a duplicate", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 42
 this.ScenarioInitialize(scenarioInfo);
 #line hidden

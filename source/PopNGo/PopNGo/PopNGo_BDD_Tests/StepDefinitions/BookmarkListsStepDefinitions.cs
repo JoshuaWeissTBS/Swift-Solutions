@@ -201,7 +201,7 @@ namespace PopNGo_BDD_Tests.StepDefinitions
             _favoritesPage.GetEditButtonFromBookmarkList(newBookmarkListTitle).Click();
         }
 
-        [When("I click the edit button on the new bookmark list")]
+        [When("I click the edit button on the new bookmark list"), Given("I click the edit button on the new bookmark list")]
         public void WhenIClickTheEditButtonOnTheNewBookmarkList()
         {
             // Get the bookmark list from scenario context

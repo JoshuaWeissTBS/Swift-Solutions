@@ -30,7 +30,7 @@ Scenario: I can edit the bookmark list name
     And I click the save button in the edit bookmark list form
   Then I should see the new name on the bookmark list
 
-Scenario: I can't edit the bookmark list name to be blank
+Scenario: I cant edit the bookmark list name to be blank
   Given I am a user with first name 'Joshua'
     And I login
     And I am on the "Favorites" page
@@ -39,7 +39,7 @@ Scenario: I can't edit the bookmark list name to be blank
   When I fill in the update bookmark list name form with a blank name
   Then The save edit button should be disabled
 
-Scenario: I can't edit the bookmark list name to be a duplicate
+Scenario: I cant edit the bookmark list name to be a duplicate
   Given I am a user with first name 'Joshua'
     And I login
     And I am on the "Favorites" page
