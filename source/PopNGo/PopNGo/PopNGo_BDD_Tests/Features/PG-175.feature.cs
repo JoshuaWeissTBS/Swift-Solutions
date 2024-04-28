@@ -95,12 +95,12 @@ namespace PopNGo_BDD_Tests.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("New bookmark list should have a default image")]
-        public async System.Threading.Tasks.Task NewBookmarkListShouldHaveADefaultImage()
+        [NUnit.Framework.DescriptionAttribute("I see a delete button on bookmark lists")]
+        public async System.Threading.Tasks.Task ISeeADeleteButtonOnBookmarkLists()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("New bookmark list should have a default image", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("I see a delete button on bookmark lists", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 8
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
