@@ -95,16 +95,23 @@ public class BookMarkRepositoryTests
     public void GetBookmarkLists_WithMultipleEventsWithImages_ShouldReturnBookmarkListsWithLatestEventImage()
     {
         // Arrange
-        // var userId = 1;
+        var userId = 1;
         // Create a bookmark list with multiple saved events that have images
+        _bookmarkListRepository.AddBookmarkList(userId, "Test List");
+        var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, "Test List");
+        _favoritesRepository.AddFavorite(bookmarkListId, "event3"); // event3 has no image
+        _favoritesRepository.AddFavorite(bookmarkListId, "event4"); // event4 has passed and has an image
+        _favoritesRepository.AddFavorite(bookmarkListId, "event5"); // event5 has not passed and has an image and is the soonest event
+        _favoritesRepository.AddFavorite(bookmarkListId, "event6"); // event6 has not passed and has an image and is the latest event
 
         // Act
-        // var result = _bookmarkListRepository.GetBookmarkLists(userId);
+        var result = _bookmarkListRepository.GetBookmarkLists(userId);
 
         // Assert
         // Check that the image is the latest event image from the events stored in the bookmark list
-        // Assert.That(result, Is.Not.Null);
-        // Assert.That(result, Is.TypeOf<List<PopNGo.Models.DTO.BookmarkList>>());
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.TypeOf<List<PopNGo.Models.DTO.BookmarkList>>());
+        Assert.That(result.Last().Image, Is.EqualTo("event5.jpg"));
     }
 
 
