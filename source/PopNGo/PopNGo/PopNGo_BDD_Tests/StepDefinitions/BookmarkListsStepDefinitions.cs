@@ -82,5 +82,15 @@ namespace PopNGo_BDD_Tests.StepDefinitions
             // Check that the new bookmark list name input is empty
             _favoritesPage.NewBookmarkListNameInput.Text.Should().BeEmpty();
         }
+
+        [Then("The new bookmark list should have a default image")]
+        public void ThenTheNewBookmarkListShouldHaveADefaultImage()
+        {
+            // Get the bookmark list from scenario context
+            string newBookmarkListTitle = _scenarioContext["newBookmarkListTitle"].ToString();
+            // Check that the new bookmark list has a default image as a background image
+            var bookmarkList = _favoritesPage.BookmarkLists.Find(e => e.FindElement(By.ClassName("bookmarkListCardTitleText")).Text == newBookmarkListTitle);
+            bookmarkList.FindElement(By.ClassName("bookmarkListCardImage")).GetAttribute("style").Should().Contain("defaultBookmarkListImage.jpg");
+        }
     }
 }
