@@ -59,6 +59,13 @@ function createBookmarkListCard(name, eventQuantity, image) {
             // If the user clicks on the bookmark list, display the events from that list
             displayEventsFromBookmarkList(name);
             currentBookmarkList = name;
+        },
+        onClickDelete: (event) => {
+            event.stopPropagation();
+            console.log('Delete button clicked')
+            // Open a modal to confirm deletion
+            // const modal = new bootstrap.Modal(document.getElementById('deleteBookmarkListModal'));
+            // modal.show();
         }
     };
 
