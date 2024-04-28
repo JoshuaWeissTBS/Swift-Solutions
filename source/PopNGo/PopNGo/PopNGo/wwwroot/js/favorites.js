@@ -8,6 +8,7 @@ import { buildEventDetailsModal, validateBuildEventDetailsModalProps } from './u
 import { formatTags } from './util/tags.js';
 import { showToast } from './util/toast.js';
 import { applyFiltersAndSortEvents } from './util/filter.js';
+import { showDeleteBookmarkListConfirmationModal } from './util/showDeleteBookmarkListConfirmationModal.js';
 
 let currentBookmarkList = null;
 
@@ -62,10 +63,10 @@ function createBookmarkListCard(name, eventQuantity, image) {
         },
         onClickDelete: (event) => {
             event.stopPropagation();
-            console.log('Delete button clicked')
-            // Open a modal to confirm deletion
-            // const modal = new bootstrap.Modal(document.getElementById('deleteBookmarkListModal'));
-            // modal.show();
+            showDeleteBookmarkListConfirmationModal(name, (listName) => {
+                // Delete the bookmark list
+                console.log('Deleting bookmark list: ', listName);
+            });
         }
     };
 
