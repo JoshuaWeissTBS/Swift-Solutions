@@ -20,22 +20,22 @@ namespace PopNGo_BDD_Tests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "1.0.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Bookmark Lists Image Preview")]
-    public partial class BookmarkListsImagePreviewFeature
+    [NUnit.Framework.DescriptionAttribute("Bookmark Lists Name Editing")]
+    public partial class BookmarkListsNameEditingFeature
     {
         
         private Reqnroll.ITestRunner testRunner;
         
         private static string[] featureTags = ((string[])(null));
         
-#line 1 "PG-198.feature"
+#line 1 "PG-174.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual async System.Threading.Tasks.Task FeatureSetupAsync()
         {
             testRunner = Reqnroll.TestRunnerManager.GetTestRunnerForAssembly(null, NUnit.Framework.TestContext.CurrentContext.WorkerId);
-            Reqnroll.FeatureInfo featureInfo = new Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Bookmark Lists Image Preview", null, ProgrammingLanguage.CSharp, featureTags);
+            Reqnroll.FeatureInfo featureInfo = new Reqnroll.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Bookmark Lists Name Editing", null, ProgrammingLanguage.CSharp, featureTags);
             await testRunner.OnFeatureStartAsync(featureInfo);
         }
         
@@ -77,30 +77,30 @@ namespace PopNGo_BDD_Tests.Features
         {
 #line 3
 #line hidden
-            Reqnroll.Table table4 = new Reqnroll.Table(new string[] {
+            Reqnroll.Table table2 = new Reqnroll.Table(new string[] {
                         "UserName",
                         "Email",
                         "FirstName",
                         "LastName",
                         "Password"});
-            table4.AddRow(new string[] {
+            table2.AddRow(new string[] {
                         "Joshua Weiss",
                         "knott@example.com",
                         "Joshua",
                         "Weiss",
                         "FAKE PW"});
 #line 4
- await testRunner.GivenAsync("the following users exist", ((string)(null)), table4, "Given ");
+ await testRunner.GivenAsync("the following users exist", ((string)(null)), table2, "Given ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("New bookmark list should have a default image")]
-        public async System.Threading.Tasks.Task NewBookmarkListShouldHaveADefaultImage()
+        [NUnit.Framework.DescriptionAttribute("I see an edit button on the bookmark lists")]
+        public async System.Threading.Tasks.Task ISeeAnEditButtonOnTheBookmarkLists()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("New bookmark list should have a default image", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("I see an edit button on the bookmark lists", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 8
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -124,13 +124,10 @@ await this.FeatureBackgroundAsync();
   await testRunner.AndAsync("I am on the \"Favorites\" page", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 12
- await testRunner.WhenAsync("I fill out and submit the new bookmark list form with a unique title", ((string)(null)), ((Reqnroll.Table)(null)), "When ");
+  await testRunner.WhenAsync("I have created a new bookmark list", ((string)(null)), ((Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 14
- await testRunner.ThenAsync("I should see the new bookmark list displayed", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
-#line hidden
-#line 15
-    await testRunner.AndAsync("The new bookmark list should have a default image", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
+#line 13
+  await testRunner.ThenAsync("I should see a button to edit the bookmark list", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
