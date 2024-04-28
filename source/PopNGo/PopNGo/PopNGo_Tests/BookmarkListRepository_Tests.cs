@@ -176,20 +176,20 @@ public class BookMarkRepositoryTests
     public void DeleteBookmarkList_ShouldDeleteFavorites()
     {
         // Arrange
-        // var userId = 1;
-        // var listName = "Test List";
+        var userId = 1;
+        var listName = "Test List";
 
-        // // Act
-        // _bookmarkListRepository.AddBookmarkList(userId, listName);
-        // var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName);
-        // _favoritesRepository.AddFavorite(bookmarkListId, "event3");
-        // _favoritesRepository.AddFavorite(bookmarkListId, "event4");
-        // _favoritesRepository.AddFavorite(bookmarkListId, "event5");
-        // _favoritesRepository.AddFavorite(bookmarkListId, "event6");
-        // _bookmarkListRepository.DeleteBookmarkList(userId, bookmarkListId);
+        // Act
+        _bookmarkListRepository.AddBookmarkList(userId, listName);
+        var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName);
+        _favoritesRepository.AddFavorite(bookmarkListId, "event3");
+        _favoritesRepository.AddFavorite(bookmarkListId, "event4");
+        _favoritesRepository.AddFavorite(bookmarkListId, "event5");
+        _favoritesRepository.AddFavorite(bookmarkListId, "event6");
+        _bookmarkListRepository.DeleteBookmarkList(userId, bookmarkListId);
 
-        // // Assert
-        // Assert.That(_favoritesRepository.GetFavorites(bookmarkListId).Count, Is.EqualTo(0));
+        // Assert
+        Assert.That(_favoritesRepository.GetUserFavorites(bookmarkListId).Count, Is.EqualTo(0));
     }
 
     [Test]

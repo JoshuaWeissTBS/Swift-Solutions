@@ -8,10 +8,12 @@ namespace PopNGo.DAL.Concrete
     public class BookmarkListRepository : Repository<BookmarkList>, IBookmarkListRepository
     {
         private readonly DbSet<BookmarkList> _bookmarkLists;
+        private readonly DbSet<FavoriteEvent> _favoriteEvents;
 
         public BookmarkListRepository(PopNGoDB context) : base(context)
         {
             _bookmarkLists = context.BookmarkLists;
+            _favoriteEvents = context.FavoriteEvents;
         }
 
         public List<PopNGo.Models.DTO.BookmarkList> GetBookmarkLists(int userId)
@@ -77,6 +79,12 @@ namespace PopNGo.DAL.Concrete
 
             try
             {
+                // Delete all favorite events associated with the bookmark list
+                foreach(var favoriteEvent in bookmarkList.FavoriteEvents.ToList())
+                {
+                    // Couldn't get cascade delete to work, so have to delete each favorite event manually
+                    _favoriteEvents.Remove(favoriteEvent);
+                }
                 Delete(bookmarkList);
             }
             catch (Exception ex)
