@@ -250,18 +250,18 @@ public class BookMarkRepositoryTests
     [Test]
     public void UpdateBookmarkListName_ShouldThrowExceptionWhenListNameIsDuplicate()
     {
-        // // Arrange
-        // var userId = 1;
-        // var listName = "Test List";
-        // var newTitle = "New Title";
+        // Arrange
+        var userId = 1;
+        var listName = "Test List";
+        var newTitle = "New Title";
 
-        // // Act
-        // _bookmarkListRepository.AddBookmarkList(userId, listName);
-        // _bookmarkListRepository.AddBookmarkList(userId, newTitle);
-        // var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName);
+        // Act
+        _bookmarkListRepository.AddBookmarkList(userId, listName);
+        _bookmarkListRepository.AddBookmarkList(userId, newTitle);
+        var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName);
 
-        // // Assert
-        // Assert.Throws<ArgumentException>(() => _bookmarkListRepository.UpdateBookmarkListName(userId, bookmarkListId, newTitle));
+        // Assert
+        Assert.Throws<ArgumentException>(() => _bookmarkListRepository.UpdateBookmarkListName(userId, bookmarkListId, newTitle));
     }
 
     [Test]
