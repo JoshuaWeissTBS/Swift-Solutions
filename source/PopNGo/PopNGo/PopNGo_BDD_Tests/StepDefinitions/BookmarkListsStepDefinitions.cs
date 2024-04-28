@@ -227,6 +227,7 @@ namespace PopNGo_BDD_Tests.StepDefinitions
             _scenarioContext["oldBookmarkListTitle"] = _scenarioContext["newBookmarkListTitle"];
             _scenarioContext["newBookmarkListTitle"] = newBookmarkListTitle;
 
+            _favoritesPage.EditBookmarkListNameInput.Clear();
             _favoritesPage.EditBookmarkListNameInput.SendKeys(newBookmarkListTitle);
         }
 
@@ -292,6 +293,7 @@ namespace PopNGo_BDD_Tests.StepDefinitions
         public void WhenIFillInTheUpdateBookmarkListNameFormWithTheSameName()
         {
             // Fill in the form with the same name
+            _favoritesPage.EditBookmarkListNameInput.Clear();
             _favoritesPage.EditBookmarkListNameInput.SendKeys(_scenarioContext["newBookmarkListTitle"].ToString());
         }
     }
