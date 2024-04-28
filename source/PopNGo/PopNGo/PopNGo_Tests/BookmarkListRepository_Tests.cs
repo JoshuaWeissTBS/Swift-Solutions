@@ -204,7 +204,7 @@ public class BookMarkRepositoryTests
     }
 
     [Test]
-    public void EditBookmarkListName_ShouldEditBookmarkListName()
+    public void UpdateBookmarkListName_ShouldEditBookmarkListName()
     {
         // Arrange
         var userId = 1;
@@ -224,19 +224,19 @@ public class BookMarkRepositoryTests
     }
 
     [Test]
-    public void EditBookmarkListName_ShouldThrowExceptionWhenListIdIsNotFound()
+    public void UpdateBookmarkListName_ShouldThrowExceptionWhenListIdIsNotFound()
     {
-        // // Arrange
-        // var userId = 1;
-        // var listId = 2;
-        // var newTitle = "New Title";
+        // Arrange
+        var userId = 1;
+        var listId = 999;
+        var newTitle = "New Title";
 
-        // // Assert
-        // Assert.Throws<ArgumentException>(() => _bookmarkListRepository.EditBookmarkListName(userId, listId, newTitle));
+        // Assert
+        Assert.Throws<ArgumentException>(() => _bookmarkListRepository.UpdateBookmarkListName(userId, listId, newTitle));
     }
 
     [Test]
-    public void EditBookmarkListName_ShouldThrowExceptionWhenListNameIsNull()
+    public void UpdateBookmarkListName_ShouldThrowExceptionWhenListNameIsNull()
     {
         // // Arrange
         // var userId = 1;
@@ -244,11 +244,11 @@ public class BookMarkRepositoryTests
         // var newTitle = "";
 
         // // Assert
-        // Assert.Throws<ArgumentNullException>(() => _bookmarkListRepository.EditBookmarkListName(userId, 1, newTitle));
+        // Assert.Throws<ArgumentNullException>(() => _bookmarkListRepository.UpdateBookmarkListName(userId, 1, newTitle));
     }
 
     [Test]
-    public void EditBookmarkListName_ShouldThrowExceptionWhenListNameIsDuplicate()
+    public void UpdateBookmarkListName_ShouldThrowExceptionWhenListNameIsDuplicate()
     {
         // // Arrange
         // var userId = 1;
@@ -261,7 +261,7 @@ public class BookMarkRepositoryTests
         // var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName);
 
         // // Assert
-        // Assert.Throws<ArgumentException>(() => _bookmarkListRepository.EditBookmarkListName(userId, bookmarkListId, newTitle));
+        // Assert.Throws<ArgumentException>(() => _bookmarkListRepository.UpdateBookmarkListName(userId, bookmarkListId, newTitle));
     }
 
     [Test]
