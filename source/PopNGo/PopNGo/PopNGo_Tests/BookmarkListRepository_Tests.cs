@@ -16,6 +16,7 @@ public class BookMarkRepositoryTests
     // Create this helper like this, for whatever context you desire
     private static readonly InMemoryDbHelper<PopNGoDB> _dbHelper = new(_seedFile, DbPersistence.OneDbPerTest);
     private static BookmarkListRepository _bookmarkListRepository = null!;
+    private static FavoritesRepository _favoritesRepository = null!;
     private static PopNGoDB _context = null!;
 
     [SetUp]
@@ -23,6 +24,7 @@ public class BookMarkRepositoryTests
     {
         _context = _dbHelper.GetContext();
         _bookmarkListRepository = new BookmarkListRepository(_context);
+        _favoritesRepository = new FavoritesRepository(_context);
     }
 
     [Test]
@@ -71,16 +73,19 @@ public class BookMarkRepositoryTests
     public void GetBookmarkLists_WithInternalEventWithImage_ShouldReturnBookmarkListsWithImage()
     {
         // Arrange
-        // var userId = 1;
+        var userId = 1;
         // Create a bookmark list with a saved event that has an image
+        _bookmarkListRepository.AddBookmarkList(userId, "Test List");
+        var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, "Test List");
+        _favoritesRepository.AddFavorite(bookmarkListId, "event4");
 
         // Act
-        // var result = _bookmarkListRepository.GetBookmarkLists(userId);
+        var result = _bookmarkListRepository.GetBookmarkLists(userId);
 
         // Assert
-        // Assert.That(result, Is.Not.Null);
-        // Assert.That(result, Is.TypeOf<List<PopNGo.Models.DTO.BookmarkList>>());
-        // Assert.That(result.Last().Image, Is.Not.Null);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.TypeOf<List<PopNGo.Models.DTO.BookmarkList>>());
+        Assert.That(result.Last().Image, Is.Not.Null);
     }
 
     [Test]
