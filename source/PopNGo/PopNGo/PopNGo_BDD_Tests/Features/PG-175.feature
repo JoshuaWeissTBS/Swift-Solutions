@@ -5,7 +5,7 @@ Background:
 	  | UserName         | Email                 | FirstName  | LastName | Password  |
 	  | Joshua Weiss     | knott@example.com     | Joshua     | Weiss    | FAKE PW   |
 
-Scenario: New bookmark list should have a default image
+Scenario: I see a delete button on bookmark lists
 	Given I am a user with first name 'Joshua'
 	 And  I login
 	 And I am on the "Favorites" page
