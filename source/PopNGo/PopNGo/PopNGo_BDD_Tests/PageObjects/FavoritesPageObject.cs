@@ -26,6 +26,7 @@ namespace PopNGo_BDD_Tests.PageObjects
         }
         public IWebElement DeleteBookmarkListConfirmationModal => _webDriver.FindElement(By.Id("delete-bookmark-list-confirmation-modal"));
         public IWebElement EditBookmarkListModal => _webDriver.FindElement(By.Id("edit-bookmark-list-modal"));
+        public IWebElement CancelEditBookmarkListButton => _webDriver.FindElement(By.Id("cancel-edit-bookmark-list-button"));
         public IWebElement EditBookmarkListModalSaveButton => _webDriver.FindElement(By.Id("save-edit-bookmark-list-button"));
         public IWebElement EditBookmarkListNameInput => _webDriver.FindElement(By.Id("edit-bookmark-list-card-title-input"));
         public IReadOnlyList<IWebElement> BookmarkListTitles => _webDriver.FindElements(By.ClassName("bookmarkListCardTitleText"));
