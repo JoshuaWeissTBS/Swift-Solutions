@@ -160,16 +160,16 @@ public class BookMarkRepositoryTests
     public void DeleteBookmarkList_ShouldDeleteBookmarkList()
     {
         // Arrange
-        // var userId = 1;
-        // var listName = "Test List";
+        var userId = 3;
+        var listName = "Test List";
 
-        // // Act
-        // _bookmarkListRepository.AddBookmarkList(userId, listName);
-        // var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName);
-        // _bookmarkListRepository.DeleteBookmarkList(userId, bookmarkListId);
+        // Act
+        _bookmarkListRepository.AddBookmarkList(userId, listName);
+        var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName);
+        _bookmarkListRepository.DeleteBookmarkList(userId, bookmarkListId);
 
-        // // Assert
-        // Assert.That(_bookmarkListRepository.GetBookmarkLists(userId).Count, Is.EqualTo(1));
+        // Assert
+        Assert.That(_bookmarkListRepository.GetBookmarkLists(userId).Count, Is.EqualTo(0));
     }
 
     [Test]

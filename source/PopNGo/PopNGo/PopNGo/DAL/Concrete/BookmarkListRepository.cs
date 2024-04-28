@@ -67,6 +67,25 @@ namespace PopNGo.DAL.Concrete
             }
         }
 
+        public void DeleteBookmarkList(int userId, int listId)
+        {
+            var bookmarkList = _bookmarkLists.FirstOrDefault(bl => bl.UserId == userId && bl.Id == listId);
+            if (bookmarkList == null)
+            {
+                throw new ArgumentException($"No bookmark list found for user {userId} with the id {listId}", nameof(listId));
+            }
+
+            try
+            {
+                Delete(bookmarkList);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception, rethrow it, or handle it in some other way
+                throw new Exception("Error deleting bookmark list", ex);
+            }
+        }
+
         public int GetBookmarkListIdFromName(int userId, string listName)
         {
             if (string.IsNullOrEmpty(listName))
