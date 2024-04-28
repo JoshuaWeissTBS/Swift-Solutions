@@ -206,18 +206,21 @@ public class BookMarkRepositoryTests
     [Test]
     public void EditBookmarkListName_ShouldEditBookmarkListName()
     {
-        // // Arrange
-        // var userId = 1;
-        // var listName = "Test List";
-        // var newTitle = "New Title";
+        // Arrange
+        var userId = 1;
+        var listName = "Test List";
+        var newTitle = "New Title";
 
-        // // Act
-        // _bookmarkListRepository.AddBookmarkList(userId, listName);
-        // var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName);
-        // _bookmarkListRepository.EditBookmarkListName(userId, bookmarkListId, newTitle);
+        // Act
+        _bookmarkListRepository.AddBookmarkList(userId, listName);
+        var bookmarkListCount = _bookmarkListRepository.GetBookmarkLists(userId).Count;
+        var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, listName);
+        _bookmarkListRepository.UpdateBookmarkListName(userId, bookmarkListId, newTitle);
 
-        // // Assert
-        // Assert.That(_bookmarkListRepository.GetBookmarkLists(userId).Last().Title, Is.EqualTo(newTitle));
+        // Assert
+        Assert.That(_bookmarkListRepository.GetBookmarkLists(userId).Last().Title, Is.EqualTo(newTitle));
+        // Check that it hasnt added a new bookmark list
+        Assert.That(_bookmarkListRepository.GetBookmarkLists(userId).Count, Is.EqualTo(bookmarkListCount));
     }
 
     [Test]
