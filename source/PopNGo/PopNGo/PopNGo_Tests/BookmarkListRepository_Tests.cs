@@ -196,11 +196,11 @@ public class BookMarkRepositoryTests
     public void DeleteBookmarkList_ShouldThrowExceptionWhenListIdIsNotFound()
     {
         // Arrange
-        // var userId = 1;
-        // var listId = 2;
+        var userId = 1;
+        var listId = 2;
 
         // // Assert
-        // Assert.Throws<ArgumentException>(() => _bookmarkListRepository.DeleteBookmarkList(userId, listId));
+        Assert.Throws<ArgumentException>(() => _bookmarkListRepository.DeleteBookmarkList(userId, listId));
     }
 
     [Test]
