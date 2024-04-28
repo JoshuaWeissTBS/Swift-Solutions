@@ -58,15 +58,18 @@ public class BookMarkRepositoryTests
     public void GetBookmarkLists_WithEventsThatHaveNoImage_ShouldReturnBookmarkListsWithNullImage()
     {
         // Arrange
-        // var userId = 1;
+        var userId = 1;
 
         // Act
-        // var result = _bookmarkListRepository.GetBookmarkLists(userId);
+        _bookmarkListRepository.AddBookmarkList(userId, "Bookmark list with no image");
+        var bookmarkListId = _bookmarkListRepository.GetBookmarkListIdFromName(userId, "Bookmark list with no image");
+        _favoritesRepository.AddFavorite(bookmarkListId, "event3");
+        var result = _bookmarkListRepository.GetBookmarkLists(userId);
 
         // Assert
-        // Assert.That(result, Is.Not.Null);
-        // Assert.That(result, Is.TypeOf<List<PopNGo.Models.DTO.BookmarkList>>());
-        // Assert.That(result.Last().Image, Is.Null);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.TypeOf<List<PopNGo.Models.DTO.BookmarkList>>());
+        Assert.That(result.Last().Image, Is.Null);
     }
 
     [Test]
