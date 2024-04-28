@@ -14,11 +14,18 @@ import { getNearestCityAndStateAndCountry } from './util/getNearestCityAndStateA
 import { getBookmarkLists } from './api/bookmarkLists/getBookmarkLists.js';
 import { onPressSaveToBookmarkList } from './util/onPressSaveToBookmarkList.js';
 import { UnauthorizedError } from './util/errors.js';
+import { getDistancesForEvents, getDistanceUnit, convertDistance } from './api/distance/getDistances.js';
+import { capitalizeFirstLetter } from './util/capitalizeFirstLetter.js';
+import { getForecastForLocation } from './api/weather/getForecast.js';
+import { buildWeatherCard, validateBuildWeatherCardProps } from './ui/buildWeatherCard.js';
+import { addMapLoadingSpinner, removeMapLoadingSpinner } from './util/mapLoadingSpinners.js';
 
 let map = null;
 let mapMarkers = [];
 let page = 0;
 const pageSize = 10;
+let userLocation = {};
+let distanceUnit = "miles"
 
 
 // Fetch event data and display it
@@ -26,6 +33,16 @@ const pageSize = 10;
 document.addEventListener("DOMContentLoaded", async function () {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async function (position) {
+            distanceUnit = await getDistanceUnit();
+
+            document.getElementById('distance-select').value = distanceUnit;
+            document.getElementById('distance-select').toggleAttribute('disabled', true);
+
+            // document.getElementById('distance-checkbox').checked = distanceUnit === 'miles';
+
+            userLocation["lat"] = position.coords.latitude;
+            userLocation["long"] = position.coords.longitude;
+
             const { city, state, country } = await getNearestCityAndStateAndCountry(position.coords.latitude, position.coords.longitude);
             await loadSearchBarAndEvents(city, state, country);
         }, async function (error) {
@@ -79,6 +96,22 @@ async function loadSearchBarAndEvents(city, state, country) {
         });
     }
 
+
+    let distanceSelect = document.getElementById('distance-select');
+    if (distanceSelect) {
+        distanceSelect.addEventListener('change', async function () {
+            let oldUnit = distanceUnit;
+            distanceUnit = distanceSelect.value.toLowerCase();
+            const events = document.getElementById('events-container').children;
+            for (let event of events) {
+                let distance = event.querySelector('#distance-number').textContent;
+                let convertedDistance = convertDistance(+distance, distanceUnit, oldUnit);
+
+                event.querySelector('#distance-number').textContent = convertedDistance;
+                event.querySelector('#distance-unit').textContent = distanceUnit === 'miles' ? 'mi' : 'km';
+            }
+        });
+    }
 }
 
 /**
@@ -140,7 +173,7 @@ async function previousPage() {
     }
 }
 
-export function getPaginationIndex() {
+function getPaginationIndex() {
     return (page * pageSize);
 }
 
@@ -149,7 +182,7 @@ export function getPaginationIndex() {
  * Events is an array of event objects returned from the API
  * @param {any} events
  */
-export async function displayEvents(events) {
+async function displayEvents(events) {
     let eventsContainer = document.getElementById('events-container');
     eventsContainer.innerHTML = ''; // Clear the container
     let eventCardTemplate = document.getElementById('event-card-template');
@@ -163,6 +196,18 @@ export async function displayEvents(events) {
 
     const eventTags = events.map(event => event.eventTags).flat().filter(tag => tag)
     await createTags(eventTags);
+
+    events = events.map(event => { event.distance = null; event.distanceUnit = null; return event; });
+
+    // Populate event data with distances
+    const eventDistances = await getDistancesForEvents(userLocation.lat, userLocation.long, events, distanceUnit);
+    if(eventDistances.distances.length > 0) {
+        events = events.map((event, index) => {
+            event.distance = eventDistances.distances[index];
+            event.distanceUnit = eventDistances.unit;
+            return event;
+        });
+    }
 
     // TODO: BUG this errors when not logged in
     let bookmarkLists = [];
@@ -187,6 +232,8 @@ export async function displayEvents(events) {
             state: eventInfo.eventLocation.split(',')[2],
             tags: await formatTags(eventInfo.eventTags),
             bookmarkListNames: bookmarkLists.map(bookmarkList => bookmarkList.title),
+            distance: eventInfo.distance,
+            distanceUnit: eventInfo.distanceUnit,
             onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventInfo.apiEventID, bookmarkListName),
             onPressEvent: () => onClickDetailsAsync(eventInfo),
         }
@@ -197,6 +244,38 @@ export async function displayEvents(events) {
     }
 
     // paginationDiv.style.display = 'flex'; //Display after events are loaded
+}
+
+function displayWeatherForecast(weatherData) {
+    let weatherForecastContainer = document.getElementById('weather-preview-container');
+    weatherForecastContainer.innerHTML = ''; // Clear the container
+    const weatherForecastTemplate = document.getElementById('weather-card-template');
+
+    for (let forecast of weatherData.weatherForecasts) {
+        console.log(forecast);
+        let newForecastCard = weatherForecastTemplate.content.cloneNode(true);
+
+        let forecastCardProps = {
+            date: new Date(forecast.date),
+            condition: forecast.condition,
+            minTemp: +forecast.minTemp.toFixed(1),
+            maxTemp: +forecast.maxTemp.toFixed(1),
+            humidity: forecast.humidity,
+            cloudCover: forecast.cloudCover,
+            precipitationType: forecast.precipitationType,
+            precipitationAmount: forecast.precipitationAmount.toFixed(2),
+            precipitationChance: forecast.precipitationChance,
+            temperatureUnit: weatherData.temperatureUnit,
+            measurementUnit: weatherData.measurementUnit
+        };
+
+        if (validateBuildWeatherCardProps(forecastCardProps)) {
+            buildWeatherCard(newForecastCard, forecastCardProps);
+            weatherForecastContainer.appendChild(newForecastCard);
+        } else {
+            console.error("Invalid forecast card props", forecastCardProps);
+        }
+    }
 }
 
 /**
@@ -215,6 +294,7 @@ async function searchForEvents() {
     toggleNoEventsSection(false);
     toggleSearchingEventsSection(true);
     toggleSearching();
+    document.getElementById('distance-select').toggleAttribute('disabled', true);
 
     let date = document.getElementById('filter-dropdown').value;
 
@@ -223,6 +303,11 @@ async function searchForEvents() {
 
     console.log(events);
     toggleSearchingEventsSection(false); // Hide the searching events section
+    const country = document.getElementById('search-event-country').value;
+    const state = document.getElementById('search-event-state').value;
+    const city = document.getElementById('search-event-city').value;
+    let mapCoords = await getLocationCoords(country, state, city);
+
     if (!events || events.length === 0) {
         paginationDiv.style.display = 'none';
         toggleNoEventsSection(true);
@@ -230,11 +315,6 @@ async function searchForEvents() {
     } else {
         displayEvents(events);
         initMap(events);
-
-        const country = document.getElementById('search-event-country').value;
-        const state = document.getElementById('search-event-state').value;
-        const city = document.getElementById('search-event-city').value;
-        let mapCoords = await getLocationCoords(country, state, city);
 
         if (map) {
             deleteMarkers(); // Clear markers before adding new ones
@@ -249,7 +329,13 @@ async function searchForEvents() {
 
         paginationDiv.style.display = 'flex'; //Display after events are loaded
     }
+
+    const weatherForecast = await getForecastForLocation(mapCoords.lat, mapCoords.lng);
+    console.log(weatherForecast);
+    displayWeatherForecast(weatherForecast);
+    
     toggleSearching();
+    document.getElementById('distance-select').toggleAttribute('disabled', false);
 }
 
 function createPlaceholderCards() {
@@ -344,15 +430,15 @@ function deleteMarkers() {
     mapMarkers = [];
 }
 
-export function addMapLoadingSpinner() {
-    let loadingOverlay = document.getElementById('loading-overlay');
-    if (!loadingOverlay) return; // If the element doesn't exist, exit the function
-    loadingOverlay.style.display = 'flex';
-}
+// export function addMapLoadingSpinner() {
+//     let loadingOverlay = document.getElementById('loading-overlay');
+//     if (!loadingOverlay) return; // If the element doesn't exist, exit the function
+//     loadingOverlay.style.display = 'flex';
+// }
 
-export function removeMapLoadingSpinner() {
-    document.getElementById('loading-overlay').style.display = 'none';
-}
+// export function removeMapLoadingSpinner() {
+//     document.getElementById('loading-overlay').style.display = 'none';
+// }
 
 function revealHelperText() {
     document.querySelector('#map-helper-text-container .helper-text p').style.display = 'block';
@@ -431,3 +517,5 @@ window.onload = async function () {
 //     localStorage.setItem('savedLocations', JSON.stringify(savedLocations));
 //     displaySavedLocations();
 // }
+
+
