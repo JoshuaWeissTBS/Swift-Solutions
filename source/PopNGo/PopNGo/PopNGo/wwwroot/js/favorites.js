@@ -172,6 +172,10 @@ async function displayEventsFromBookmarkList(bookmarkList) {
             distanceUnit: null,
             distance: null,
             onPressEvent: () => onClickDetailsAsync(eventInfo),
+            onPressDelete: () => {
+                // Delete the event from the bookmark list
+                console.log('Delete event from bookmark list');
+            }
         };
 
         // Clone the template
