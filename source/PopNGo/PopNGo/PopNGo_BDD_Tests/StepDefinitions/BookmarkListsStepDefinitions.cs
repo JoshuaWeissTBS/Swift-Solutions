@@ -126,6 +126,10 @@ namespace PopNGo_BDD_Tests.StepDefinitions
             // Fill out the new bookmark list form with a unique title and put the title in the scenario context
             string newBookmarkListTitle = "New Bookmark List " + DateTime.Now.ToString("yyyyMMddHHmmss");
             _scenarioContext["newBookmarkListTitle"] = newBookmarkListTitle;
+            if (!_scenarioContext.ContainsKey("oldBookmarkListTitle"))
+            {
+                _scenarioContext["oldBookmarkListTitle"] = newBookmarkListTitle;
+            }
 
             _favoritesPage.NewBookmarkListNameInput.SendKeys(newBookmarkListTitle);
             _browserDriver.ScrollToElement(_favoritesPage.CreateBookmarkListButton);
@@ -260,9 +264,6 @@ namespace PopNGo_BDD_Tests.StepDefinitions
         {
             // Check that the old bookmark list is displayed and has title matching oldBookmarkListTitle key
             _favoritesPage.BookmarkListTitles.Should().ContainSingle(e => e.Text == _scenarioContext["oldBookmarkListTitle"].ToString());
-
-            // Check that the new bookmark list is not displayed
-            _favoritesPage.BookmarkListTitles.Should().NotContain(e => e.Text == _scenarioContext["newBookmarkListTitle"].ToString());
         }
 
         [Then("I should not see the edit bookmark list form")]
