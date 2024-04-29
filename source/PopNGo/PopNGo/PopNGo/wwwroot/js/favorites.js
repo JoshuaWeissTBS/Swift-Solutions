@@ -12,6 +12,8 @@ import { showDeleteBookmarkListConfirmationModal } from './util/showDeleteBookma
 import { deleteBookmarkList } from './api/bookmarkLists/deleteBookmarkList.js';
 import { buildAndShowEditBookmarkListModal } from './ui/buildAndShowEditBookmarkListModal.js';
 import { updateBookmarkListName } from './api/bookmarkLists/updateBookmarkListName.js';
+import { showDeleteFavoriteEventConfirmationModal } from './ui/showDeleteFavoriteEventConfirmationModal.js';
+import { removeEventFromFavorites } from './api/favorites/removeEventFromFavorites.js';
 
 let currentBookmarkList = null;
 
@@ -186,6 +188,17 @@ async function displayEventsFromBookmarkList(bookmarkList) {
             distanceUnit: null,
             distance: null,
             onPressEvent: () => onClickDetailsAsync(eventInfo),
+            onPressDelete: () => {
+                showDeleteFavoriteEventConfirmationModal(() => {
+                    removeEventFromFavorites(eventInfo.apiEventID, bookmarkList).then(() => {
+                        displayEventsFromBookmarkList(bookmarkList);
+                        showToast('Event removed from favorites');
+                    }).catch((error) => {
+                        console.error('Failed to remove event from favorites, ', error);
+                        showToast('Failed to remove event from favorites');
+                    });
+                })
+            }
         };
 
         // Clone the template
