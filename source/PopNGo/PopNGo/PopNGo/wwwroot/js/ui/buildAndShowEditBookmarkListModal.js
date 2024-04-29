@@ -42,7 +42,7 @@ export function buildAndShowEditBookmarkListModal(listName, onClickSave, bookmar
     saveButton.onclick = function () { // Close the modal if the user clicks on the close button
         modal.style.display = 'none';
         document.body.style.overflow = 'auto'; // Restore scrolling
-        onClickSave();
+        onClickSave(input.value);
     }
 
     window.onclick = function (event) { // Close the modal if the user clicks outside of it

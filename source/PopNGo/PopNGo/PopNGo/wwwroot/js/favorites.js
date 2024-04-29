@@ -11,6 +11,7 @@ import { applyFiltersAndSortEvents } from './util/filter.js';
 import { showDeleteBookmarkListConfirmationModal } from './util/showDeleteBookmarkListConfirmationModal.js';
 import { deleteBookmarkList } from './api/bookmarkLists/deleteBookmarkList.js';
 import { buildAndShowEditBookmarkListModal } from './ui/buildAndShowEditBookmarkListModal.js';
+import { updateBookmarkListName } from './api/bookmarkLists/updateBookmarkListName.js';
 
 let currentBookmarkList = null;
 
@@ -74,8 +75,14 @@ function createBookmarkListCard(name, eventQuantity, image, bookmarkListNames) {
                 if (newName === name) {
                     return;
                 }
-
-                // TODO: Call the API to update the bookmark list name
+                
+                updateBookmarkListName(name, newName).then(() => {
+                    initPage();
+                    showToast(`Bookmark list "${name}" renamed to "${newName}"`);
+                }).catch((error) => {
+                    console.error('Failed to update bookmark list name, ', error);
+                    showToast('Failed to update bookmark list name');
+                });
             }
 
             // Show the edit bookmark list modal
