@@ -10,6 +10,8 @@ import { showToast } from './util/toast.js';
 import { applyFiltersAndSortEvents } from './util/filter.js';
 import { showDeleteBookmarkListConfirmationModal } from './util/showDeleteBookmarkListConfirmationModal.js';
 import { deleteBookmarkList } from './api/bookmarkLists/deleteBookmarkList.js';
+import { showDeleteFavoriteEventConfirmationModal } from './ui/showDeleteFavoriteEventConfirmationModal.js';
+import { removeEventFromFavorites } from './api/favorites/removeEventFromFavorites.js';
 
 let currentBookmarkList = null;
 
@@ -173,8 +175,15 @@ async function displayEventsFromBookmarkList(bookmarkList) {
             distance: null,
             onPressEvent: () => onClickDetailsAsync(eventInfo),
             onPressDelete: () => {
-                // Delete the event from the bookmark list
-                console.log('Delete event from bookmark list');
+                showDeleteFavoriteEventConfirmationModal(() => {
+                    removeEventFromFavorites(eventInfo.apiEventID, bookmarkList).then(() => {
+                        displayEventsFromBookmarkList(bookmarkList);
+                        showToast('Event removed from favorites');
+                    }).catch((error) => {
+                        console.error('Failed to remove event from favorites, ', error);
+                        showToast('Failed to remove event from favorites');
+                    });
+                })
             }
         };
 
