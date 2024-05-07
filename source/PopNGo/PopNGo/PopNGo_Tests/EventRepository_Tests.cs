@@ -57,7 +57,7 @@ public class EventRepositoryTests
         _eventRepository.AddEvent(eventDetail);
 
         // Assert
-         var events = _context.Events.ToList();
+        var events = _context.Events.ToList();
         Assert.That(events.Count, Is.EqualTo(7));
         var addedEvent = events.Last();
         Assert.That(addedEvent.ApiEventId, Is.EqualTo(eventDetail.EventID));
