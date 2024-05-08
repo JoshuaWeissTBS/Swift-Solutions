@@ -1,3 +1,4 @@
+import { formatTagName } from "../util/tags.js";
 import { validateObject } from "../validation.js";
 // Props object example:
 // {
@@ -29,9 +30,9 @@ import { validateObject } from "../validation.js";
  }
 
  Tag: {
-    tagName: String,
-    tagTextColor: String,
-    tagBackgroundColor: String,
+    name: String,
+    textColor: String,
+    backgroundColor: String,
  }
 
  * @function buildEventCard
@@ -115,9 +116,9 @@ export const buildEventCard = (eventCardElement, props) => {
         const tagEl = document.createElement('span');
         tagEl.classList.add('event-tag');
         tagEl.classList.add('rounded-pill');
-        tagEl.textContent = tag.tagName;
-        tagEl.style.color = tag.tagTextColor;
-        tagEl.style.backgroundColor = tag.tagBackgroundColor;
+        tagEl.textContent = formatTagName(tag.name);
+        tagEl.style.color = tag.textColor;
+        tagEl.style.backgroundColor = tag.backgroundColor;
         tagsElement.appendChild(tagEl);
     });
 }
@@ -139,7 +140,7 @@ export function validateBuildEventCardProps(data) {
         date: x => x instanceof Date,
         city: x => typeof x === 'string',
         state: x => typeof x === 'string',
-        tags: x => Array.isArray(x),
+        // tags: x => Array.isArray(x),
         distance: x => typeof x === 'number' || x === null,
         distanceUnit: x => typeof x === 'string' || x === null,
         bookmarkListNames: x => Array.isArray(x) || x === undefined || x === null,

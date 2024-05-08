@@ -1,6 +1,5 @@
 import { buildEventCard, validateBuildEventCardProps } from "./ui/buildEventCard.js";
 import { buildEventDetailsModal, validateBuildEventDetailsModalProps } from './ui/buildEventDetailsModal.js';
-import { formatTags } from "./util/tags.js";
 import { getBookmarkLists } from "./api/bookmarkLists/getBookmarkLists.js";
 import { onPressSaveToBookmarkList } from "./util/onPressSaveToBookmarkList.js";
 import { applyFiltersAndSortEvents } from './util/filter.js';
@@ -105,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 city: eventInfo.eventLocation.split(',')[1],
                 state: eventInfo.eventLocation.split(',')[2],
                 eventOriginalLink: eventInfo.eventOriginalLink,
-                tags: await formatTags(eventInfo.eventTags), // This property doesn't exist in the provided JSON object
+                tags: eventInfo.tags,
                 bookmarkListNames: bookmarkLists.map(bookmarkList => bookmarkList.title),
                 ticketLinks: eventInfo.ticketLinks,
                 venueName: eventInfo.venueName,
@@ -167,8 +166,7 @@ async function onClickDetailsAsync(eventInfo) {
         venuePhoneNumber: eventInfo.venuePhoneNumber,
         venueRating: eventInfo.venueRating,
         venueWebsite: eventInfo.venueWebsite,
-        tags: [] // TODO: tags should be stored on event
-
+        tags: eventInfo.tags,
     }
 
     if (validateBuildEventDetailsModalProps(eventDetailsModalProps)) {

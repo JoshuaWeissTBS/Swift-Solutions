@@ -1,4 +1,3 @@
-import { createTags, formatTags } from './util/tags.js';
 import { addEventToHistory } from './api/history/addEventToHistory.js';
 import { buildEventCard, validateBuildEventCardProps } from './ui/buildEventCard.js';
 import { buildEventDetailsModal, validateBuildEventDetailsModalProps } from './ui/buildEventDetailsModal.js';
@@ -138,7 +137,7 @@ async function onClickDetailsAsync(eventInfo) {
         date: new Date(eventInfo.eventDate),
         fullAddress: eventInfo.eventLocation,
         eventOriginalLink: eventInfo.eventOriginalLink,
-        tags: await formatTags(eventInfo.eventTags),
+        tags: eventInfo.tags,
         ticketLinks: eventInfo.ticketLinks,
         venueName: eventInfo.venueName,
         venuePhoneNumber: eventInfo.venuePhoneNumber,
@@ -208,8 +207,6 @@ async function displayEvents(events) {
     document.getElementById('next-page-button').innerHTML = page + 2;
     document.getElementById('previous-page-button').disabled = page === 0;
 
-    const eventTags = events.map(event => event.eventTags).flat().filter(tag => tag)
-    await createTags(eventTags); // TODO: This should be done in the backend when creating events.
 
     events = events.map(event => { event.distance = null; event.distanceUnit = null; return event; });
 
@@ -245,7 +242,7 @@ async function displayEvents(events) {
             date: new Date(eventInfo.eventDate),
             city: eventInfo.eventLocation.split(',')[1],
             state: eventInfo.eventLocation.split(',')[2],
-            tags: await formatTags(eventInfo.eventTags),
+            tags: eventInfo.tags,
             bookmarkListNames: bookmarkLists.map(bookmarkList => bookmarkList.title),
             distance: eventInfo.distance,
             distanceUnit: eventInfo.distanceUnit,
@@ -255,6 +252,8 @@ async function displayEvents(events) {
         if (validateBuildEventCardProps(eventCardProps)) {
             buildEventCard(newEventCard, eventCardProps);
             eventsContainer.appendChild(newEventCard);
+        } else {
+            console.error("Invalid event card props", eventCardProps);
         }
     }
 
@@ -276,7 +275,6 @@ function displayWeatherForecast(weatherData) {
     const weatherForecastTemplate = document.getElementById('weather-card-template');
 
     for (let forecast of weatherData.weatherForecasts) {
-        console.log(forecast);
         let newForecastCard = weatherForecastTemplate.content.cloneNode(true);
 
         let forecastCardProps = {
@@ -355,7 +353,6 @@ async function searchForEvents() {
     }
 
     const weatherForecast = await getForecastForLocation(mapCoords.lat, mapCoords.lng);
-    console.log(weatherForecast);
     displayWeatherForecast(weatherForecast);
     
     toggleSearching();

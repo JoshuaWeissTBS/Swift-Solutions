@@ -5,7 +5,6 @@ import { buildNewBookmarkListCard } from './ui/buildNewBookmarkListCard.js';
 import { getFavoriteEvents } from './api/favorites/getFavoriteEvents.js';
 import { buildEventCard, validateBuildEventCardProps } from './ui/buildEventCard.js';
 import { buildEventDetailsModal, validateBuildEventDetailsModalProps } from './ui/buildEventDetailsModal.js';
-import { formatTags } from './util/tags.js';
 import { showToast } from './util/toast.js';
 import { applyFiltersAndSortEvents } from './util/filter.js';
 import { showDeleteBookmarkListConfirmationModal } from './util/showDeleteBookmarkListConfirmationModal.js';
@@ -181,7 +180,7 @@ async function displayEventsFromBookmarkList(bookmarkList) {
             city: eventInfo.eventLocation.split(',')[1],
             state: eventInfo.eventLocation.split(',')[2],
             eventOriginalLink: eventInfo.eventOriginalLink,
-            tags: await formatTags(eventInfo.eventTags), // This property doesn't exist in the provided JSON object
+            tags: eventInfo.tags, // This property doesn't exist in the provided JSON object
             ticketLinks: eventInfo.ticketLinks,
             venueName: eventInfo.venueName,
             venuePhoneNumber: eventInfo.venuePhoneNumber,
@@ -209,6 +208,8 @@ async function displayEventsFromBookmarkList(bookmarkList) {
         if (validateBuildEventCardProps(eventProps)) {
             buildEventCard(eventCard, eventProps);
             favoriteEventsContainer.appendChild(eventCard);
+        } else {
+            console.error('Invalid event card props:', eventProps);
         }
     });
 }
@@ -218,8 +219,6 @@ async function displayEventsFromBookmarkList(bookmarkList) {
  * @param {Object} eventInfo
  */
 async function onClickDetailsAsync(eventInfo) {
-    console.log("onClickDetailsAsync Favorites");
-    console.log(eventInfo);
     const eventDetailsModalProps = {
         apiEventID: eventInfo.apiEventID,
         img: eventInfo.eventImage,
@@ -233,7 +232,7 @@ async function onClickDetailsAsync(eventInfo) {
         venuePhoneNumber: eventInfo.venuePhoneNumber,
         venueRating: eventInfo.venueRating,
         venueWebsite: eventInfo.venueWebsite,
-        tags: [] // TODO: tags should be stored on event
+        tags: eventInfo.tags
     }
     if (validateBuildEventDetailsModalProps(eventDetailsModalProps)) {
         buildEventDetailsModal(document.getElementById('event-details-modal'), eventDetailsModalProps);
