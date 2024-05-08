@@ -34,11 +34,12 @@ public class EventTagRepositoryTests
         var eventId = 1;
 
         // Act
-        _eventTagRepository.AddEventTag(tag.Id, eventId);
+        _eventTagRepository.AddEventTag(tagId, eventId);
 
         // Assert
-        var eventTag = _context.EventTags.FirstOrDefault();
-        Assert.AreEqual(tag.Id, eventTag.TagId);
+        var eventTags = _eventTagRepository.GetEventTags(eventId);
+        var eventTag = eventTags.First();
+        Assert.AreEqual(tagId, eventTag.TagId);
         Assert.AreEqual(eventId, eventTag.EventId);
     }    
 }

@@ -209,7 +209,7 @@ async function displayEvents(events) {
     document.getElementById('previous-page-button').disabled = page === 0;
 
     const eventTags = events.map(event => event.eventTags).flat().filter(tag => tag)
-    await createTags(eventTags);
+    await createTags(eventTags); // TODO: This should be done in the backend when creating events.
 
     events = events.map(event => { event.distance = null; event.distanceUnit = null; return event; });
 
