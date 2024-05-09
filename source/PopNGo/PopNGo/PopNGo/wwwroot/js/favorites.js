@@ -17,6 +17,7 @@ import { getAllUserEventsFromItinerary } from './api/itinerary/itineraryApi.js';
 
 let currentBookmarkList = null;
 let currentApiEventID = null;
+let favoritedEvents = null;
 
 document.addEventListener('DOMContentLoaded', function () {
     initPage();
@@ -56,7 +57,7 @@ function createBookmarkListCard(name, eventQuantity, image, bookmarkListNames) {
         image: image,
         onClick: () => {
             // If the user clicks on the bookmark list, display the events from that list
-            displayEventsFromBookmarkList(name);
+            initDisplayEventsFromBookmarkList(name);
             currentBookmarkList = name;
         },
         onClickDelete: (event) => {
@@ -141,20 +142,23 @@ function createNewBookmarkList(bookmarkListName) {
     });
 }
 
-/// Displaying events from a bookmark list
-async function displayEventsFromBookmarkList(bookmarkList) {
-    let favoriteEvents = await getFavoriteEvents(bookmarkList);
+/// Called just once you click a bookmark list
+async function initDisplayEventsFromBookmarkList(bookmarkList) {
+    favoritedEvents = await getFavoriteEvents(bookmarkList);
     document.getElementById('invalid-feedback').style.display = 'none';
     document.getElementById("no-events-found-filter-message").style.display = "none";
     document.getElementById('filter-dropdown-container').style.display = 'flex';
 
-    
+    // Set title of page to the bookmark list name and number of events
+    document.getElementById('favorite-events-title').innerText = `${bookmarkList} (${favoritedEvents.length ?? "0"} events)`;
+
+
     var filterTagDropdown = document.getElementById('filter-tag-dropdown')
     filterTagDropdown.value = ''; // Reset the tag filter
     filterTagDropdown.innerHTML = '<option value="" disabled selected>Filter by Tag</option>';
     // Populate filter dropdown with tags names from the events
     let tags = [];
-    favoriteEvents.forEach(event => {
+    favoritedEvents.forEach(event => {
         tags = tags.concat(event.tags);
     });
     // Replace tag objects with tag names
@@ -174,32 +178,32 @@ async function displayEventsFromBookmarkList(bookmarkList) {
         });
     }
 
+    displayEventsFromBookmarkList(favoritedEvents, bookmarkList);
+}
 
+/// Displaying events from a bookmark list
+async function displayEventsFromBookmarkList(favoriteEvents, bookmarkList) {
     // Apply filters and sort the events
-    favoriteEvents = applyFiltersAndSortEvents(favoriteEvents);
-
-
-    // Set title of page to the bookmark list name and number of events
-    document.getElementById('favorite-events-title').innerText = `${bookmarkList} (${favoriteEvents.length ?? "0"} events)`;
+    const filteredFavoriteEvents = applyFiltersAndSortEvents(favoriteEvents);
 
     // Clear the favorites and the bookmark list cards containers
     document.getElementById('favorite-events-container').innerHTML = '';
     document.getElementById('bookmark-list-cards-container').innerHTML = '';
 
-    if (favoriteEvents.length === 0) {
+    if (filteredFavoriteEvents.length === 0) {
         document.getElementById("no-events-found-filter-message").style.display = "block";
         return;
     }
 
-    if (!favoriteEvents) { // Validation failed
+    if (!filteredFavoriteEvents) { // Validation failed
         document.getElementById('invalid-feedback').style.display = 'block';
         return;
     } 
     // Display the favorite events
     const eventCardTemplate = document.getElementById('event-card-template');
     const favoriteEventsContainer = document.getElementById('favorite-events-container');
-    console.log(favoriteEvents);
-    favoriteEvents.forEach(async eventInfo => {
+    console.log(filteredFavoriteEvents);
+    filteredFavoriteEvents.forEach(async eventInfo => {
         let eventProps = {
             img: eventInfo.eventImage,
             title: eventInfo.eventName,
@@ -219,7 +223,7 @@ async function displayEventsFromBookmarkList(bookmarkList) {
             onPressDelete: () => {
                 showDeleteFavoriteEventConfirmationModal(() => {
                     removeEventFromFavorites(eventInfo.apiEventID, bookmarkList).then(() => {
-                        displayEventsFromBookmarkList(bookmarkList);
+                        displayEventsFromBookmarkList(favoritedEvents, bookmarkList);
                         showToast('Event removed from favorites');
                     }).catch((error) => {
                         console.error('Failed to remove event from favorites, ', error);
@@ -272,7 +276,7 @@ async function onClickDetailsAsync(eventInfo) {
 
 // Listener for filter button
 document.getElementById('filter-button').addEventListener('click', function () {
-    displayEventsFromBookmarkList(currentBookmarkList);
+    displayEventsFromBookmarkList(favoritedEvents, currentBookmarkList);
 });
 
 
