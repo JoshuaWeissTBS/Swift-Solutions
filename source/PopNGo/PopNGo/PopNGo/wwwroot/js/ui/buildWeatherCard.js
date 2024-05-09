@@ -88,7 +88,6 @@ export function validateBuildWeatherCardProps(data) {
     if (data === undefined || data === null) {
         return false;
     }
-
     const schema = {
         date: x => x instanceof Date,
         condition: x => typeof x === 'string',

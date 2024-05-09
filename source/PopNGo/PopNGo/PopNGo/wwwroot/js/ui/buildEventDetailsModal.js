@@ -95,6 +95,7 @@ export function buildVenueDetailsModal(venueDetailsModalElement, props) {
     const viewVenueButton = document.createElement('button');
     viewVenueButton.textContent = 'View Venue';
     viewVenueButton.className = 'btn btn-warning'; // Add Bootstrap classes
+    viewVenueButton.setAttribute('aria-label', 'View Venue Details');
 
     viewVenueButtonContainer.appendChild(viewVenueButton);
 
