@@ -23,7 +23,7 @@ function getFilterValues() {
     let sortDate = document.getElementById('sort-date');
     let sortRating = document.getElementById('sort-rating');
     let sortAlphabetical = document.getElementById('sort-alphabetical');
-    let eventTag = document.getElementById('event-tag-filter');
+    let eventTag = document.getElementById('filter-tag-dropdown');
 
     let filterValues = {};
 

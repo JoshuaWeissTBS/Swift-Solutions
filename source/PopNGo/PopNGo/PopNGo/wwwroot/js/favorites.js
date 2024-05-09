@@ -148,6 +148,33 @@ async function displayEventsFromBookmarkList(bookmarkList) {
     document.getElementById("no-events-found-filter-message").style.display = "none";
     document.getElementById('filter-dropdown-container').style.display = 'flex';
 
+    
+    var filterTagDropdown = document.getElementById('filter-tag-dropdown')
+    filterTagDropdown.value = ''; // Reset the tag filter
+    filterTagDropdown.innerHTML = '<option value="" disabled selected>Filter by Tag</option>';
+    // Populate filter dropdown with tags names from the events
+    let tags = [];
+    favoriteEvents.forEach(event => {
+        tags = tags.concat(event.tags);
+    });
+    // Replace tag objects with tag names
+    tags = tags.map(tag => tag.name);
+    tags = [...new Set(tags)]; // Remove duplicates
+    // Populate the filter dropdown with the tags
+    // If there are no tags, hide the filter tag dropdown
+    if (tags.length === 0) {
+        document.getElementById('filter-tag-dropdown').style.display = 'none';
+    } else {
+        document.getElementById('filter-tag-dropdown').style.display = 'flex';
+        tags.forEach(tag => {
+            const option = document.createElement('option');
+            option.value = tag;
+            option.innerText = tag;
+            filterTagDropdown.appendChild(option);
+        });
+    }
+
+
     // Apply filters and sort the events
     favoriteEvents = applyFiltersAndSortEvents(favoriteEvents);
 
