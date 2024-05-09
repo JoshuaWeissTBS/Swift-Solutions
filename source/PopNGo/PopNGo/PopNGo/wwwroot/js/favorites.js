@@ -170,6 +170,10 @@ async function initDisplayEventsFromBookmarkList(bookmarkList) {
         document.getElementById('filter-tag-dropdown').style.display = 'none';
     } else {
         document.getElementById('filter-tag-dropdown').style.display = 'flex';
+        const option = document.createElement('option');
+        option.value = '';
+        option.innerText = "Any";
+        filterTagDropdown.appendChild(option);
         tags.forEach(tag => {
             const option = document.createElement('option');
             option.value = tag;

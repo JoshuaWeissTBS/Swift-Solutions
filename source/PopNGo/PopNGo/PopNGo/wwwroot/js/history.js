@@ -20,6 +20,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Handle no data case here
             }
 
+            var filterTagDropdown = document.getElementById('filter-tag-dropdown')
+            filterTagDropdown.value = ''; // Reset the tag filter
+            filterTagDropdown.innerHTML = '<option value="" disabled selected>Filter by Tag</option>';
+
+            // Populate filter dropdown with tags names from the events
+            let tags = [];
+            data.forEach(event => {
+                tags = tags.concat(event.tags);
+            });
+            // Replace tag objects with tag names
+            tags = tags.map(tag => tag.name);
+            tags = [...new Set(tags)]; // Remove duplicates
+            // Populate the filter dropdown with the tags
+            // If there are no tags, hide the filter tag dropdown
+            if (tags.length === 0) {
+                document.getElementById('filter-tag-dropdown').style.display = 'none';
+            } else {
+                document.getElementById('filter-tag-dropdown').style.display = 'flex';
+                const option = document.createElement('option');
+                option.value = '';
+                option.innerText = "Any";
+                filterTagDropdown.appendChild(option);
+
+                tags.forEach(tag => {
+                    const option = document.createElement('option');
+                    option.value = tag;
+                    option.innerText = tag;
+                    filterTagDropdown.appendChild(option);
+                });
+            }
+
             displayEvents(data);
             document.getElementById("history-container").style.display = "block";
         })
@@ -71,63 +102,64 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
     });
-    // Append event cards to the container element
-    async function displayEvents(events) {
+    
+});
 
-        const container = document.getElementById('event-history-card-container');
-        if (!container) {
-            console.error('Container element #event-history-card-container not found.');
-            return;
-        }
-        document.getElementById("no-events-found-filter-message").style.display = "none";
+// Append event cards to the container element
+async function displayEvents(events) {
 
-        // Clear the container
-        container.innerHTML = '';
+    const container = document.getElementById('event-history-card-container');
+    if (!container) {
+        console.error('Container element #event-history-card-container not found.');
+        return;
+    }
+    document.getElementById("no-events-found-filter-message").style.display = "none";
 
-        // Check if there are any events
-        if (!events || events.length === 0) {
-            document.getElementById("no-events-found-filter-message").style.display = "block";
-            return;
-        }
+    // Clear the container
+    container.innerHTML = '';
 
-        // Append event cards to the container
-        for (const eventInfo of events) {
-            // Get the template
-            const template = document.getElementById('event-card-template');
-
-            const bookmarkLists = await getBookmarkLists();
-
-            let eventProps = {
-                img: eventInfo.eventImage,
-                title: eventInfo.eventName,
-                date: new Date(eventInfo.eventDate),
-                city: eventInfo.eventLocation.split(',')[1],
-                state: eventInfo.eventLocation.split(',')[2],
-                eventOriginalLink: eventInfo.eventOriginalLink,
-                tags: eventInfo.tags,
-                bookmarkListNames: bookmarkLists.map(bookmarkList => bookmarkList.title),
-                ticketLinks: eventInfo.ticketLinks,
-                venueName: eventInfo.venueName,
-                venuePhoneNumber: eventInfo.venuePhoneNumber,
-                venueRating: eventInfo.venueRating,
-                venueWebsite: eventInfo.venueWebsite,
-                distanceUnit: null,
-                distance: null,
-                onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventInfo.apiEventID, bookmarkListName),
-                onPressEvent: () => onClickDetailsAsync(eventInfo),
-            };
-            // console.log(eventProps)
-            // Clone the template
-            const eventCard = template.content.cloneNode(true);
-
-            if (validateBuildEventCardProps(eventProps)) {
-                buildEventCard(eventCard, eventProps);
-                container.appendChild(eventCard);
-            }
-        }
+    // Check if there are any events
+    if (!events || events.length === 0) {
+        document.getElementById("no-events-found-filter-message").style.display = "block";
+        return;
     }
 
-});
+    // Append event cards to the container
+    for (const eventInfo of events) {
+        // Get the template
+        const template = document.getElementById('event-card-template');
+
+        const bookmarkLists = await getBookmarkLists();
+
+        let eventProps = {
+            img: eventInfo.eventImage,
+            title: eventInfo.eventName,
+            date: new Date(eventInfo.eventDate),
+            city: eventInfo.eventLocation.split(',')[1],
+            state: eventInfo.eventLocation.split(',')[2],
+            eventOriginalLink: eventInfo.eventOriginalLink,
+            tags: eventInfo.tags,
+            bookmarkListNames: bookmarkLists.map(bookmarkList => bookmarkList.title),
+            ticketLinks: eventInfo.ticketLinks,
+            venueName: eventInfo.venueName,
+            venuePhoneNumber: eventInfo.venuePhoneNumber,
+            venueRating: eventInfo.venueRating,
+            venueWebsite: eventInfo.venueWebsite,
+            distanceUnit: null,
+            distance: null,
+            onPressBookmarkList: (bookmarkListName) => onPressSaveToBookmarkList(eventInfo.apiEventID, bookmarkListName),
+            onPressEvent: () => onClickDetailsAsync(eventInfo),
+        };
+        // console.log(eventProps)
+        // Clone the template
+        const eventCard = template.content.cloneNode(true);
+
+        if (validateBuildEventCardProps(eventProps)) {
+            buildEventCard(eventCard, eventProps);
+            container.appendChild(eventCard);
+        }
+    }
+}
 
 // Fetch event data and display it
 async function fetchEvents() {
