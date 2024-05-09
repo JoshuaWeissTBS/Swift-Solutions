@@ -33,23 +33,18 @@ document.addEventListener('DOMContentLoaded', function () {
             tags = tags.map(tag => tag.name);
             tags = [...new Set(tags)]; // Remove duplicates
             // Populate the filter dropdown with the tags
-            // If there are no tags, hide the filter tag dropdown
-            if (tags.length === 0) {
-                document.getElementById('filter-tag-dropdown').style.display = 'none';
-            } else {
-                document.getElementById('filter-tag-dropdown').style.display = 'flex';
-                const option = document.createElement('option');
-                option.value = '';
-                option.innerText = "Any";
-                filterTagDropdown.appendChild(option);
+            document.getElementById('filter-tag-dropdown').style.display = 'flex';
+            const option = document.createElement('option');
+            option.value = '';
+            option.innerText = "Any";
+            filterTagDropdown.appendChild(option);
 
-                tags.forEach(tag => {
-                    const option = document.createElement('option');
-                    option.value = tag;
-                    option.innerText = tag;
-                    filterTagDropdown.appendChild(option);
-                });
-            }
+            tags.forEach(tag => {
+                const option = document.createElement('option');
+                option.value = tag;
+                option.innerText = tag;
+                filterTagDropdown.appendChild(option);
+            });
 
             displayEvents(data);
             document.getElementById("history-container").style.display = "block";
