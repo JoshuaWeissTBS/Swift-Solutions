@@ -140,7 +140,7 @@ export function validateBuildEventCardProps(data) {
         date: x => x instanceof Date,
         city: x => typeof x === 'string',
         state: x => typeof x === 'string',
-        // tags: x => Array.isArray(x),
+        tags: x => Array.isArray(x),
         distance: x => typeof x === 'number' || x === null,
         distanceUnit: x => typeof x === 'string' || x === null,
         bookmarkListNames: x => Array.isArray(x) || x === undefined || x === null,
