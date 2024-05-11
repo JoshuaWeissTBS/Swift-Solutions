@@ -1,0 +1,54 @@
+// For use with dbdiagram.io
+
+Table User {
+  ID int [pk, increment]
+  Username nvarchar(128) [not null]
+}
+
+Table Event {
+  ID int [pk, increment]
+  ApiEventId string [not null]
+  Title nvarChar(128) [not null]
+  Description Text
+  EventDateTime DateTime [not null]
+  EventImage Text
+}
+
+Table BookmarkList {
+  ID int [pk, increment]
+  Title nvarchar(128) [not null]
+}
+
+Table FavoriteEvent {
+  ID int [pk, increment]
+  EventId int [not null]
+  BookmarkListId int [not null]
+  UserId int [not null]
+}
+
+Table HistoryEvent {
+  ID int [pk, increment]
+  EventId int [not null]
+  UserId int [not null]
+}
+
+Table "Tag" {
+  "ID" int [pk, increment]
+  "Name" nvarchar(255) [not null]
+  "BackgroundColor" nvarchar(255) [not null]
+  "TextColor" nvarchar(255) [not null]
+}
+
+Table "PG_User" {
+  "ID" int [pk, increment]
+  "ASPNETUserID" nvarchar(255) [not null]
+}
+
+Ref: "BookmarkList"."ID" < "FavoriteEvent"."BookmarkListId"
+
+
+Ref: "Event"."ID" < "FavoriteEvent"."EventId"
+Ref: "User"."ID" < "FavoriteEvent"."UserId"
+
+Ref: "Event"."ID" < "HistoryEvent"."EventId"
+Ref: "User"."ID" < "HistoryEvent"."UserId"

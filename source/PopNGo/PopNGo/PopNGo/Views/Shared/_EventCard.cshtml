@@ -1,0 +1,35 @@
+﻿@* Event card holding the image, date, title, location, tags, and a bookmark button *@
+
+<template id="event-card-template">
+    <div class="mb-2" id="event-card-container">
+        <div id="img-container">
+            <img id="event-card-image" src="https://via.placeholder.com/500" alt="Event Image" />
+            <div id="date" class="bg-white">
+                <div class="text-dark" id="day-number">14</div>
+                <div class="text-dark" id="month">JUL</div>
+            </div>
+        </div>
+
+        <div id="event-info-container">
+            <div>
+                <h3 id="event-card-title" class="text-light">PaintballPaintballPaintballPaintballPaintballPaintballPaintballPaintball</h3>
+                <p id="event-card-location" class="text-light">Salem, Oregon</p>
+            </div>
+            <div id="event-card-tags-container">
+                <div class="event-tag rounded-pill">Tag1</div>
+                <div class="event-tag rounded-pill">Tag2</div>
+                <div class="event-tag rounded-pill">Tag3</div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="event-card-bookmark-button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Save
+            </button>
+            <div class="dropdown-menu" id="event-card-bookmark-dropdown-menu" aria-labelledby="event-card-bookmark-button">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
+    </div>
+</template>
