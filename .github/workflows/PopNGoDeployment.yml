@@ -20,7 +20,7 @@ env:
 
 defaults:
   run:
-    working-directory: './source'
+    working-directory: './source/PopNGo/PopNGo'
 
 jobs:
   build_and_test:
