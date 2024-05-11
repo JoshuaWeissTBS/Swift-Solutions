@@ -9,7 +9,7 @@ on:
 
 env:
 # path from root of repo to dir containing project folders (usually where the .sln file is)
-  PATH_TO_SOLUTION: './source'
+  PATH_TO_SOLUTION: './source/PopNGo/PopNGo'
   MAIN_PROJECT: PopNGo
   UNIT_TEST_PROJECT: PopNGo_Tests
   JS_UNIT_TEST_PROJECT: PopNGo_JSTests
