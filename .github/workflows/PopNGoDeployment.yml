@@ -2,9 +2,9 @@ name: Build, test and deploy PopNGo application to Azure
 
 on:
   push:
-    branches: [ "integration" ]
+    branches: [ "integration-ci-cd" ]
   pull_request:
-    branches: [ "integration" ]
+    branches: [ "integration-ci-cd" ]
   workflow_dispatch: 
 
 env:
