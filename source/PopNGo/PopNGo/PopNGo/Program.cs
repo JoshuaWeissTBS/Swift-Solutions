@@ -35,7 +35,7 @@ public class Program
             .UseSqlServer(serverConnectionString)
             .UseLazyLoadingProxies()
         );
-
+      
         // Setup all of our REST API services
         //REST API setup for Real Time Event Search API
         string realTimeEventSearchApiKey = builder.Configuration["RealTimeEventSearchApiKey"];
@@ -74,7 +74,19 @@ public class Program
             return new WeatherForecastService(httpClient, services.GetRequiredService<ILogger<WeatherForecastService>>());
         });
 
-        // Add the repositories to the DI container
+        string placeSuggestionsUrl = "https://serpapi.com/search.json?";
+        string placeSuggestionsApiKey = builder.Configuration["SerpMapApiKey"];
+
+        builder.Services.AddHttpClient<IPlaceSuggestionsService, PlaceSuggestionsService>((httpClient, services) =>
+        {
+            httpClient.BaseAddress = new Uri(placeSuggestionsUrl);
+            httpClient.DefaultRequestHeaders.Add("Accept", "application/json"); // Accept JSON responses
+            httpClient.DefaultRequestHeaders.Add("X-RapidAPI-Key", placeSuggestionsApiKey); // Set API key in Authorization header if needed
+            return new PlaceSuggestionsService(httpClient, services.GetRequiredService<ILogger<PlaceSuggestionsService>>());
+        });
+
+
+        // Add services to the container.
         builder.Services.AddScoped<DbContext,PopNGoDB>();
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         builder.Services.AddScoped<IEventHistoryRepository, EventHistoryRepository>();
@@ -158,6 +170,10 @@ public class Program
         });
 
         var app = builder.Build();
+        ScheduleTasking.SetServiceScopeFactory(app.Services.GetRequiredService<IServiceScopeFactory>());
+
+        SeedData(app).Wait();
+
 
         // Link the services to the ScheduleTasking class
         ScheduleTasking.SetServiceScopeFactory(app.Services.GetRequiredService<IServiceScopeFactory>());
