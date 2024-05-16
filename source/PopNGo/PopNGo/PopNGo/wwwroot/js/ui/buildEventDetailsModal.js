@@ -1,7 +1,6 @@
 import { validateObject } from '../validation.js';
 
 export const buildEventDetailsModal = (eventDetailsModalElement, props) => {
-    console.log(props);
     // Set the image
     if (props.img === null || props.img === undefined) {
         eventDetailsModalElement.querySelector('#event-modal-img').src = '/media/images/placeholder_event_card_image.png';
@@ -26,9 +25,9 @@ export const buildEventDetailsModal = (eventDetailsModalElement, props) => {
     for (let tag of props.tags) {
         const tagElement = document.createElement('span');
         tagElement.classList.add('tag');
-        tagElement.textContent = tag.tagName;
-        tagElement.style.color = tag.tagTextColor;
-        tagElement.style.backgroundColor = tag.tagBackgroundColor;
+        tagElement.textContent = tag.name;
+        tagElement.style.color = tag.textColor;
+        tagElement.style.backgroundColor = tag.backgroundColor;
         tagsContainer.appendChild(tagElement);
     }
 
@@ -96,6 +95,7 @@ export function buildVenueDetailsModal(venueDetailsModalElement, props) {
     const viewVenueButton = document.createElement('button');
     viewVenueButton.textContent = 'View Venue';
     viewVenueButton.className = 'btn btn-warning'; // Add Bootstrap classes
+    viewVenueButton.setAttribute('aria-label', 'View Venue Details');
 
     viewVenueButtonContainer.appendChild(viewVenueButton);
 

@@ -82,6 +82,8 @@ describe('validateBuildEventCardProps', () => {
             distance: 1.5,
             distanceUnit: "mi",
             bookmarkListNames: [],
+            onPressBookmarkList: () => { },
+            onPressEvent: () => { }
         }
 
         expect(validateBuildEventCardProps(props)).toBe(true);
