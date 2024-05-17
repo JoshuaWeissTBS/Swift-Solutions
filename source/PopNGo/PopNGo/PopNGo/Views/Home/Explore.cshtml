@@ -12,6 +12,7 @@
         <div class="col-7">
             <div class="container px-5 text-light" id="events-container"></div>
         </div>
+        <div class="g-recaptcha" data-callback="onSubmitGoogleCheckmarkCaptcha" data-sitekey="6Lf_YOApAAAAAGfbPfE_fXzKnZmauEvmFyO4CX1U"></div>
         <div class="col-5">
             <div id="map-container">
                 <div id="demo-map-id">
@@ -71,3 +72,15 @@
     <script type="module" src="~/js/util/loadMapScript.js"></script>
     <script type="module" src="~/js/util/mapLoadingSpinners.js"></script>
 }
+
+<script type="text/javascript">
+    function onSubmitGoogleCheckmarkCaptcha(token) {
+        // Your code here
+        console.log("Google reCAPTCHA v2 completed. Token is:", token);
+
+        // Call the function defined in explore.js
+        if (typeof window.onCaptchaSuccess === "function") {
+            window.onCaptchaSuccess(token);
+        }
+    }
+</script>

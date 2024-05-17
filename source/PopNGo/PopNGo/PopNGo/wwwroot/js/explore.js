@@ -29,7 +29,10 @@ let userLocation = {};
 let distanceUnit = "miles"
 let currentApiEventID = null;
 
-
+window.onCaptchaSuccess = function(token) {
+    // Captcha is success, remove modal and allow to continue using page
+    console.log("Captcha token 2: ", token);
+}
 
 document.addEventListener("DOMContentLoaded", async function () {
     if (navigator.geolocation) {
