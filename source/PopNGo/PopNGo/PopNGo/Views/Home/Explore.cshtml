@@ -12,7 +12,6 @@
         <div class="col-7">
             <div class="container px-5 text-light" id="events-container"></div>
         </div>
-        <div class="g-recaptcha" data-callback="onSubmitGoogleCheckmarkCaptcha" data-sitekey="6Lf_YOApAAAAAGfbPfE_fXzKnZmauEvmFyO4CX1U"></div>
         <div class="col-5">
             <div id="map-container">
                 <div id="demo-map-id">
@@ -64,6 +63,9 @@
 
     @* Loads WeatherCard template component *@
     <partial name="_WeatherCard" />
+
+    @* Modal that appears when you've explored too much while not logged in *@
+    <partial name="_RecaptchaModal" />
 </div>
 
 @section Scripts {
