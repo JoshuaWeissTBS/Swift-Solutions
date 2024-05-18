@@ -118,15 +118,12 @@ this.ScenarioInitialize(scenarioInfo);
 await this.FeatureBackgroundAsync();
 #line hidden
 #line 11
-  await testRunner.GivenAsync("I am logged out", ((string)(null)), ((Reqnroll.Table)(null)), "Given ");
+  await testRunner.GivenAsync("I am on the \"Explore\" page", ((string)(null)), ((Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 12
-  await testRunner.AndAsync("I am on the \"Explore\" page", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 13
   await testRunner.WhenAsync("I make over ten searches on the explore page", ((string)(null)), ((Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 14
+#line 13
   await testRunner.ThenAsync("I should see the recaptcha modal appear", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -142,7 +139,7 @@ await this.FeatureBackgroundAsync();
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             Reqnroll.ScenarioInfo scenarioInfo = new Reqnroll.ScenarioInfo("Recaptcha modal does not appear after making over ten searches on the explore pag" +
                     "e while logged in", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 16
+#line 15
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -155,19 +152,19 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 await this.FeatureBackgroundAsync();
 #line hidden
-#line 17
+#line 16
   await testRunner.GivenAsync("I am a user with first name \'Joshua\'", ((string)(null)), ((Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 18
+#line 17
    await testRunner.AndAsync("I login", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 19
+#line 18
   await testRunner.AndAsync("I am on the \"Explore\" page", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 20
+#line 19
   await testRunner.WhenAsync("I make over ten searches on the explore page", ((string)(null)), ((Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 21
+#line 20
   await testRunner.ThenAsync("I should not see the recaptcha modal appear", ((string)(null)), ((Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

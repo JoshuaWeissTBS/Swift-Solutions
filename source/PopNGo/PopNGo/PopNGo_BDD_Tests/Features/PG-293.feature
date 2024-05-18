@@ -8,8 +8,7 @@ Background:
 	  | Joshua Weiss     | knott@example.com     | Joshua     | Weiss    | FAKE PW   |
 
 Scenario: Recaptcha modal appears after making over ten searches on the explore page while not logged in
-  Given I am logged out
-  And I am on the "Explore" page
+  Given I am on the "Explore" page
   When I make over ten searches on the explore page
   Then I should see the recaptcha modal appear
 
