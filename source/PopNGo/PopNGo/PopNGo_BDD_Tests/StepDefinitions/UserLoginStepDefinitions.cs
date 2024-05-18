@@ -128,5 +128,10 @@ namespace PopNGo_BDD_Tests.StepDefinitions
             _webDriver.Current.Navigate().GoToUrl(Common.UrlFor(page));
             Thread.Sleep(3000);
         }
+
+        [Given("I am logged out")]
+        public void GivenIAmLoggedOut()
+        {
+        }
     }
 }
