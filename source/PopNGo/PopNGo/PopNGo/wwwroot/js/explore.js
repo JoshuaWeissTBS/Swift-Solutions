@@ -14,7 +14,7 @@ import { getBookmarkLists } from './api/bookmarkLists/getBookmarkLists.js';
 import { onPressSaveToBookmarkList } from './util/onPressSaveToBookmarkList.js';
 import { UnauthorizedError } from './util/errors.js';
 import { getDistancesForEvents, getDistanceUnit, convertDistance } from './api/distance/getDistances.js';
-import { capitalizeFirstLetter } from './util/capitalizeFirstLetter.js';
+import { getIsUserLoggedIn } from './api/user/getIsUserLoggedIn.js';
 import { getForecastForLocation } from './api/weather/getForecast.js';
 import { buildWeatherCard, validateBuildWeatherCardProps } from './ui/buildWeatherCard.js';
 import { addMapLoadingSpinner, removeMapLoadingSpinner } from './util/mapLoadingSpinners.js';
@@ -26,6 +26,7 @@ let mapMarkers = [];
 let page = 0;
 const pageSize = 10;
 let num_searches = 0;
+let user_is_logged_in = null;
 let recaptcha_confirmed = false;
 let userLocation = {};
 let distanceUnit = "miles"
@@ -39,6 +40,9 @@ window.onCaptchaSuccess = function(token) {
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
+    // Check if user is logged in
+    user_is_logged_in = await getIsUserLoggedIn();
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async function (position) {
             distanceUnit = await getDistanceUnit();
@@ -324,7 +328,7 @@ function displayWeatherForecast(weatherData) {
  */
 async function searchForEvents() {
     num_searches++;
-    if (num_searches % 10 === 0 && !recaptcha_confirmed) { // TODO: and not logged in
+    if (num_searches % 10 === 0 && !recaptcha_confirmed && !user_is_logged_in) {
         // Show recaptcha modal
         document.getElementById('recaptcha-modal').style.display = 'block';
     }
