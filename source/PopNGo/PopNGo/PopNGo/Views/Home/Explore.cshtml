@@ -77,9 +77,6 @@
 
 <script type="text/javascript">
     function onSubmitGoogleCheckmarkCaptcha(token) {
-        // Your code here
-        console.log("Google reCAPTCHA v2 completed. Token is:", token);
-
         // Call the function defined in explore.js
         if (typeof window.onCaptchaSuccess === "function") {
             window.onCaptchaSuccess(token);
