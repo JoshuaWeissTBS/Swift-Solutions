@@ -47,16 +47,25 @@ namespace PopNGo_BDD_Tests.StepDefinitions
         [Then("I should see the recaptcha modal appear")]
         public void ThenIShouldSeeTheRecaptchaModalAppear()
         {
+            _explorePage.RecaptchaModal.Displayed.Should().BeTrue();
         }
 
         [When("I make over ten searches on the explore page")]
         public void WhenIMakeOverTenSearchesOnTheExplorePage()
         {
+            // Press search button 10 times to trigger recaptcha
+            // Wait a second between each search
+            for (int i = 0; i < 10; i++)
+            {
+                _explorePage.SearchButton.Click();
+                Thread.Sleep(5000);
+            }
         }
 
         [Then("I should not see the recaptcha modal appear")]
         public void ThenIShouldNotSeeTheRecaptchaModalAppear()
         {
+            _explorePage.RecaptchaModal.Displayed.Should().BeFalse();
         }
     }
 }
