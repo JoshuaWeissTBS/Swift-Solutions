@@ -23,6 +23,10 @@ ALTER TABLE [Itinerary] DROP CONSTRAINT FK_Itinerary_UserID;
 ALTER TABLE [EventTag] DROP CONSTRAINT FK_EventTag_TagId;
 ALTER TABLE [EventTag] DROP CONSTRAINT FK_EventTag_EventId;
 
+ALTER TABLE [RecommendedEvent] DROP CONSTRAINT FK_RecommendedEvent_EventID;
+ALTER TABLE [RecommendedEvent] DROP CONSTRAINT FK_RecommendedEvent_UserID;
+
+
 -- Drop the tables
 DROP TABLE [PG_User];
 DROP TABLE [TicketLink];
@@ -40,3 +44,4 @@ DROP TABLE [AccountRecord];
 DROP TABLE [ItineraryEvents];
 DROP TABLE [Itinerary];
 DROP TABLE [EventTag];
+DROP TABLE [RecommendedEvent];

@@ -18,10 +18,11 @@ public partial class ItineraryEvent
     [Column("EventID")]
     public int EventId { get; set; }
 
-    [Column("ReminderTime")]
+    [Required]
+    [StringLength(255)]
     public string ReminderTime { get; set; }
 
-    [Column("ReminderCustomTime", TypeName = "datetime")]
+    [Column(TypeName = "datetime")]
     public DateTime? ReminderCustomTime { get; set; }
 
     [ForeignKey("EventId")]
