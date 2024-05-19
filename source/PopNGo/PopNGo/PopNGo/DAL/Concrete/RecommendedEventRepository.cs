@@ -1,6 +1,7 @@
 using PopNGo.DAL.Abstract;
 using PopNGo.Models;
 using Microsoft.EntityFrameworkCore;
+using PopNGo.ExtensionMethods;
 
 namespace PopNGo.DAL.Concrete
 {
@@ -14,12 +15,26 @@ namespace PopNGo.DAL.Concrete
 
         public List<Models.DTO.Event> GetRecommendedEvents(int userId)
         {
-            throw new NotImplementedException();
+            var events = _recommendedEvents.Where(e => e.UserId == userId).Select(e => e.Event.ToDTO()).ToList();
+            return events;
         }
 
         public void SetRecommendedEvents(int userId, List<int> eventIds)
         {
-            throw new NotImplementedException();
+            var recommendedEvents = _recommendedEvents.Where(e => e.UserId == userId).ToList();
+
+            // Delete all existing recommended events for the user
+            foreach (var recommendedEvent in recommendedEvents)
+            {
+                Delete(recommendedEvent);
+            }
+
+            // Add the new recommended events
+            foreach (var eventId in eventIds)
+            {
+                var recommendedEvent = new RecommendedEvent { UserId = userId, EventId = eventId };
+                AddOrUpdate(recommendedEvent);
+            }
         }
     }
 }
