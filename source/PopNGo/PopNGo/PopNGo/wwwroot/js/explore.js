@@ -325,7 +325,7 @@ function displayWeatherForecast(weatherData) {
  * @returns {Promise<void>}
  */
 async function searchForEvents() {
-    let a = await getRecommendedEvents(); // TODO: REMOVE
+    let a = await getRecommendedEvents("Salem, Oregon, USA"); // TODO: REMOVE
     console.log("BUP", a);
     num_searches++;
     if (num_searches % 10 === 0 && !recaptcha_confirmed && !user_is_logged_in) {
