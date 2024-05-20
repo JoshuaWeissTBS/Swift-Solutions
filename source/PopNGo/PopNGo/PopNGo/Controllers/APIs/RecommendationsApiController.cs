@@ -74,7 +74,11 @@ public class RecommendationsApiController : Controller
             return Unauthorized();
         }
 
-        // TODO: check user's last recommendation date and only recommend if recommendation was yesterday or earlier
+        // Check user's last recommendation date and only recommend if recommendation was yesterday or earlier
+        if (pgUser.RecommendedPreviouslyAt == DateTime.Now.Date)
+        {
+            return Ok(_recommendedEventRepository.GetRecommendedEvents(pgUser.Id));
+        }
 
         // Grab all user's favorited and history events
         List<Models.DTO.Event> favorites = _favoritesRepository.GetAllFavorites(pgUser.Id);
@@ -171,6 +175,9 @@ public class RecommendationsApiController : Controller
 
         // Set user's recommended events to the 20 random events
         _recommendedEventRepository.SetRecommendedEvents(pgUser.Id, randomEventsFromCombined.Select(e => e.ApiEventID).ToList());
+
+        // Set user's last recommended date to today
+        _pgUserRepository.SetRecommendationsPreviouslyAtDate(pgUser.Id, DateTime.Now.Date);
 
         // Get the recommended events from the database
         List<PopNGo.Models.DTO.Event> recommendedEvents = _recommendedEventRepository.GetRecommendedEvents(pgUser.Id);
