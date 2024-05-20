@@ -95,24 +95,42 @@ public class RecommendationsApiController : Controller
         // Add one empty string to the list so some aditional events are added
         relevantWords.Add("");
 
-        // Make a query to the real-time api service for each relevant word, combine the results, remove duplicates. Use Task.WhenAll to run all tasks concurrently
-        IEnumerable<EventDetail> eventsDetails = new List<EventDetail>();
+        // Make a query to the real-time api service for each relevant word, combine the results, remove duplicates. Use Task.WaitAll to run all tasks concurrently
+        List<EventDetail> eventsDetails = new List<EventDetail>();
+        List<Task<IEnumerable<EventDetail>>> searchTasks = new List<Task<IEnumerable<EventDetail>>>();
         for (int i = 0; i < relevantWords.Count; i++)
         {
             string relevantWordTaskResult = relevantWords[i];
-            try {
+            try
+            {
                 // Date is randomly 'today' or 'tomorrow'
                 string date = new Random().Next(0, 2) == 0 ? "today" : "tomorrow";
-            
-                var newEventDetails = await _realTimeEventSearchService.SearchEventAsync(relevantWordTaskResult + " events in " + location, 0, date);
-                eventsDetails = eventsDetails.Concat(newEventDetails);
-            } catch (Exception e) {
+
+                Task<IEnumerable<EventDetail>> searchTask = _realTimeEventSearchService.SearchEventAsync(relevantWordTaskResult + " events in " + location, 0, date);
+                searchTasks.Add(searchTask);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error adding event: " + e.Message);
+            }
+        }
+
+        await Task.WhenAll(searchTasks);
+        foreach (var searchTask in searchTasks)
+        {
+            try
+            {
+                IEnumerable<EventDetail> newEventDetails = await searchTask;
+                eventsDetails.AddRange(newEventDetails);
+            }
+            catch (Exception e)
+            {
                 Console.WriteLine("Error adding event: " + e.Message);
             }
         }
 
         // Remove duplicates from the events details
-        eventsDetails = eventsDetails.Distinct();
+        eventsDetails = eventsDetails.Distinct().ToList();
 
         // Save events to database
         for (int ed_i = 0; ed_i < eventsDetails.Count(); ed_i++)
