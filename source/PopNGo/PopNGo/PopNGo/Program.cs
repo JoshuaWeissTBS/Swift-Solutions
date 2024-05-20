@@ -64,9 +64,9 @@ public class Program
         });
 
         // REST API setup for the OpenAI API
-        string openAiUrl = "https://api.openai.com/v1/chat/completions";
+        string openAiUrl = "https://api.openai.com/";
         string openAiApiKey = builder.Configuration["OpenAiApiKey"];
-        
+
         builder.Services.AddHttpClient<IOpenAiService, OpenAiService>((httpClient, services) =>
         {
             httpClient.BaseAddress = new Uri(openAiUrl);

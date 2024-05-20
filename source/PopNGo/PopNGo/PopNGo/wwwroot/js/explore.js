@@ -19,6 +19,7 @@ import { getForecastForLocation } from './api/weather/getForecast.js';
 import { buildWeatherCard, validateBuildWeatherCardProps } from './ui/buildWeatherCard.js';
 import { addMapLoadingSpinner, removeMapLoadingSpinner } from './util/mapLoadingSpinners.js';
 import { bindItinerarySaving } from './util/bindItinerarySaving.js';
+import { getRecommendedEvents } from './api/recommendations/getRecommendedEvents.js';
 
 let map = null;
 let mapMarkers = [];
@@ -324,6 +325,8 @@ function displayWeatherForecast(weatherData) {
  * @returns {Promise<void>}
  */
 async function searchForEvents() {
+    let a = await getRecommendedEvents(); // TODO: REMOVE
+    console.log("BUP", a);
     num_searches++;
     if (num_searches % 10 === 0 && !recaptcha_confirmed && !user_is_logged_in) {
         // Show recaptcha modal
