@@ -18,6 +18,8 @@ ALTER TABLE [EmailHistory] DROP CONSTRAINT FK_EmailHistory_UserID;
 ALTER TABLE [ItineraryEvents] DROP CONSTRAINT FK_ItineraryEvents_ItineraryID;
 ALTER TABLE [ItineraryEvents] DROP CONSTRAINT FK_ItineraryEvents_EventID;
 
+ALTER TABLE [ItineraryNotifications] DROP CONSTRAINT FK_ItineraryNotifications_ItineraryID;
+
 ALTER TABLE [Itinerary] DROP CONSTRAINT FK_Itinerary_UserID;
 
 ALTER TABLE [EventTag] DROP CONSTRAINT FK_EventTag_TagId;
@@ -42,6 +44,7 @@ DROP TABLE [EmailHistory];
 DROP TABLE [SearchRecord];
 DROP TABLE [AccountRecord];
 DROP TABLE [ItineraryEvents];
+DROP TABLE [ItineraryNotifications];
 DROP TABLE [Itinerary];
 DROP TABLE [EventTag];
 DROP TABLE [RecommendedEvent];

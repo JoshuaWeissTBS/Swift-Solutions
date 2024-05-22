@@ -33,6 +33,8 @@ public partial class PopNGoDB : DbContext
 
     public virtual DbSet<ItineraryEvent> ItineraryEvents { get; set; }
 
+    public virtual DbSet<ItineraryNotification> ItineraryNotifications { get; set; }
+
     public virtual DbSet<PgUser> PgUsers { get; set; }
 
     public virtual DbSet<RecommendedEvent> RecommendedEvents { get; set; }
@@ -139,6 +141,15 @@ public partial class PopNGoDB : DbContext
                 .HasConstraintName("FK_ItineraryEvents_ItineraryID");
         });
 
+        modelBuilder.Entity<ItineraryNotification>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Itinerar__3214EC27524D1B70");
+
+            entity.HasOne(d => d.Itinerary).WithMany(p => p.ItineraryNotifications)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ItineraryNotifications_ItineraryID");
+        });
+
         modelBuilder.Entity<PgUser>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__PG_User__3214EC2746894CDC");
@@ -180,6 +191,7 @@ public partial class PopNGoDB : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__TicketLi__3214EC2735E71EB9");
 
+
             entity.HasOne(d => d.Event).WithMany(p => p.TicketLinks)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TicketLink_EventID");
@@ -188,6 +200,7 @@ public partial class PopNGoDB : DbContext
         modelBuilder.Entity<Weather>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Weather__3214EC275DC81B72");
+
         });
 
         modelBuilder.Entity<WeatherForecast>(entity =>
