@@ -74,7 +74,7 @@ public class RecommendationsApiController : Controller
             return Unauthorized();
         }
 
-        var isYesterday = DateTime.Today - pgUser.RecommendedPreviouslyAt?.Date == TimeSpan.FromDays(1);
+        var isYesterday = DateTime.Today - pgUser.RecommendedPreviouslyAt?.Date >= TimeSpan.FromDays(1);
         // Check user's last recommendation date and only recommend if recommendation was yesterday or earlier
         if (!isYesterday)
         {
