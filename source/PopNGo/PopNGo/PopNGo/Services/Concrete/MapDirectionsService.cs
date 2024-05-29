@@ -115,7 +115,7 @@ namespace PopNGo.Services
             var encodedEndAddress = Uri.EscapeDataString(endAddress).Replace("%20", "+");
 
             // Construct the URL for the API call
-            var url = $"https://serpapi.com/search.json?engine=google_maps_directions&start_addr={encodedStartAddress}&end_addr={encodedEndAddress}&api_key=a1bb7048235f3cbe3b6a28f598608d327812a86e2efffcb70bac91aefadd6e2f";
+            var url = $"https://serpapi.com/search.json?engine=google_maps_directions&start_addr={encodedStartAddress}&end_addr={encodedEndAddress}&api_key=8fb1dbb7edd9b4c3d20b2d9107b6d46e33b3adb8c8ed4d852afe52a3c769f4a9";
             //search.json?engine=google_maps_directions&start_addr=Austin-Bergstrom+International+Airport&end_addr=5540+N+Lamar+Blvd,+Austin,+TX+78756,+USA&travel_mode=2
 
             _logger.LogInformation("Request URL: {0}", url);
@@ -153,9 +153,7 @@ namespace PopNGo.Services
                         Formatted_Distance = direction.formatted_distance,
                         Formatted_Duration = direction.formatted_duration,
                         Extensions = direction.extensions,
-                        Trips = direction.trips,
-                        Google_Maps_Directions_Url = googleMapsUrl // Include this mapping
-
+                        Trips = direction.trips
                     }).ToList();
                 }
                 catch (JsonException ex)
