@@ -100,7 +100,6 @@ namespace PopNGo.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<MapDirectionsService> _logger;
-        private readonly string _apiKey;
 
         public MapDirectionsService(HttpClient httpClient, ILogger<MapDirectionsService> logger)
         {
