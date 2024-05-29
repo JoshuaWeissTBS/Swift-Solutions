@@ -118,10 +118,6 @@ await this.FeatureBackgroundAsync();
   await testRunner.GivenAsync("I am a user with first name \'Tristan\'", ((string)(null)), ((Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 10
-   await testRunner.AndAsync("I login", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 11
-   await testRunner.AndAsync("I am on the \"Favorites\" page", ((string)(null)), ((Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 12
    await testRunner.AndAsync("I have created a new bookmark list", ((string)(null)), ((Reqnroll.Table)(null)), "And ");

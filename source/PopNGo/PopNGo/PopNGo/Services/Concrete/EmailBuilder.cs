@@ -31,6 +31,7 @@ public class EmailBuilder
         _bookmarkListRepo = bookmarkListRepo;
         _itineraryRepository = itineraryRepository;
         _userManager = userManager;
+        _bookmarkListRepo = bookmarkListRepo;
     }
 
     public async Task<string> BuildUpcomingEventsEmailAsync(int userId)

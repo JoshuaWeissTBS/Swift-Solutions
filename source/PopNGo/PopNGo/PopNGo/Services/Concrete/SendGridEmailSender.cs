@@ -10,12 +10,15 @@ public class EmailSender
 {
     private readonly ILogger _logger;
     private readonly IConfiguration _configuration;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public EmailSender(IConfiguration configuration,
-                       ILogger<EmailSender> logger)
+                       ILogger<EmailSender> logger,
+                       IHttpContextAccessor httpContextAccessor)
     {
         _configuration = configuration;
         _logger = logger;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task SendEmailAsync(string toEmail, string subject, Dictionary<string, string> args)
