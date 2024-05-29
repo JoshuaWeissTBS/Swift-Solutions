@@ -115,7 +115,7 @@ namespace PopNGo.Services
             var encodedEndAddress = Uri.EscapeDataString(endAddress).Replace("%20", "+");
 
             // Construct the URL for the API call
-            var url = $"https://serpapi.com/search.json?engine=google_maps_directions&start_addr={encodedStartAddress}&end_addr={encodedEndAddress}&api_key=8fb1dbb7edd9b4c3d20b2d9107b6d46e33b3adb8c8ed4d852afe52a3c769f4a9";
+            var url = $"{_httpClient.BaseAddress}engine=google_maps_directions&start_addr={encodedStartAddress}&end_addr={encodedEndAddress}&api_key={_httpClient.DefaultRequestHeaders.GetValues("X-RapidAPI-Key").FirstOrDefault()}";
             //search.json?engine=google_maps_directions&start_addr=Austin-Bergstrom+International+Airport&end_addr=5540+N+Lamar+Blvd,+Austin,+TX+78756,+USA&travel_mode=2
 
             _logger.LogInformation("Request URL: {0}", url);
