@@ -107,7 +107,7 @@ public class Program
             httpClient.BaseAddress = new Uri(mapDirectionsUrl);
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json"); // Accept JSON responses
             httpClient.DefaultRequestHeaders.Add("X-RapidAPI-Key", mapDirectionsApiKey); // Set API key in Authorization header if needed
-            return new MapDirectionsService(httpClient, services.GetRequiredService<ILogger<MapDirectionsService>>());
+            return new MapDirectionsService(httpClient, services.GetRequiredService<ILogger<MapDirectionsService>>(), builder.Configuration);
         });
 
 
