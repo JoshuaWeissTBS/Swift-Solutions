@@ -48,3 +48,4 @@ DROP TABLE [ItineraryNotifications];
 DROP TABLE [Itinerary];
 DROP TABLE [EventTag];
 DROP TABLE [RecommendedEvent];
+DROP TABLE [PlaceSuggestion];
