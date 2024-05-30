@@ -1,6 +1,12 @@
 import { validateObject } from '../validation.js';
+import { populateItineraryDropdown } from '../util/bindItinerarySaving.js';
+import { formatTagName } from "../util/tags.js";
 
 export const buildEventDetailsModal = (eventDetailsModalElement, props) => {
+
+    // Set the hidden event id
+    eventDetailsModalElement.querySelector('#event-id').value = props.apiEventID;
+
     // Set the image
     if (props.img === null || props.img === undefined) {
         eventDetailsModalElement.querySelector('#event-modal-img').src = '/media/images/placeholder_event_card_image.png';
@@ -25,7 +31,7 @@ export const buildEventDetailsModal = (eventDetailsModalElement, props) => {
     for (let tag of props.tags) {
         const tagElement = document.createElement('span');
         tagElement.classList.add('tag');
-        tagElement.textContent = tag.name;
+        tagElement.textContent = formatTagName(tag.name);
         tagElement.style.color = tag.textColor;
         tagElement.style.backgroundColor = tag.backgroundColor;
         tagsContainer.appendChild(tagElement);
@@ -57,14 +63,13 @@ export const buildEventDetailsModal = (eventDetailsModalElement, props) => {
     });
     addToCalendarButtonContainer.appendChild(addToCalendarButton);
 
-    if (!addToCalendarButtonContainer.querySelector('button')) {
-        addToCalendarButtonContainer.appendChild(addToCalendarButton);
-    }
-
     // Buy Tickets Dropdown
     const buyTicketsDropdownContainer = eventDetailsModalElement.querySelector('#buy-tickets-btn');
     // console.log(props);
     createBuyTicketsDropdown(buyTicketsDropdownContainer, props);
+
+    // Itinerary Dropdown
+    populateItineraryDropdown();
 
     // View Venue Btn
     buildVenueDetailsModal(eventDetailsModalElement, props);
@@ -90,6 +95,7 @@ export const buildEventDetailsModal = (eventDetailsModalElement, props) => {
 export function buildVenueDetailsModal(venueDetailsModalElement, props) {
     console.log(props);
     const viewVenueButtonContainer = venueDetailsModalElement.querySelector('#view-venue-btn');
+
     viewVenueButtonContainer.innerHTML = ''; // Remove existing button to prevent duplicates
 
     const viewVenueButton = document.createElement('button');
