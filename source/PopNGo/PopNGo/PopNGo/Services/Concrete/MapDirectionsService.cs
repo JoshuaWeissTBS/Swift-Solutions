@@ -100,11 +100,15 @@ namespace PopNGo.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<MapDirectionsService> _logger;
+        private readonly string _apiKey;
+        private readonly string _apiUrl;
 
-        public MapDirectionsService(HttpClient httpClient, ILogger<MapDirectionsService> logger)
+        public MapDirectionsService(HttpClient httpClient, ILogger<MapDirectionsService> logger, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _logger = logger;
+            _apiKey = configuration["SerpMapApiKey"];
+            _apiUrl = "https://serpapi.com/search.json?";
         }
 
         public async Task<IEnumerable<DirectionDetail>> GetDirections(string startAddress, string endAddress)
@@ -114,7 +118,7 @@ namespace PopNGo.Services
             var encodedEndAddress = Uri.EscapeDataString(endAddress).Replace("%20", "+");
 
             // Construct the URL for the API call
-            var url = $"{_httpClient.BaseAddress}engine=google_maps_directions&start_addr={encodedStartAddress}&end_addr={encodedEndAddress}&api_key={_httpClient.DefaultRequestHeaders.GetValues("X-RapidAPI-Key").FirstOrDefault()}";
+            var url = $"{_apiUrl}engine=google_maps_directions&start_addr={encodedStartAddress}&end_addr={encodedEndAddress}&api_key={_apiKey}";
             //search.json?engine=google_maps_directions&start_addr=Austin-Bergstrom+International+Airport&end_addr=5540+N+Lamar+Blvd,+Austin,+TX+78756,+USA&travel_mode=2
 
             _logger.LogInformation("Request URL: {0}", url);

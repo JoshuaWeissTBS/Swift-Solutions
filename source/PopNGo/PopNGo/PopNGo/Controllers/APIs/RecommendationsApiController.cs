@@ -97,19 +97,20 @@ public class RecommendationsApiController : Controller
         List<string> relevantWords = relevantWordsTasks.Select(t => t.Result).ToList();
         // Remove any null or empty strings
         relevantWords.RemoveAll(rw => string.IsNullOrEmpty(rw));
-        // Add one empty string to the list so some aditional events are added
-        relevantWords.Add("");
 
         // Make a query to the real-time api service for each relevant word, combine the results, remove duplicates. Use Task.WaitAll to run all tasks concurrently
         List<EventDetail> eventsDetails = new List<EventDetail>();
         List<Task<IEnumerable<EventDetail>>> searchTasks = new List<Task<IEnumerable<EventDetail>>>();
+        Task<IEnumerable<EventDetail>> genericSearchTask = _realTimeEventSearchService.SearchEventAsync("events near " + location, 0, "month");
+
         for (int i = 0; i < relevantWords.Count; i++)
         {
             string relevantWordTaskResult = relevantWords[i];
             try
             {
                 // Date is randomly 'today' or 'tomorrow'
-                string date = new Random().Next(0, 2) == 0 ? "today" : "tomorrow";
+                string date = "month";
+
 
                 Task<IEnumerable<EventDetail>> searchTask = _realTimeEventSearchService.SearchEventAsync(relevantWordTaskResult + " events in " + location, 0, date);
                 searchTasks.Add(searchTask);
@@ -121,6 +122,7 @@ public class RecommendationsApiController : Controller
         }
 
         await Task.WhenAll(searchTasks);
+
         foreach (var searchTask in searchTasks)
         {
             try
@@ -134,6 +136,12 @@ public class RecommendationsApiController : Controller
             }
         }
 
+        // If there aren't enough events, query for something generic
+        if (eventsDetails.Count < 10)
+        {
+            IEnumerable<EventDetail> genericEventsDetails = await genericSearchTask;
+            eventsDetails.AddRange(genericEventsDetails);
+        }
         // Remove duplicates from the events details
         eventsDetails = eventsDetails.Distinct().ToList();
 
