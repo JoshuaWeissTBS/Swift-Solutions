@@ -373,21 +373,6 @@ function showDirectionsInModal(directions) {
                 ${direction.via ? `<p class="via"><strong>Via:</strong> ${direction.via}</p>` : '<p class="via"><strong>Via:</strong> N/A</p>'}
                 ${direction.formatted_Distance ? `<p class="distance"><strong>Distance:</strong> ${direction.formatted_Distance}</p>` : ''}
                 ${direction.formatted_Duration ? `<p class="duration"><strong>Duration:</strong> ${direction.formatted_Duration}</p>` : ''}
-                ${direction.trips ? direction.trips.map(trip => `
-                    <div class="trip">
-                        ${trip.travel_mode ? `<p class="trip-mode"><strong>Travel Mode:</strong> ${trip.travel_mode}</p>` : ''}
-                        ${trip.title ? `<p class="trip-title"><strong>Title:</strong> ${trip.title}</p>` : '<p class="trip-title"><strong>Title:</strong> N/A</p>'}
-                        ${trip.formatted_distance ? `<p class="trip-distance"><strong>Distance:</strong> ${trip.formatted_distance}</p>` : ''}
-                        ${trip.formatted_duration ? `<p class="trip-duration"><strong>Duration:</strong> ${trip.formatted_duration}</p>` : ''}
-                        ${trip.details ? trip.details.map(detail => `
-                            <div class="detail">
-                                ${detail.title ? `<p class="detail-title"><strong>Detail Title:</strong> ${detail.title}</p>` : ''}
-                                ${detail.action ? `<p class="detail-action"><strong>Action:</strong> ${detail.action}</p>` : ''}
-                                ${detail.extensions ? `<p class="detail-extensions"><strong>Extensions:</strong> ${detail.extensions.join(', ')}</p>` : ''}
-                            </div>
-                        `).join('') : ''}
-                    </div>
-                `).join('') : ''}
             </div>
         `;
     });
