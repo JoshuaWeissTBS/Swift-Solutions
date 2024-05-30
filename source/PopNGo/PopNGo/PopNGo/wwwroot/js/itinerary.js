@@ -222,10 +222,11 @@ function attachEventListeners() {
         const debouncedClick = debounce(async function () {
             const index = this.id.split('-').slice(-2).join('-'); // Get the latitude and longitude from the button ID
             const parent = this.closest('.single-timeline-area');
+            const itinerary = parent.getAttribute('data-itinerary-id'); 
             const latitude = parent.getAttribute('data-latitude');
             const longitude = parent.getAttribute('data-longitude');
             const type = this.id.split('-')[0].split('button')[0]; // Parse the type from ID
-            const suggestionsContainer = document.getElementById(`suggestions-container-${latitude}-${longitude}`);
+            const suggestionsContainer = document.getElementById(`suggestions-container-${itinerary}-${latitude}-${longitude}`);
 
             // If the button clicked is the same as the previous button, toggle the visibility
             if (this.classList.contains('active-button')) {
@@ -242,7 +243,7 @@ function attachEventListeners() {
 
             if (latitude && longitude) {
                 // Fetch and display only if the container was previously hidden
-                await fetchAndDisplayPlaceSuggestions(type.charAt(0).toUpperCase() + type.slice(1), latitude, longitude, `${latitude}-${longitude}`);
+                await fetchAndDisplayPlaceSuggestions(type.charAt(0).toUpperCase() + type.slice(1), latitude, longitude, `${itinerary}-${latitude}-${longitude}`);
                 suggestionsContainer.style.display = 'block';
             } else {
                 console.error(`Latitude or longitude is null for event at index ${index}: Lat ${latitude}, Lon ${longitude}`);

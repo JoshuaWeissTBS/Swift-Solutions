@@ -118,7 +118,7 @@ export const buildItineraryEvent = (props) => {
     eventRecommendationsCoffee.id = `coffee-button-${props.latitude}-${props.longitude}`;
 
     const eventSuggestions = itineraryEventElement.getElementById('suggestions-container-${eventData.latitude}-${eventData.longitude}');
-    eventSuggestions.id = `suggestions-container-${props.latitude}-${props.longitude}`;
+    eventSuggestions.id = `suggestions-container-${props.itineraryId}-${props.latitude}-${props.longitude}`;
 
     return itineraryEventElement;
 }
